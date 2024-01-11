@@ -114,12 +114,12 @@ gcom() {
 lazyg() {
     git add .
     git commit -am "$1"
-    git push
+    git push origin HEAD
 }
 
 # Saving 3 characters so we don't have to type the extra "it "
 gpush() {
-    git push
+    git push origin HEAD
 }
 
 # Saving 3 characters so we don't have to type the extra "it "
