@@ -1,6 +1,6 @@
 (("default"   . ((user-emacs-directory   . "~/dotfiles/emacs/.emacs.d")))
- ("doomemacs" . ((user-emacs-directory   . "~/dotfiles/emacs/.doom.d")
+ ("doom"      . ((user-emacs-directory   . "~/dotfiles/emacs/.doom.d") ; Git repo
                  (env . (("DOOMDIR"      . "~/dotfiles/emacs/doom-emacs")))))
- ("spacemacs" . ((user-emacs-directory   . "~/dotfiles/emacs/.spacemacs.d")
+ ("space"     . ((user-emacs-directory   . "~/dotfiles/emacs/.spacemacs.d") ; Git repo
                  (env . (("SPACEMACSDIR" . "~/dotfiles/emacs/spacemacs"))))))
 
