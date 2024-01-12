@@ -46,9 +46,6 @@
   updated = green bold
 [init]
   defaultBranch = trunk
-[user]
-  name = StefanoND
-  email = sndobbin@gmail.com
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
 [url "ssh://git@gitlab.com/"]

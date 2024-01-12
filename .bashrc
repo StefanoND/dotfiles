@@ -128,6 +128,8 @@ gpull() {
 }
 
 export PATH="$PATH:$HOME/.emacs.d/bin"
+export PATH="$PATH:$HOME/.doom.d/bin"
+export PATH="$PATH:$HOME/.emacs.d/bin"
 
 # Created by `pipx` on 2023-12-30 19:34:09
 export PATH="$PATH:$HOME/.local/bin"
@@ -153,3 +155,7 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
+setdefaultemacsprofile()
+{
+    echo "$1" > ~/dotfiles/emacs/.emacs-profile
+}
