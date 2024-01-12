@@ -127,9 +127,7 @@ gpull() {
     git pull
 }
 
-export PATH="$PATH:$HOME/.emacs.d/bin"
-export PATH="$PATH:$HOME/.doom.d/bin"
-export PATH="$PATH:$HOME/.emacs.d/bin"
+export PATH="$PATH:$HOME/dotfiles/emacs/.doom.d/bin"
 
 # Created by `pipx` on 2023-12-30 19:34:09
 export PATH="$PATH:$HOME/.local/bin"
