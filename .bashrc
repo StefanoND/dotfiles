@@ -127,13 +127,12 @@ gpull() {
     git pull
 }
 
-export PATH="$PATH:$HOME/dotfiles/emacs/.doom.d/bin"
-
-# Created by `pipx` on 2023-12-30 19:34:09
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.dotnet/tools"
 export CARGO_INSTALL_ROOT=$HOME/.cargo
 export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.dotnet/tools"
+export PATH="$PATH:$HOME/dotfiles/emacs/.doom.d/bin"
+export PATH="$PATH:/usr/local"
 
 # Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
 shopt -s checkwinsize
@@ -157,3 +156,5 @@ setdefaultemacsprofile()
 {
     echo "$1" > ~/dotfiles/emacs/.emacs-profile
 }
+
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
