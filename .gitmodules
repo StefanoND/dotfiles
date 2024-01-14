@@ -10,3 +10,6 @@
 [submodule "emacs/.emacs.d"]
 	path = emacs/.emacs.d
 	url = https://github.com/plexus/chemacs2
+[submodule "emacs"]
+	path = emacs
+	url = https://github.com/StefanoND/emacs
