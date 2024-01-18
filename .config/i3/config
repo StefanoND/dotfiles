@@ -68,8 +68,6 @@ floating_modifier $super
 exec --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1080x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3000x0 --output HDMI-0 --rotate left --mode 1920x1080 --rate 60.00 --pos 0x-250
 
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
-exec --no-startup-id xset s off
-exec --no-startup-id xset dpms force off
 exec --no-startup-id gromit-mpx
 exec --no-startup-id "emacs --with-profile=doom --daemon"
 
@@ -93,6 +91,9 @@ exec_always --no-startup-id numlockx on
 exec blueberry-tray
 exec --no-startup-id java -Xmx1024m -jar "/opt/xdman/xdman.jar" -m
 exec --no-startup-id ~/.local/bin/fastfetch-garuda
+
+exec --no-startup-id xset s off
+exec --no-startup-id xset dpms force off
 
 # hide/unhide i3status bar
 bindsym $super+m bar mode toggle
@@ -245,15 +246,15 @@ bindsym $alt+Shift+7 move container to workspace 7; workspace $ws7
 bindsym $alt+Shift+8 move container to workspace 8; workspace $ws8
 bindsym $alt+Shift+9 move container to workspace 9; workspace $ws9
 
-workspace $ws1 output DP-4
-workspace $ws4 output DP-4
-workspace $ws7 output DP-4
-workspace $ws2 output DP-3
-workspace $ws5 output DP-3
-workspace $ws8 output DP-3
+workspace $ws1 output HDMI-0
+workspace $ws2 output HDMI-0
 workspace $ws3 output HDMI-0
-workspace $ws6 output HDMI-0
-workspace $ws9 output HDMI-0
+workspace $ws4 output DP-4
+workspace $ws5 output DP-4
+workspace $ws6 output DP-4
+workspace $ws7 output DP-3
+workspace $ws8 output DP-3
+workspace $ws9 output DP-3
 
 # reload the configuration file
 bindsym $super+Shift+c reload
@@ -337,8 +338,8 @@ for_window [class="garuda-welcome"] floating enable
 for_window [class="org.wezfurlong.wezterm" instance="org.wezfurlong.wezterm"] floating disable
 for_window [class="emacs" instance="emacs"] floating disable
 for_window [class="emacsclient" instance="emacsclient"] floating disable
-for_window [class="Spotify"] move container to workspace $ws9
-for_window [class="whatsapp-for-linux"] move container to workspace $ws6
+for_window [class="Spotify"] move container to workspace $ws3
+for_window [class="whatsapp-for-linux"] move container to workspace $ws8
 
 # window rules, you can find the window class using xprop
 for_window [class=".*"] border pixel 4
