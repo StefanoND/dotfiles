@@ -10,3 +10,6 @@
 [submodule "emacs"]
 	path = emacs
 	url = https://github.com/StefanoND/emacs
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = https://github.com/StefanoND/nvim
