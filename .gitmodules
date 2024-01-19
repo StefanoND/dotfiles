@@ -4,9 +4,6 @@
 [submodule "emacs/.spacemacs.d"]
 	path = emacs/.spacemacs.d
 	url = https://github.com/syl20bnr/spacemacs
-[submodule ".config/nvim"]
-	path = .config/nvim
-	url = https://github.com/StefanoND/nvim
 [submodule "emacs/.emacs.d"]
 	path = emacs/.emacs.d
 	url = https://github.com/plexus/chemacs2
