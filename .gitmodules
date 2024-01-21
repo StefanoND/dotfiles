@@ -10,3 +10,6 @@
 [submodule "emacs"]
 	path = emacs
 	url = https://github.com/StefanoND/emacs
+[submodule ".config/neovim/cheovim"]
+	path = .config/neovim/cheovim
+	url = https://github.com/NTBBloodbath/cheovim
