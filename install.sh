@@ -55,13 +55,22 @@ fi
 ln -svf .wezterm.lua ~/
 
 # Nvim
-if [ -f ~/.config/nvim ]; then
-  mv ~/.config/nvim ~/.config/nvim.bak
+if [ -f ~/.config/stvim ]; then
+  mv ~/.config/stvim ~/.config/stvim.bak
 fi
-ln -svf .config/nvim ~/.config/
+ln -svf .config/stvim ~/.config/
+# Nvim
+if [ -f ~/.config/nvchad ]; then
+  mv ~/.config/nvchad ~/.config/nvchad.bak
+fi
+ln -svf .config/stvim ~/.config/
 
 # i3
 if [ -f ~/.config/i3 ]; then
   mv ~/.config/i3 ~/.config/i3.bak
 fi
 ln -svf .config/i3 ~/.config/
+
+if ! grep -i "XDG_CONFIG_HOME" /etc/environment; then
+  sudo bash -c 'echo "XDG_CONFIG_HOME=\"$HOME/.config\"" >> /etc/environment'
+fi

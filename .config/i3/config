@@ -69,7 +69,6 @@ exec --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.
 
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
 exec --no-startup-id gromit-mpx
-exec --no-startup-id "emacs --with-profile=doom --daemon"
 
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id xsettingsd &
@@ -94,6 +93,8 @@ exec --no-startup-id ~/.local/bin/fastfetch-garuda
 
 exec --no-startup-id xset s off
 exec --no-startup-id xset dpms force off
+
+exec --no-startup-id "emacs --with-profile=doom --daemon"
 
 # hide/unhide i3status bar
 bindsym $super+m bar mode toggle
