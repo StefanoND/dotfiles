@@ -43,11 +43,10 @@ bindsym $super+F9 exec $preferredScreenCaptureTool
 bindsym Print exec --no-startup-id $preferredScreenCaptureTool
 
 ### Start a Terminal Emulator: ###
-bindsym $super+Return exec "tdrop -mta -w 99% -h 97% -x 6 -y 20 wezterm"
-# bindsym $super+Shift+Return exec "tdrop -mta -w 99% -h 97% -x 6 -y 20 emacsclient -c -a emacs"
-bindsym $super+Shift+Return exec "tdrop -mta -w 99% -h 97% -x 6 -y 20 emacs --with-profile=stemacs"
-bindsym $super+$alt+Return exec "tdrop -mta -w 99% -h 97% -x 6 -y 20 emacsclient -c -s doom -a emacs"
-bindsym $super+Control+Return exec "tdrop -mta -w 99% -h 97% -x 6 -y 20 emacs --with-profile=space"
+bindsym $super+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 wezterm"
+bindsym $super+Shift+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacs --with-profile=stemacs"
+bindsym $super+$alt+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacsclient -c -s doom -a emacs"
+bindsym $super+Control+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacs --with-profile=space"
 
 # - You can change the preferredTerminalEmulator variable
 # - Terminal can also be started using their individual keybindings
@@ -367,8 +366,8 @@ client.background           #2f343f
 #############################
 
 # Set inner/outer gaps
-gaps inner 0
-gaps outer -2
+gaps inner 4
+gaps outer 2
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -376,7 +375,7 @@ gaps outer -2
 # gaps outer all plus 5
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-smart_gaps on
+# smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
@@ -435,9 +434,3 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-
-# Inner gaps for all windows: space between two adjacent windows (or split containers).
-gaps inner 4px
-
-# Outer gaps for all windows: space along the screen edges.
-gaps outer 2px
