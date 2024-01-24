@@ -86,6 +86,14 @@ if ! "$(pacman -Q | grep -iq 'tmux')"; then
   sleep 1s
 fi
 
+if ! "$(pacman -Q | grep -iq 'ranger')"; then
+  echo
+  echo 'Installing tmux'
+  echo
+  sudo pacman -S ranger --noconfirm --needed
+  sleep 1s
+fi
+
 if ! [ -f "$HOME"/.tmux/plugins/tpm ]; then
   echo
   echo 'Cloning tmux plugin manager'
