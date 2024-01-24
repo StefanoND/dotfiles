@@ -13,3 +13,6 @@
 [submodule ".config/neovim/stvim"]
 	path = .config/neovim/stvim
 	url = https://github.com/StefanoND/nvim
+[submodule ".config/neovim/nvchad"]
+	path = .config/neovim/nvchad
+	url = https://github.com/StefanoND/nvchad.git

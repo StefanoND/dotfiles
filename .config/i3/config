@@ -23,8 +23,7 @@ set $lockScreenWallpaper /usr/share/wallpapers/garuda-wallpapers/Dr460nized\ Hon
 # set $preferredTerminalEmulator /usr/bin/alacritty
 set $preferredTerminalEmulator /usr/bin/wezterm
 set $preferredBrowser /usr/bin/firedragon
-# set $preferredFileManager /usr/bin/thunar
-set $preferredFileManager /usr/bin/dolphin
+set $preferredFileManager /usr/bin/thunar
 set $preferredMailClient /usr/bin/geary
 set $preferredTextEditor /usr/bin/nvim
 set $preferredScreenCaptureTool /usr/bin/flameshot gui
@@ -67,12 +66,14 @@ floating_modifier $super
 
 exec --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1080x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3000x0 --output HDMI-0 --rotate left --mode 1920x1080 --rate 60.00 --pos 0x-250
 
-exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
-exec --no-startup-id gromit-mpx
+exec --no-startup-id picom -b --config ~/.config/picom/picom.conf &
+exec --no-startup-id gromit-mpx &
 
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id xsettingsd &
+
 #exec --no-startup-id pasystray
+#
 exec --no-startup-id conky
 exec --no-startup-id conky -c ~/.config/conky/conky-shcts
 exec --no-startup-id copyq
@@ -85,14 +86,16 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id xfce4-power-manager
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id setcursor
+
 #exec_always --no-startup-id ${HOME}/.config/polybar/launch.sh
+#
 exec_always --no-startup-id numlockx on
 exec blueberry-tray
 exec --no-startup-id java -Xmx1024m -jar "/opt/xdman/xdman.jar" -m
 exec --no-startup-id ~/.local/bin/fastfetch-garuda
 
-exec --no-startup-id xset s off
-exec --no-startup-id xset dpms force off
+exec --no-startup-id xset s off &
+exec --no-startup-id xset dpms force off &
 
 exec --no-startup-id "emacs --with-profile=doom --daemon"
 

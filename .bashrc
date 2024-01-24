@@ -124,7 +124,7 @@ gpush() {
 
 # Saving 3 characters so we don't have to type the extra "it "
 gpull() {
-    git pull
+    git pull --rebase
 }
 
 export CARGO_INSTALL_ROOT=$HOME/.cargo
