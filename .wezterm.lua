@@ -5,63 +5,74 @@ local act = wezterm.action
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-	config = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
 
 -- Begin
-
 config.automatically_reload_config = true
 config.check_for_updates = false
 
-config.leader = { key = "b", mods = "CTRL" }
+-- config.leader = { key = "b", mods = "CTRL" }
+config.leader = { key = "Space", mods = "CTRL" }
 config.keys = {
-	{ key = "(", mods = "CTRL|SHIFT", action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }) },
-	{ key = ")", mods = "CTRL|SHIFT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
-	{ key = '"', mods = "LEADER|SHIFT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
-	{
-		key = "%",
-		mods = "LEADER|SHIFT",
-		action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
-	},
-	{ key = "T", mods = "CTRL|SHIFT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-	{ key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-	{ key = "j", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-	{ key = "k", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-	{ key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-	{ key = "LeftArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-	{ key = "RightArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-	{ key = "UpArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-	{ key = "DownArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-	{ key = "a", mods = "LEADER|CTRL", action = wezterm.action({ SendString = "\x01" }) },
-	{ key = "o", mods = "LEADER", action = "TogglePaneZoomState" },
-	{ key = "z", mods = "LEADER", action = "TogglePaneZoomState" },
-	{ key = "c", mods = "LEADER", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-	{ key = "H", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Left", 5 } }) },
-	{ key = "J", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Down", 5 } }) },
-	{ key = "K", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Up", 5 } }) },
-	{ key = "L", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Right", 5 } }) },
-	{ key = "x", mods = "LEADER", action = wezterm.action({ CloseCurrentTab = { confirm = true } }) },
-	{ key = "w", mods = "LEADER", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
+
+  -- { key = "(", mods = "CTRL|SHIFT", action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }) },
+  -- { key = ")", mods = "CTRL|SHIFT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
+  -- { key = '"', mods = "LEADER|SHIFT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
+  -- {
+  --   key = "%",
+  --   mods = "LEADER|SHIFT",
+  --   action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
+  -- },
+  -- { key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  -- { key = "j", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  -- { key = "k", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  -- { key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  -- { key = "h", mods = "ALT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  -- { key = "j", mods = "ALT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  -- { key = "k", mods = "ALT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  -- { key = "l", mods = "ALT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  -- { key = "H", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Left", 5 } }) },
+  -- { key = "J", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Down", 5 } }) },
+  -- { key = "K", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Up", 5 } }) },
+  -- { key = "L", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Right", 5 } }) },
+  -- { key = "o", mods = "LEADER", action = "TogglePaneZoomState" },
+  -- { key = "z", mods = "LEADER", action = "TogglePaneZoomState" },
+
+  {
+    key = "T",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }),
+  },
+  { key = "LeftArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  { key = "RightArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  { key = "UpArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  { key = "DownArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  { key = "a", mods = "LEADER|CTRL", action = wezterm.action({ SendString = "\x01" }) },
+  { key = "c", mods = "LEADER", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+  { key = "x", mods = "LEADER", action = wezterm.action({ CloseCurrentTab = { confirm = true } }) },
+  { key = "w", mods = "LEADER", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
 }
 
 for i = 1, 8 do
-	-- LEADER (Default: CTRL + b) + number to activate that tab
-	table.insert(config.keys, {
-		key = tostring(i),
-		mods = "LEADER",
-		action = act.ActivateTab(i - 1),
-	})
-	-- F1 through F8 to activate that tab
-	table.insert(config.keys, {
-		key = "F" .. tostring(i),
-		action = act.ActivateTab(i - 1),
-	})
+  -- LEADER (Default: CTRL + Space) + number to activate that tab
+  table.insert(config.keys, {
+    key = tostring(i),
+    mods = "LEADER",
+    action = act.ActivateTab(i - 1),
+  })
+  -- F1 through F8 to activate that tab
+  table.insert(config.keys, {
+    key = "F" .. tostring(i),
+    action = act.ActivateTab(i - 1),
+  })
 end
 
-config.default_prog = { "bash" }
+-- config.default_prog = { "bash" }
+config.default_prog = { "tmux" }
 config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("FiraCode Nerd Font Mono")
-config.font_size = 11.0
+config.font_size = 10.0
 config.freetype_load_target = "Normal"
 config.freetype_render_target = "HorizontalLcd"
 config.freetype_load_flags = "FORCE_AUTOHINT"
