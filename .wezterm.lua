@@ -38,20 +38,20 @@ config.keys = {
   -- { key = "L", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Right", 5 } }) },
   -- { key = "o", mods = "LEADER", action = "TogglePaneZoomState" },
   -- { key = "z", mods = "LEADER", action = "TogglePaneZoomState" },
+  -- { key = "LeftArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  -- { key = "RightArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  -- { key = "UpArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  -- { key = "DownArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  -- { key = "c", mods = "LEADER", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+  -- { key = "x", mods = "LEADER", action = wezterm.action({ CloseCurrentTab = { confirm = true } }) },
 
   {
     key = "T",
     mods = "CTRL|SHIFT",
     action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }),
   },
-  { key = "LeftArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-  { key = "RightArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-  { key = "UpArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-  { key = "DownArrow", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
   { key = "a", mods = "LEADER|CTRL", action = wezterm.action({ SendString = "\x01" }) },
-  { key = "c", mods = "LEADER", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-  { key = "x", mods = "LEADER", action = wezterm.action({ CloseCurrentTab = { confirm = true } }) },
-  { key = "w", mods = "LEADER", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
+  { key = "w", mods = "CTRL", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
 }
 
 for i = 1, 8 do
@@ -68,8 +68,17 @@ for i = 1, 8 do
   })
 end
 
+-- config.mouse_bindings = {
+--   -- Ctrl + Click will open the link under the cursor
+--   {
+--     event = { Up = { streak = 1, button = "Left" } },
+--     mods = "CTRL",
+--     action = wezterm.action.OpenLinkAtMouseCursor,
+--   },
+-- }
+
 -- config.default_prog = { "bash" }
-config.default_prog = { "tmux" }
+config.default_prog = { "tmux", "-u" }
 config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("FiraCode Nerd Font Mono")
 config.font_size = 10.0
