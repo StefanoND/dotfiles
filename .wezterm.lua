@@ -51,7 +51,7 @@ config.keys = {
     action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }),
   },
   { key = "a", mods = "LEADER|CTRL", action = wezterm.action({ SendString = "\x01" }) },
-  { key = "w", mods = "CTRL", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
+  { key = "w", mods = "LEADER|CTRL", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
 }
 
 for i = 1, 8 do
