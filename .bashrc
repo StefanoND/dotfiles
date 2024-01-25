@@ -107,7 +107,11 @@ wezterm set-working-directory "$HOME"
 # GitHub Titus Additions
 gcom() {
     git add .
-    git commit -am "$1"
+    if [ "$1" == "" ]; then
+      git commit -am "update"
+    else
+      git commit -am "$1"
+    fi
 }
 
 # Add, commit and push
