@@ -115,9 +115,13 @@ gcom() {
 }
 
 # Add, commit and push
-lazyg() {
+glazy() {
     git add .
-    git commit -am "$1"
+    if [ "$1" == "" ]; then
+      git commit -am "update"
+    else
+      git commit -am "$1"
+    fi
     git push origin HEAD
 }
 
