@@ -88,9 +88,17 @@ fi
 
 if ! "$(pacman -Q | grep -iq 'ranger')"; then
   echo
-  echo 'Installing tmux'
+  echo 'Installing ranger'
   echo
   sudo pacman -S ranger --noconfirm --needed
+  sleep 1s
+fi
+
+if ! "$(pacman -Q | grep -iq 'bear')"; then
+  echo
+  echo 'Installing bear'
+  echo
+  sudo pacman -S bear --noconfirm --needed
   sleep 1s
 fi
 
