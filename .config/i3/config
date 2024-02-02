@@ -152,6 +152,7 @@ bindsym $super+Shift+w exec "whatsapp-for-linux"
 bindsym $super+Shift+g exec "godot"
 bindsym $super+Shift+v exec "virt-manager"
 bindsym $super+$alt+h exec "unityhub"
+bindsym $super+$alt+s exec "steam"
 # bindsym $super+Shift+w exec "whatsapp-for-linux"
 bindsym $super+t exec "thunar"
 
