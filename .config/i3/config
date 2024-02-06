@@ -63,7 +63,7 @@ floating_modifier $super
 
 #autostart
 
-exec --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1080x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3000x0 --output HDMI-0 --rotate left --mode 1920x1080 --rate 60.00 --pos 0x-250
+exec_always --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1080x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3000x0 --output HDMI-0 --rotate left --mode 1920x1080 --rate 60.00 --pos 0x-250
 
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf &
 exec --no-startup-id gromit-mpx &
@@ -97,6 +97,7 @@ exec --no-startup-id xset s off &
 exec --no-startup-id xset dpms force off &
 
 exec --no-startup-id "emacs --with-profile=doom --daemon"
+exec --no-startup-id syncthing &
 
 # hide/unhide i3status bar
 bindsym $super+m bar mode toggle
@@ -304,7 +305,7 @@ bar {
     #binding_mode      #2F343A #900000 #FFFFFF
     # colour of border, background, and text
     }
-
+  tray_output primary
 }
 
 # Open specific applications in floating mode
