@@ -22,7 +22,7 @@ set $lockScreenWallpaper /usr/share/wallpapers/garuda-wallpapers/Dr460nized\ Hon
 
 # set $preferredTerminalEmulator /usr/bin/alacritty
 set $preferredTerminalEmulator /usr/bin/wezterm
-set $preferredBrowser /usr/bin/firedragon
+set $preferredBrowser /usr/bin/firedragon/
 set $preferredFileManager /usr/bin/thunar
 set $preferredMailClient /usr/bin/geary
 set $preferredTextEditor /usr/bin/nvim
@@ -63,7 +63,7 @@ floating_modifier $super
 
 #autostart
 
-exec_always --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1080x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3000x0 --output HDMI-0 --rotate left --mode 1920x1080 --rate 60.00 --pos 0x-250
+exec_always --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1920x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3840x0 --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
 
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf &
 exec --no-startup-id gromit-mpx &
@@ -154,6 +154,8 @@ bindsym $super+Shift+g exec "godot"
 bindsym $super+Shift+v exec "virt-manager"
 bindsym $super+$alt+h exec "unityhub"
 bindsym $super+$alt+s exec "steam"
+bindsym $super+$alt+d exec "discord"
+bindsym $super+Shift+l exec "lutris"
 # bindsym $super+Shift+w exec "whatsapp-for-linux"
 bindsym $super+t exec "thunar"
 
@@ -350,7 +352,7 @@ for_window [class="whatsapp-for-linux"] move container to workspace $ws8
 for_window [class=".*"] border pixel 4
 assign [class=URxvt] 1
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|upgrade2ultimate.sh] floating enable
-for_window [class=URxvt|firedragon|Geany|Evince|Soffice|libreoffice*|mpv|Ghb|Xfburn|Gimp*|Inkscape|Vlc|Lxappearance|Audacity] focus
+for_window [class=URxvt|firefox|firedragon|Geany|Evince|Soffice|libreoffice*|mpv|Ghb|Xfburn|Gimp*|Inkscape|Vlc|Lxappearance|Audacity] focus
 for_window [class=Xfburn|GParted|System-config-printer.py|Lxtask|Pavucontrol|Exo-helper*|Lxrandr|Arandr] focus
 
 # colour of border, background, text, indicator, and child_border

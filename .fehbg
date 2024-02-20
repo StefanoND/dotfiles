@@ -1,0 +1,4 @@
+#!/bin/sh
+WALLPATH='/usr/share/wallpapers/garuda-wallpapers'
+CHOSENWALLPAPER=$(find "$WALLPATH" | shuf -n 1)
+feh --no-fehbg --bg-fill  "$CHOSENWALLPAPER"
