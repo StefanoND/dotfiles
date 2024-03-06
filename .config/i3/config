@@ -342,9 +342,13 @@ for_window [class="Xfburn"] floating enable
 for_window [class="keepassxc"] floating enable
 for_window [class="garuda-welcome"] floating enable
 
-for_window [class="org.wezfurlong.wezterm" instance="org.wezfurlong.wezterm"] floating disable
-for_window [class="emacs" instance="emacs"] floating disable
-for_window [class="emacsclient" instance="emacsclient"] floating disable
+for_window [class="org.wezfurlong.wezterm"] floating disable
+for_window [class="wezterm"] floating disable
+for_window [class="wezterm-gui"] floating disable
+for_window [class="tmux"] floating disable
+for_window [class="tdrop"] floating disable
+for_window [class="emacs"] floating disable
+for_window [class="emacsclient"] floating disable
 for_window [class="Spotify"] move container to workspace $ws3
 for_window [class="whatsapp-for-linux"] move container to workspace $ws8
 

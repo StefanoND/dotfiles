@@ -169,3 +169,7 @@ setdefaultemacsprofile()
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 export XDG_CONFIG_HOME="$HOME/.config"
+
+export PATH="$HOME/.nimble/bin":$PATH
+export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
+export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
