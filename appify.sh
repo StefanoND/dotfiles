@@ -86,7 +86,8 @@ done
 echo
 
 while [[ ${answerexec,,} == n ]]; do
-    wineprefix=$HOME/.wine
+    # wineprefix=$HOME/.wine
+    wineprefix=""
     tmploc=n
     tmppath=n
     echo
@@ -103,17 +104,17 @@ while [[ ${answerexec,,} == n ]]; do
         read ISWIN
         if [[ ${ISWIN,,} == y ]]; then
             iswine=y
-            while ! test -e $tmploc; do
+            while ! test -e "$tmploc" && ! [ "$tmploc" = "" ]; do
                 echo
                 echo "What's the path your custom wineprefix? Don't add \"WINEPREFIX=\" it'll be added automatically"
                 echo "Leave empty for default \"$HOME/.wine\""
                 echo
                 read WPREFIX
                 tmploc=$WPREFIX
-                if [[ ${tmploc,,} == "" ]]; then
+                if [[ ${tmploc,,} != "" ]]; then
                     tmploc=$wineprefix
+                    wineprefix="'$tmploc'"
                 fi
-                wineprefix="'$tmploc'"
             done
         fi
     fi
@@ -133,7 +134,11 @@ while [[ ${answerexec,,} == n ]]; do
                 apppath="bash $scriptpath"
             elif [[ ${iswine,,} == y ]]; then
                 winepath="'$tmppath'"
-                apppath="WINEPREFIX=$wineprefix wine $winepath"
+                if [[ $wineprefix = "" ]]; then
+                  apppath="wine $winepath"
+                else
+                  apppath="WINEPREFIX=$wineprefix wine $winepath"
+                fi
             else
                 normalpath="'$tmppath'"
                 apppath=$normalpath
@@ -208,33 +213,33 @@ echo
 echo "Creating $desktopname.desktop"
 echo
 
-if test -e $HOME/.local/share/applications/$desktopname.desktop; then
+if test -e "$HOME/.local/share/applications/$desktopname".desktop; then
     echo
     echo "Found another app with the same name, backing up"
     echo
-    mv $HOME/.local/share/applications/$desktopname.desktop $HOME/.local/share/applications/$desktopname.desktop.bkp
+    mv "$HOME/.local/share/applications/$desktopname".desktop "$HOME/.local/share/applications/$desktopname".desktop.bkp
     sleep 1s
 fi
 
-touch $HOME/.local/share/applications/$desktopname.desktop
-chmod +x $HOME/.local/share/applications/$desktopname.desktop
+touch "$HOME/.local/share/applications/$desktopname".desktop
+chmod +x "$HOME/.local/share/applications/$desktopname".desktop
 sleep 1s
 
 echo
 echo "Configuring $desktopname.desktop"
 echo
 
-printf "[Desktop Entry]\n" | tee $HOME/.local/share/applications/$desktopname.desktop
-printf "Categories=$appcategory\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Comment=\"$appcomment\"\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Exec=$apppath\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Path=$workpath\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Icon=$appicon\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Name=$appname\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "StartupNotify=true\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Terminal=false\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Type=Application\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
-printf "Version=$appversion\n" | tee -a $HOME/.local/share/applications/$desktopname.desktop
+printf "[Desktop Entry]\n" | tee "$HOME/.local/share/applications/$desktopname".desktop
+printf "Categories=$appcategory\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Comment=\"$appcomment\"\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Exec=$apppath\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Path=$workpath\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Icon=$appicon\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Name=$appname\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "StartupNotify=true\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Terminal=false\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Type=Application\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
+printf "Version=$appversion\n" | tee -a "$HOME/.local/share/applications/$desktopname".desktop
 
 sleep 1s
 
@@ -246,15 +251,14 @@ if [[ ${TERMINAL,,} == y ]]; then
     echo
     echo "Configuring to open through terminal"
     echo
-    if ! test -e $HOME/.bash_aliases; then
-        mkdir $HOME/.bash_aliases
+    if ! test -e "$HOME"/.bash_aliases; then
+        touch "$HOME"/.bash_aliases
     fi
     sleep 1s
-    if ls /usr/bin/*session | grep gnome; then
-        printf "\nalias $desktopname='gtk-launch $desktopname &'\n" | tee -a $HOME/.bash_aliases
-    fi
     if ls /usr/bin/*session | grep plasma; then
-        printf "\nalias $desktopname='kioclient exec $HOME/.local/share/applications/$desktopname.desktop &'\n" | tee -a $HOME/.bash_aliases
+        printf "\nalias $desktopname='kioclient exec $HOME/.local/share/applications/$desktopname.desktop &'\n" | tee -a "$HOME"/.bash_aliases
+    else
+        printf "\nalias $desktopname='gtk-launch $desktopname &'\n" | tee -a "$HOME"/.bash_aliases
     fi
     echo
     echo "Restart your terminal to start using it"

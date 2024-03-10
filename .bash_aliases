@@ -29,3 +29,6 @@ alias nvchad='NVIM_APPNAME=nvchad nvim'
 alias zoom='cd ~/ && nohup zoom &'
 alias torbrowser='cd ~/ && nohup torbrowser-launcher &'
 alias syncthing='cd ~/ && nohup syncthing &'
+alias tlkedit='gtk-launch tlkedit &'
+
+alias nwnexplorer='gtk-launch nwnexplorer &'
