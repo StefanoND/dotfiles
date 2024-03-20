@@ -1,0 +1,112 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": ">",
+    "command": "tab",
+    "when": "editorTextFocus && !editorTabMovesFocus"
+  },
+  {
+    "key": "<",
+    "command": "outdent",
+    "when": "editorTextFocus && !editorTabMovesFocus"
+  },
+  {
+    "key": "tab",
+    "command": "tab",
+    "when": "editorTextFocus && !editorTabMovesFocus"
+  },
+  {
+    "key": "shift+tab",
+    "command": "outdent",
+    "when": "editorTextFocus && !editorTabMovesFocus"
+  },
+  {
+    "key": "ctrl+shift+0",
+    "command": "editor.action.fontZoomReset"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "workbench.action.tasks.runTask",
+    "args": "NWScript Compile File"
+  },
+  {
+    "key": "ctrl+shift+b",
+    "command": "workbench.action.tasks.runTask",
+    "args": "NWScript Compile All"
+  },
+  {
+    "key": "F9",
+    "command": "workbench.action.tasks.runTask",
+    "args": "NWScript Snippets"
+  },
+  {
+    "key": "ctrl+F9",
+    "command": "workbench.action.tasks.runTask",
+    "args": "NWScript Snippets Vanilla Only"
+  },
+  {
+    "key": "shift+F9",
+    "command": "workbench.action.tasks.runTask",
+    "args": "NWScript File Snippets"
+  },
+  {
+    "key": "ctrl+shift+u",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Update Scripts"
+  },
+  {
+    "key": "ctrl+alt+u",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Update NWNX"
+  },
+  {
+    "key": "ctrl+alt+k",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Kill nwnsc"
+  },
+  {
+    "key": "alt+s",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Update server"
+  },
+  {
+    "key": "ctrl+0",
+    "command": "-workbench.action.focusSideBar"
+  },
+  {
+    "key": "ctrl+shift+0",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+numpad_subtract",
+    "command": "-workbench.action.zoomOut"
+  },
+  {
+    "key": "ctrl+numpad_add",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+0",
+    "command": "workbench.action.zoomReset"
+  },
+  {
+    "key": "ctrl+numpad0",
+    "command": "-workbench.action.zoomReset"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.togglePanel"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "-workbench.action.togglePanel"
+  },
+  {
+    "key": "ctrl+alt+e",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "-workbench.action.toggleSidebarVisibility"
+  },
+]

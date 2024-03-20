@@ -78,6 +78,14 @@ fi
 mkdir ~/.config/tmux
 ln -svf ~/dotfiles/.config/tmux ~/.config
 
+# VSCodium
+if [ -d ~/.config/VSCodium ]; then
+  mv ~/.config/VSCodium ~/.config/VSCodium.old
+fi
+mkdir -p ~/.config/VSCodium/User
+ln -svf ~/dotfiles/.config/VSCodium/User/settings.json ~/.config/VSCodium/User/
+ln -svf ~/dotfiles/.config/VSCodium/User/keybindings.json ~/.config/VSCodium/User/
+
 if ! "$(pacman -Q | grep -iq 'tmux')"; then
   echo
   echo 'Installing tmux'

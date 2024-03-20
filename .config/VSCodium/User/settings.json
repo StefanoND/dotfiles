@@ -1,0 +1,131 @@
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "telemetry.telemetryLevel": "off",
+    "gitlens.telemetry.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "C_Cpp.default.cppStandard": "c++23",
+    "C_Cpp.default.cStandard": "c23",
+    "C_Cpp.intelliSenseMemoryLimit": 8192,
+    "cmake.configureOnOpen": true,
+    "tabnine.experimentalAutoImports": true,
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "450",
+    "editor.inlineSuggest.showToolbar": "always",
+    "editor.rulers": [
+        { // Git Commit
+            "column": 50,
+            "color": "#004d00"
+        },
+        { // Code Length
+            "column": 80,
+            "color": "#805300"
+        },
+        { // Comment Length
+            "column": 120,
+            "color": "#800000"
+        }
+    ],
+    "better-comments.highlightPlainText": true,
+    "better-comments.tags": [
+        {
+            "tag": "!",
+            "color": "#FF2D00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "?",
+            "color": "#3498DB",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "//",
+            "color": "#474747",
+            "strikethrough": true,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "todo",
+            "color": "#FF8C00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "*",
+            "color": "#98C379",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        }
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "files.autoSaveDelay": 30000,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "window.title": "${dirty}${activeEditorLong}${separator}${rootPath}",
+    "editor.mouseWheelZoom": true,
+    "window.zoomLevel": 0,
+    "clang-format.executable": "clang-format",
+    "clang-format.style": "${workspaceRoot}/.vscode/.clang-format",
+    "clang-format.language.c.enable": true,
+    "clang-format.language.cpp.enable": true,
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "dateTime.showOnStartup": true,
+    "dateTime.showDayOfMonth": true,
+    "dateTime.showMonth": true,
+    "dateTime.use24HourClock": true,
+    "dateTime.showAMPM": false,
+    "dateTime.customFormat": "dddd, DD/MMMM/YYYY - HH:mm:ss",
+    "editor.minimap.showSlider": "always",
+    "editor.minimap.renderCharacters": false,
+    "files.trimTrailingWhitespace": true,
+    "cmake.generator": "Unix Makefiles",
+    // Uncomment if using VS Codium flatpak
+    //  "omnisharp.useGlobalMono": "always",
+    //  "terminal.integrated.defaultProfile.linux": "bash",
+    //  "terminal.integrated.profiles.linux": {
+    //      "bash": {
+    //          "path": "/usr/bin/flatpak-spawn",
+    //          "args": [
+    //              "--host",
+    //              "--env=TERM=xterm-256color",
+    //              "bash"
+    //          ]
+    //      }
+    //  },
+    "vim.leader": "<space>",
+    "workbench.iconTheme": "material-icon-theme",
+    "codeium.enableConfig": {
+        "*": true,
+        "nwscript": true
+    },
+    "glassit.alpha": 235,
+    "files.autoSave": "afterDelay",
+}

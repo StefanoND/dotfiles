@@ -256,9 +256,9 @@ if [[ ${TERMINAL,,} == y ]]; then
     fi
     sleep 1s
     if ls /usr/bin/*session | grep plasma; then
-        printf "\nalias $desktopname='kioclient exec $HOME/.local/share/applications/$desktopname.desktop &'\n" | tee -a "$HOME"/.bash_aliases
+        printf "\nalias $desktopname='cd ~/ && nohup kioclient exec $HOME/.local/share/applications/$desktopname.desktop &'\n" | tee -a "$HOME"/.bash_aliases
     else
-        printf "\nalias $desktopname='gtk-launch $desktopname &'\n" | tee -a "$HOME"/.bash_aliases
+        printf "\nalias $desktopname='cd ~/ && nohup gtk-launch $desktopname &'\n" | tee -a "$HOME"/.bash_aliases
     fi
     echo
     echo "Restart your terminal to start using it"
