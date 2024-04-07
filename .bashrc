@@ -180,3 +180,28 @@ icontopng()
   echo 'Icon path -> Desired Png name/path -> Size'
   convert "$1" -thumbnail "$3"x"$3" -alpha on -background none -flatten "$2"
 }
+
+nwdocs="/mnt/SSD_1TB_WORK/WoSEE/Documents"
+nwroot="/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights"
+scpsrc="/home/archuser/WORK/WoSEE/dev/wosee/src"
+rootsrc="/home/archuser/WORK/WoSEE/dev/wosee"
+
+comp()
+{
+    nwnsc -ceoy -h "$nwdocs" -n "$nwroot" -i "$scpsrc"/nss "$scpsrc/nss/$1".nss -r "$scpsrc/ncs/$1".ncs
+    sync
+}
+
+compall()
+{
+    if [ -f "$scpsrc"/nss/nwscript.nss ]; then
+        rm -f "$scpsrc"/nss/nwscript.nss
+        sync
+    fi
+    nwnsc -ceoy -h "$nwdocs" -n "$nwroot" -i "$scpsrc"/nss "$scpsrc"/nss/*.nss
+    sync
+    mv -f "$scpsrc"/nss/*.ncs "$scpsrc"/ncs/
+    sync
+    cp -f "$rootsrc"/nwscript.nss "$scpsrc"/nss/
+    sync
+}

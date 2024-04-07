@@ -45,7 +45,7 @@ bindsym Print exec --no-startup-id $preferredScreenCaptureTool
 
 ### Start a Terminal Emulator: ###
 # bindsym $super+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 wezterm"
-bindsym $super+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 kitty"
+bindsym $super+Return exec "tdrop -mta -w -12 -h -36 -x 6 -y 6 kitty"
 bindsym $super+Shift+Return scratchpad show; resize set 1900px 1036px; move position center
 # bindsym $super+Shift+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacs --with-profile=stemacs"
 # bindsym $super+$alt+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacsclient -c -s doom -a emacs"
@@ -106,6 +106,10 @@ exec --no-startup-id 'codium --password-store="kwallet5" &'
 for_window [class="VSCodium"] move scratchpad; floating disable
 
 exec --no-startup-id "vboxheadless -s WoSEE &"
+exec --no-startup-id "lutris &"
+
+exec_always --no-startup-id "setxkbmap pt &"
+exec_always --no-startup-id "xset r rate 300 60 &"
 
 # hide/unhide i3status bar
 bindsym $super+m bar mode toggle
@@ -363,7 +367,7 @@ for_window [class="Spotify"] move container to workspace $ws3
 for_window [class="whatsapp-for-linux"] move container to workspace $ws8
 
 # window rules, you can find the window class using xprop
-for_window [class=".*"] border pixel 4
+for_window [class=".*"] border pixel 2
 assign [class=URxvt] 1
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|upgrade2ultimate.sh] floating enable
 for_window [class=URxvt|firefox|firedragon|Geany|Evince|Soffice|libreoffice*|mpv|Ghb|Xfburn|Gimp*|Inkscape|Vlc|Lxappearance|Audacity] focus
@@ -384,8 +388,8 @@ client.background           #2f343f
 #############################
 
 # Set inner/outer gaps
-gaps inner 4
-gaps outer 2
+gaps inner 3
+gaps outer 1
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -412,24 +416,24 @@ mode "$mode_gaps" {
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
+        bindsym plus  gaps inner current plus 3
+        bindsym minus gaps inner current minus 3
         bindsym 0     gaps inner current set 0
 
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+plus  gaps inner all plus 3
+        bindsym Shift+minus gaps inner all minus 3
         bindsym Shift+0     gaps inner all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
+        bindsym plus  gaps outer current plus 3
+        bindsym minus gaps outer current minus 3
         bindsym 0     gaps outer current set 0
 
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+plus  gaps outer all plus 3
+        bindsym Shift+minus gaps outer all minus 3
         bindsym Shift+0     gaps outer all set 0
 
         bindsym Return mode "default"

@@ -128,4 +128,34 @@
     },
     "glassit.alpha": 235,
     "files.autoSave": "afterDelay",
+    "nwscript-ee-lsp.compiler": {
+        "enabled": true,
+        "verbose": true,
+        "nwnHome": "/mnt/SSD_1TB_WORK/WoSEE/Documents",
+        "nwnInstallation": "/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights"
+    },
+    "nwscript-ee-lsp.hovering": {
+        "enabled": true
+    },
+    "nwscript-ee-lsp.completion": {
+        "enabled": true
+    },
+    "files.associations": {
+        "*.nss": "nwscript"
+    },
+    "[nwscript]": {
+        "editor.defaultFormatter": "PhilippeChab.nwscript-ee-language-server"
+    },
+    "nwscript-ee-lsp.formatter": {
+        "enabled": true,
+        "executable": "clang-format",
+        "ignoredGlobs": [
+            "${workspaceFolder}/nwscript.nss",
+            "${workspaceFolder}/enwscript.nss",
+            "${workspaceFolder}/vnwscript.nss",
+            "${workspaceFolder}/src/nss/nwscript.nss",
+            "/folder/to/ignore/*.nss",
+            "file/to/ignore/filename.nss"
+        ]
+    }
 }

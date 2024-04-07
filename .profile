@@ -1,7 +1,7 @@
 ibus-daemon -d -x
 export EDITOR=/usr/bin/nvim
 export BROWSER=firedragon
-export TERM=wezterm
+export TERM=kitty
 export MAIL=thunderbird
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export QT_PLATFORMTHEME="qt5ct"
