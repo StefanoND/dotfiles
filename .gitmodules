@@ -12,4 +12,4 @@
 	url = https://github.com/StefanoND/emacs
 [submodule ".config/nvim"]
 	path = .config/nvim
-	url = https://github.com/StefanoND/nvim
+	url = https://github.com/StefanoND/stvim.git
