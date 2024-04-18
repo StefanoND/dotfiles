@@ -1,10 +1,7 @@
-# Private settings in include file
-[include]
-  path = ~/.gitconfig.local
-
 # Dracula theme
 [url "https://github.com/dracula/"]
   insteadOf = dracula://
+
 [color]
   ui = auto
 [color "branch"]
@@ -44,12 +41,42 @@
   unmerged = magenta bold reverse
   untracked = red
   updated = green bold
+
+[user]
+  name = Stefano N. Dobbin
+  email = sndobbin@gmail.com
+	signingKey = DEEC83D31469B12A
+
+[core]
+  editor = nvim
+
+[push]
+  default = simple
+
+[credential]
+  helper = cache --timeout 7200
+[credential "https://github.com"]
+  username = StefanoND
+[credential "https://gitlab.com"]
+  username = StefanoND
+
+[alias]
+  co = checkout
+  st = status
+  unstage = reset HEAD --
+  last = log -1 HEAD
+
+[commit]
+  gpgsign = true
+
+[pull]
+  rebase = false
 [init]
   defaultBranch = trunk
+
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
 [url "ssh://git@gitlab.com/"]
   insteadOf = https://gitlab.com/
 [url "ssh://git@bitbucket.org/"]
   insteadOf = https://bitbucket.org/
-

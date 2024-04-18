@@ -1,2 +1,19 @@
-lazy-lock.json
+backup
+
+# Tmux
 .config/tmux/plugins/
+
+# Ctags
+tags
+.tags
+
+# Vim files
+Session.vim
+lazy-lock.json
+
+# C++
+.ccls-cache
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+CMakeUserPresets.json

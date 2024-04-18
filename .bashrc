@@ -23,11 +23,11 @@ source /usr/share/doc/find-the-command/ftc.bash
 ## Useful aliases
 
 # Replace ls with exa
-alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
-alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first --icons'  # long format
-alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.='exa -ald --color=always --group-directories-first --icons .*' # show only dotfiles
+alias ls='eza -al --color=always --group-directories-first --icons' # preferred listing
+alias la='eza -a --color=always --group-directories-first --icons'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first --icons'  # long format
+alias lt='eza -aT --color=always --group-directories-first --icons' # tree listing
+alias l.='eza -ald --color=always --group-directories-first --icons .*' # show only dotfiles
 
 # Replace some more things with better alternatives
 alias cat='bat --style header --style snip --style changes --style header'
@@ -185,3 +185,7 @@ clang-format-all()
 {
   find "$1" -iname "$2" | xargs clang-format -i
 }
+
+eval "$(register-python-argcomplete pipx)"
+
+export GPG_TTY=$(tty)
