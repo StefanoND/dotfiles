@@ -49,6 +49,14 @@
 
 [core]
   editor = nvim
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true # use n and N to move between diff sections
+  side-by-side = true
 
 [push]
   default = simple
@@ -73,6 +81,8 @@
   rebase = false
 [init]
   defaultBranch = trunk
+[merge]
+  conflictstyle = diff3
 
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/

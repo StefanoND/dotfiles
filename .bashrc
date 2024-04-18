@@ -2,19 +2,19 @@
 [[ $- != *i* ]] && return
 
 # Load starship prompt if starship is installed
-if  [ -x /usr/bin/starship ]; then
-    __main() {
-        local major="${BASH_VERSINFO[0]}"
-        local minor="${BASH_VERSINFO[1]}"
+if [ -x /usr/bin/starship ]; then
+        __main() {
+                local major="${BASH_VERSINFO[0]}"
+                local minor="${BASH_VERSINFO[1]}"
 
-        if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
-            source <("/usr/bin/starship" init bash --print-full-init)
-        else
-            source /dev/stdin <<<"$("/usr/bin/starship" init bash --print-full-init)"
-        fi
-    }
-    __main
-    unset -f __main
+                if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
+                        source <("/usr/bin/starship" init bash --print-full-init)
+                else
+                        source /dev/stdin <<<"$("/usr/bin/starship" init bash --print-full-init)"
+                fi
+        }
+        __main
+        unset -f __main
 fi
 
 # Advanced command-not-found hook
@@ -23,11 +23,11 @@ source /usr/share/doc/find-the-command/ftc.bash
 ## Useful aliases
 
 # Replace ls with exa
-alias ls='eza -al --color=always --group-directories-first --icons' # preferred listing
-alias la='eza -a --color=always --group-directories-first --icons'  # all files and dirs
-alias ll='eza -l --color=always --group-directories-first --icons'  # long format
-alias lt='eza -aT --color=always --group-directories-first --icons' # tree listing
-alias l.='eza -ald --color=always --group-directories-first --icons .*' # show only dotfiles
+alias ls='eza -al --color=always --group-directories-first --icons --git'     # preferred listing
+alias la='eza -a --color=always --group-directories-first --icons --git'      # all files and dirs
+alias ll='eza -l --color=always --group-directories-first --icons --git'      # long format
+alias lt='eza -aT --color=always --group-directories-first --icons --git'     # tree listing
+alias l.='eza -ald --color=always --group-directories-first --icons --git .*' # show only dotfiles
 
 # Replace some more things with better alternatives
 alias cat='bat --style header --style snip --style changes --style header'
@@ -83,22 +83,23 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 fastfetch -l garuda
 
 if [ -f "$HOME"/.bash_aliases ]; then
-  . "$HOME"/.bash_aliases
+        . "$HOME"/.bash_aliases
 fi
 
-econ()
-{
-    expressvpn connect "$1"
+cd() {
+        z "$@"
 }
 
-erecon()
-{
-    expressvpn disconnect && sleep 1s && expressvpn connect "$1"
+econ() {
+        expressvpn connect "$1"
 }
 
-edisc()
-{
-    expressvpn disconnect
+erecon() {
+        expressvpn disconnect && sleep 1s && expressvpn connect "$1"
+}
+
+edisc() {
+        expressvpn disconnect
 }
 
 # Makes new panels open $HOME instead of folder you're currently in
@@ -106,33 +107,33 @@ wezterm set-working-directory "$HOME"
 
 # GitHub Titus Additions
 gcom() {
-    git add .
-    if [ "$1" == "" ]; then
-      git commit -am "update"
-    else
-      git commit -am "$1"
-    fi
+        git add .
+        if [ "$1" == "" ]; then
+                git commit -am "update"
+        else
+                git commit -am "$1"
+        fi
 }
 
 # Add, commit and push
 glazy() {
-    git add .
-    if [ "$1" == "" ]; then
-      git commit -am "update"
-    else
-      git commit -am "$1"
-    fi
-    git push origin HEAD
+        git add .
+        if [ "$1" == "" ]; then
+                git commit -am "update"
+        else
+                git commit -am "$1"
+        fi
+        git push origin HEAD
 }
 
 # Saving 3 characters so we don't have to type the extra "it "
 gpush() {
-    git push origin HEAD
+        git push origin HEAD
 }
 
 # Saving 3 characters so we don't have to type the extra "it "
 gpull() {
-    git pull --rebase
+        git pull --rebase
 }
 
 export CARGO_INSTALL_ROOT=$HOME/.cargo
@@ -161,9 +162,8 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
 # The name is in ~/dotfiles/emacs/.emacs-profiles.el
-setdefaultemacsprofile()
-{
-    echo "$1" > ~/dotfiles/emacs/.emacs-profile
+setdefaultemacsprofile() {
+        echo "$1" >~/dotfiles/emacs/.emacs-profile
 }
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -175,17 +175,68 @@ export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
 export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
 
-icontopng()
-{
-  echo 'Icon path -> Desired Png name/path -> Size'
-  convert "$1" -thumbnail "$3"x"$3" -alpha on -background none -flatten "$2"
+icontopng() {
+        echo 'Icon path -> Desired Png name/path -> Size'
+        convert "$1" -thumbnail "$3"x"$3" -alpha on -background none -flatten "$2"
 }
 
-clang-format-all()
-{
-  find "$1" -iname "$2" | xargs clang-format -i
+clang-format-all() {
+        find "$1" -iname "$2" | xargs clang-format -i
 }
 
 eval "$(register-python-argcomplete pipx)"
 
 export GPG_TTY=$(tty)
+
+# Setup fzf keybindings and fuzzy completion
+eval "$(fzf --bash)"
+
+# fzf theme
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
+# Use fd isntead of fzf
+
+export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+
+# Use fd for listing path candidates.
+# "$1" is the base path to start traversal
+_fzf_compgen_path() {
+        fd --hidden --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+        fd --type d --hidden --exclude ".git" . "$1"
+}
+
+source ~/dotfiles/scripts/fzf-git.sh/fzf-git.sh
+
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza -al --color=always --group-directories-first --icons --git | head -200'"
+
+_fzf_comprun() {
+        local command=$1
+        shift
+
+        case "$command" in
+        cd) fzf --preview 'eza -T --color=always --group-directories-first --icons --git {} | head -200' "$@" ;;
+        export | unset) fzf --preview "eval 'echo $' {}" "$@" ;;
+        ssh) fzf --preview 'dig {}' "$@" ;;
+        *) fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+        esac
+}
+
+# Bat theme
+export BAT_THEME='Catppuccin Mocha'
+
+# TheFuck alias
+eval "$(thefuck --alias)"
+eval "$(thefuck --alias fk)"
+
+# Zoxide (better cd)
+eval "$(zoxide init bash)"

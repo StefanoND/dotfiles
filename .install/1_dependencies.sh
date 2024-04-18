@@ -1,11 +1,11 @@
 #!/bin/bash
 
 if ! [ "$EUID" -ne 0 ]; then
-    echo
-    echo "Don't run this script as root."
-    echo
-    sleep 1s
-    exit 1
+  echo
+  echo "Don't run this script as root."
+  echo
+  sleep 1s
+  exit 1
 fi
 
 echo
@@ -66,7 +66,7 @@ echo
 echo "Ranking mirrors, this will take a while"
 echo
 sleep 1s
-rankmirrors "$HOME/Downloads/mirrorlist" > "$HOME/Downloads/mirrorlist.fastest"
+rankmirrors "$HOME/Downloads/mirrorlist" >"$HOME/Downloads/mirrorlist.fastest"
 sleep 1s
 echo
 echo "Moving them to /etc/pacman.d/mirrorlist"
@@ -85,11 +85,11 @@ sleep 1s
 sudo pacman -Syyu --noconfirm --needed
 
 if pacman -Q | grep -i 'iptables' && ! pacman -Q | grep -i 'iptables-nft'; then
-    echo
-    echo 'Uninstalling iptables'
-    echo
-    sudo pacman -Rdd iptables --noconfirm
-    sleep 1s
+  echo
+  echo 'Uninstalling iptables'
+  echo
+  sudo pacman -Rdd iptables --noconfirm
+  sleep 1s
 fi
 
 echo
@@ -105,11 +105,11 @@ sudo pacman -S meson --asdep --noconfirm --needed
 sleep 1s
 
 if pacman -Q | grep -i 'rust' && ! pacman -Q | grep -i 'rustup'; then
-    echo
-    echo 'Uninstalling rust'
-    echo
-    sudo pacman -Rdd rust --noconfirm
-    sleep 1s
+  echo
+  echo 'Uninstalling rust'
+  echo
+  sudo pacman -Rdd rust --noconfirm
+  sleep 1s
 fi
 
 echo
@@ -120,20 +120,20 @@ sleep 1s
 
 PKGS=(
   # Tools
-  'base-devel'             # Basic tools
-  'meson'                  # High productivity build system
-  'mingw-w64'              # MinGW Cross-compiler pack (binutils, crt, gcc, headers and winpthreads)
-  'libconfig'              # C/C++ Configuration file library
-  'gdb'                    # GNU Debugger
-  'lldb'                   # High performance debugger
-  'qemu-guest-agent'       # Helper Daemon
+  'base-devel'       # Basic tools
+  'meson'            # High productivity build system
+  'mingw-w64'        # MinGW Cross-compiler pack (binutils, crt, gcc, headers and winpthreads)
+  'libconfig'        # C/C++ Configuration file library
+  'gdb'              # GNU Debugger
+  'lldb'             # High performance debugger
+  'qemu-guest-agent' # Helper Daemon
 
   # Kernel
-  'dkms'                   # Dynamic Kernel Modules System
-  'linux-zen'              # Kernel and modules (ZEN)
-  'linux-zen-headers'      # Header files (ZEN)
-  'linux-lts'              # Kernel and modules (LTS)
-  'linux-lts-headers'      # Header files (LTS)
+  'dkms'              # Dynamic Kernel Modules System
+  'linux-zen'         # Kernel and modules (ZEN)
+  'linux-zen-headers' # Header files (ZEN)
+  'linux-lts'         # Kernel and modules (LTS)
+  'linux-lts-headers' # Header files (LTS)
 
   # Fonts
   'noto-fonts-extra'       # Additional variants of noto fonts
@@ -160,52 +160,56 @@ PKGS=(
   'zip'
 
   # Misc
-  'cpupower'               # CPU tuning utility
+  'cpupower' # CPU tuning utility
   'tuned'
+  'zoxide'
+  'fzf'
+  'git-delta'
+  'thefuck'
 
   # WINE
-  'alsa-lib'                                  # Wine Dependency Hell
-  'alsa-plugins'                              # Wine Dependency Hell
-  'dosbox'                                    # Wine Dependency Hell
-  'giflib'                                    # Wine Dependency Hell
-  'gnutls'                                    # Wine Dependency Hell
-  'gst-plugins-base-libs'                     # Wine Dependency Hell
-  'gtk3'                                      # Wine Dependency Hell
-  'lib32-alsa-lib'                            # Wine Dependency Hell
-  'lib32-alsa-plugins'                        # Wine Dependency Hell
-  'lib32-giflib'                              # Wine Dependency Hell
-  'lib32-gnutls'                              # Wine Dependency Hell
-  'lib32-gst-plugins-base-libs'               # Wine Dependency Hell
-  'lib32-gtk3'                                # Wine Dependency Hell
-  'lib32-libjpeg-turbo'                       # Wine Dependency Hell
-  'lib32-libldap'                             # Wine Dependency Hell
-  'lib32-libpng'                              # Wine Dependency Hell
-  'lib32-libpulse'                            # Wine Dependency Hell
-  'lib32-libva'                               # Wine Dependency Hell
-  'lib32-libxcomposite'                       # Wine Dependency Hell
-  'lib32-libxinerama'                         # Wine Dependency Hell
-  'lib32-libxslt'                             # Wine Dependency Hell
-  'lib32-mpg123'                              # Wine Dependency Hell
-  'lib32-ncurses'                             # Wine Dependency Hell
-  'lib32-openal'                              # Wine Dependency Hell
-  'lib32-opencl-icd-loader'                   # Wine Dependency Hell
-  'lib32-v4l-utils'                           # Wine Dependency Hell
-  'lib32-vulkan-icd-loader'                   # Wine Dependency Hell
-  'libjpeg-turbo'                             # Wine Dependency Hell
-  'libldap'                                   # Wine Dependency Hell
-  'libpng'                                    # Wine Dependency Hell
-  'libpulse'                                  # Wine Dependency Hell
-  'libva'                                     # Wine Dependency Hell
-  'libxcomposite'                             # Wine Dependency Hell
-  'libxinerama'                               # Wine Dependency Hell
-  'libxslt'                                   # Wine Dependency Hell
-  'mpg123'                                    # Wine Dependency Hell
-  'ncurses'                                   # Wine Dependency Hell
-  'openal'                                    # Wine Dependency Hell
-  'opencl-icd-loader'                         # Wine Dependency Hell
-  'samba'                                     # Wine Dependency Hell
-  'v4l-utils'                                 # Wine Dependency Hell
-  'vulkan-icd-loader'                         # Wine Dependency Hell
+  'alsa-lib'                    # Wine Dependency Hell
+  'alsa-plugins'                # Wine Dependency Hell
+  'dosbox'                      # Wine Dependency Hell
+  'giflib'                      # Wine Dependency Hell
+  'gnutls'                      # Wine Dependency Hell
+  'gst-plugins-base-libs'       # Wine Dependency Hell
+  'gtk3'                        # Wine Dependency Hell
+  'lib32-alsa-lib'              # Wine Dependency Hell
+  'lib32-alsa-plugins'          # Wine Dependency Hell
+  'lib32-giflib'                # Wine Dependency Hell
+  'lib32-gnutls'                # Wine Dependency Hell
+  'lib32-gst-plugins-base-libs' # Wine Dependency Hell
+  'lib32-gtk3'                  # Wine Dependency Hell
+  'lib32-libjpeg-turbo'         # Wine Dependency Hell
+  'lib32-libldap'               # Wine Dependency Hell
+  'lib32-libpng'                # Wine Dependency Hell
+  'lib32-libpulse'              # Wine Dependency Hell
+  'lib32-libva'                 # Wine Dependency Hell
+  'lib32-libxcomposite'         # Wine Dependency Hell
+  'lib32-libxinerama'           # Wine Dependency Hell
+  'lib32-libxslt'               # Wine Dependency Hell
+  'lib32-mpg123'                # Wine Dependency Hell
+  'lib32-ncurses'               # Wine Dependency Hell
+  'lib32-openal'                # Wine Dependency Hell
+  'lib32-opencl-icd-loader'     # Wine Dependency Hell
+  'lib32-v4l-utils'             # Wine Dependency Hell
+  'lib32-vulkan-icd-loader'     # Wine Dependency Hell
+  'libjpeg-turbo'               # Wine Dependency Hell
+  'libldap'                     # Wine Dependency Hell
+  'libpng'                      # Wine Dependency Hell
+  'libpulse'                    # Wine Dependency Hell
+  'libva'                       # Wine Dependency Hell
+  'libxcomposite'               # Wine Dependency Hell
+  'libxinerama'                 # Wine Dependency Hell
+  'libxslt'                     # Wine Dependency Hell
+  'mpg123'                      # Wine Dependency Hell
+  'ncurses'                     # Wine Dependency Hell
+  'openal'                      # Wine Dependency Hell
+  'opencl-icd-loader'           # Wine Dependency Hell
+  'samba'                       # Wine Dependency Hell
+  'v4l-utils'                   # Wine Dependency Hell
+  'vulkan-icd-loader'           # Wine Dependency Hell
   'gst-plugins-bad'
   'gst-plugins-base'
   'gst-plugins-good'
@@ -221,16 +225,16 @@ PKGS=(
   'gstreamer-vaapi'            # Hardware Acceleration
   'lib32-libappindicator-gtk2' # Tray Icon Support for Steam
   'lib32-libva-vdpau-driver'
-  'lib32-sqlite'               # Lutris Dependency
-  'lib32-vkd3d'                #
+  'lib32-sqlite' # Lutris Dependency
+  'lib32-vkd3d'  #
   'libva-vdpau-driver'
-  'libvdpau-va-gl'             # Hardware Acceleration
-  'opencl-clhpp'               #
-  'opencl-headers'             #
-  'vkd3d'                      #
-  'vulkan-headers'             # Vulkan Header Files
-  'vulkan-tools'               # Vulkan Utilities and Tools
-  'vulkan-validation-layers'   # Vulkan Validation Layers
+  'libvdpau-va-gl'           # Hardware Acceleration
+  'opencl-clhpp'             #
+  'opencl-headers'           #
+  'vkd3d'                    #
+  'vulkan-headers'           # Vulkan Header Files
+  'vulkan-tools'             # Vulkan Utilities and Tools
+  'vulkan-validation-layers' # Vulkan Validation Layers
 
   # Neovim "Dependencies"
   'ripgrep'
@@ -247,8 +251,8 @@ PKGS=(
 
   # LSP
   'python-pip' # Required to install some LSP servers
-  'npm' # Required to install some LSp servers
-  'yarn' # Required to install some LSp servers
+  'npm'        # Required to install some LSp servers
+  'yarn'       # Required to install some LSp servers
   'lua-language-server'
   'bash-language-server'
   'rust-analyzer'
@@ -275,55 +279,55 @@ PKGS=(
 )
 
 for PKG in "${PKGS[@]}"; do
-    echo
-    echo "INSTALLING: ${PKG}"
-    echo
-    sudo pacman -S "$PKG" --noconfirm --needed
-    echo
-    sleep 1s
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  sudo pacman -S "$PKG" --noconfirm --needed
+  echo
+  sleep 1s
 done
 
 PKGT=(
-    # LSP
-    'cmake-language-server'
+  # LSP
+  'cmake-language-server'
 )
 
 for PKG in "${PKGT[@]}"; do
-    echo
-    echo "INSTALLING: ${PKG}"
-    echo
-    pip install "$PKG" --noconfirm --needed
-    echo
-    sleep 1s
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  pip install "$PKG" --noconfirm --needed
+  echo
+  sleep 1s
 done
 
 PKGTS=(
-    # LSP
-    'vscode-langservers-extracted'
-    'sql-language-server'
+  # LSP
+  'vscode-langservers-extracted'
+  'sql-language-server'
 )
 
 for PKG in "${PKGTS[@]}"; do
-    echo
-    echo "INSTALLING: ${PKG}"
-    echo
-    sudo npm i -g "$PKG"
-    echo
-    sleep 1s
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  sudo npm i -g "$PKG"
+  echo
+  sleep 1s
 done
 
 PKGST=(
-    # LSP
-    'yaml-language-server'
+  # LSP
+  'yaml-language-server'
 )
 
 for PKG in "${PKGST[@]}"; do
-    echo
-    echo "INSTALLING: ${PKG}"
-    echo
-    yarn global add "$PKG"
-    echo
-    sleep 1s
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  yarn global add "$PKG"
+  echo
+  sleep 1s
 done
 
 dotnet tool install --global csharp-ls
