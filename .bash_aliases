@@ -59,5 +59,15 @@ alias modDisable='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSE
 alias modStatus='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-status_ptr.sh'
 alias modSavechars='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-savechars.sh'
 
+# Godot
+alias gdnvim="nvim --listen ./godothost"
+alias gdvim="nvim --listen ./godothost"
+alias godotnvim="nvim --listen ./godothost"
+alias godotvim="nvim --listen ./godothost"
+alias nvimgodot="nvim --listen ./godothost"
+alias vimgodot="nvim --listen ./godothost"
+alias nvimgd="nvim --listen ./godothost"
+alias vimgd="nvim --listen ./godothost"
+
 # Monero
 alias monero='monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'
