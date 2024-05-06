@@ -1,10 +1,17 @@
+#######################################################
+# GENERAL ALIAS'S
+#######################################################
+# To temporarily bypass an alias, we precede the command with a \
+# EG: the ls command is aliased, but to use the normal ls command you would type \ls
+
+# Sudo preserving user's envvars
+alias sude='sudo -E'
 alias firefox='cd ~/ && nohup firefox -P &'
 alias heroic='cd ~/ && nohup heroic &'
 alias discord='cd ~/ && nohup discord &'
 alias steam='cd ~/ && nohup steam &'
 alias lutris='cd ~/ && nohup lutris &'
 alias thunar='cd ~/ && nohup thunar &'
-alias sude='sudo -E'
 alias obsidian='cd ~/ && nohup obsidian &'
 alias bitwarden='cd ~/ && nohup bitwarden-desktop &'
 alias virt-manager='cd ~/ && nohup virt-manager &'
@@ -27,25 +34,30 @@ alias sudenvim='sudo -E nvim'
 alias zoom='cd ~/ && nohup zoom &'
 alias torbrowser='cd ~/ && nohup torbrowser-launcher &'
 alias syncthing='cd ~/ && nohup syncthing &'
+alias yata='cd ~/ && nohup gtk-launch yata &'
+alias gdlauncher='cd ~/ && nohup gdlauncher &'
+alias codium='cd ~/ && nohup codium --password-store="kwallet5" &'
+alias trash='gio trash'
+alias rmt='gio trash'
+
+# Neverwinter Nights: Enhanced Edition
 alias tlkedit='cd ~/ && nohup gtk-launch tlkedit &'
 alias nwnexplorer='cd ~/ && nohup gtk-launch nwnexplorer &'
 alias scriptgenerator='cd ~/ && nohup gtk-launch scriptgenerator &'
 alias 2dacombinulator='cd ~/ && nohup gtk-launch 2dacombinulator &'
-alias yata='cd ~/ && nohup gtk-launch yata &'
-alias gdlauncher='cd ~/ && nohup gdlauncher &'
 alias nwhak='cd ~/ && nohup gtk-launch nwhak &'
 alias nwtoolset='cd ~/ && nohup gtk-launch nwtoolset &'
 alias toolset='cd ~/ && nohup gtk-launch nwtoolset &'
-alias codium='cd ~/ && nohup codium --password-store="kwallet5" &'
 alias fix2da='cd ~/ && gtk-launch fix2da &'
 alias tidy2da='cd ~/ && gtk-launch tidy2da &'
 alias nwsyncUpdate='sudo sh /mnt/SSD_1TB_WORK/WoSEE/Tools/nwsync/nwsync-update.sh'
 alias uploadNWSync='sh /mnt/SSD_1TB_WORK/WoSEE/Tools/nwsync/uploadNWSync.sh'
-alias trash='gio trash'
-alias rmt='gio trash'
 alias modStart='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-start_ptr.sh'
 alias modStop='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-stop_ptr.sh'
 alias modEnable='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-enable_ptr.sh'
 alias modDisable='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-disable_ptr.sh'
 alias modStatus='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-status_ptr.sh'
 alias modSavechars='cd /mnt/SSD_1TB_WORK/WoSEE/Server && sh /mnt/SSD_1TB_WORK/WoSEE/Server/mod-savechars.sh'
+
+# Monero
+alias monero='monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'

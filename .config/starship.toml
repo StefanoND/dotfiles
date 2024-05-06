@@ -3,17 +3,17 @@ palette = "catppuccin_mocha"
 
 # First param ─┌
 [username]
-format = " [╭─$user]($style)@"
+format = " [$user](bold green)[@](bold blue)"
 show_always = true
 style_root = "bold green"
-style_user = "bold green"
+style_user = "bold red"
 
 # Second param
 [hostname]
 disabled = false
-format = "[$hostname]($style) in "
+format = "[$hostname](bold red) in "
 ssh_only = false
-style = "bold dimmed green"
+style = "bold dimmed red"
 trim_at = "-"
 
 # Third param
@@ -74,7 +74,7 @@ time_format = "%T"
 
 # Prompt: param 2
 [character]
-success_symbol = " [[╰─λ](bold green)](maroon)"
+success_symbol = " [[λ](bold blue)](maroon)"
 error_symbol = " [×](bold red)"
 
 # SYMBOLS

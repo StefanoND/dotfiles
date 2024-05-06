@@ -69,7 +69,7 @@ floating_modifier $super
 exec_always --no-startup-id xrandr --output DP-4 --primary --mode 1920x1080 --rate 144.00 --pos 1920x0 --output DP-3 --mode 1920x1080 --rate 60.00 --pos 3840x0 --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
 
 exec --no-startup-id picom -b --config ~/.config/picom/picom.conf &
-exec --no-startup-id gromit-mpx &
+# exec --no-startup-id gromit-mpx &
 
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id xsettingsd &

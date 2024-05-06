@@ -166,6 +166,7 @@ PKGS=(
   'fzf'
   'git-delta'
   'thefuck'
+  'autojump'
 
   # WINE
   'alsa-lib'                    # Wine Dependency Hell
