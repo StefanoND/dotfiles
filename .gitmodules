@@ -4,9 +4,6 @@
 [submodule "emacs/.spacemacs.d"]
 	path = emacs/.spacemacs.d
 	url = https://github.com/syl20bnr/spacemacs
-[submodule "emacs/.emacs.d"]
-	path = emacs/.emacs.d
-	url = https://github.com/plexus/chemacs2
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = https://github.com/StefanoND/stvim.git
@@ -19,3 +16,9 @@
 [submodule "apps/ble.sh"]
 	path = apps/ble.sh
 	url = https://github.com/akinomyoga/ble.sh.git
+[submodule "emacs/stemacs/stemacs"]
+	path = emacs/stemacs/.stemacs.d
+	url = https://github.com/StefanoND/stemacs.git
+[submodule "emacs/doom/doomemacs"]
+	path = emacs/doom/doomemacs
+	url = https://github.com/doomemacs/doomemacs.git

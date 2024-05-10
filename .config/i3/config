@@ -21,7 +21,8 @@ set $lockScreenWallpaper /usr/share/wallpapers/garuda-wallpapers/Dr460nized\ Hon
 ### Applications: ###
 
 # set $preferredTerminalEmulator /usr/bin/alacritty
-set $preferredTerminalEmulator /usr/bin/wezterm
+# set $preferredTerminalEmulator /usr/bin/wezterm
+set $preferredTerminalEmulator /usr/bin/kitty
 set $preferredBrowser /usr/bin/firedragon
 # set $preferredFileManager /usr/bin/thunar
 set $preferredFileManager /usr/bin/dolphin
@@ -46,10 +47,8 @@ bindsym Print exec --no-startup-id $preferredScreenCaptureTool
 ### Start a Terminal Emulator: ###
 # bindsym $super+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 wezterm"
 bindsym $super+Return exec "tdrop -mta -w -12 -h -36 -x 6 -y 6 kitty"
-bindsym $super+Shift+Return scratchpad show; resize set 1900px 1036px; move position center
-# bindsym $super+Shift+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacs --with-profile=stemacs"
-# bindsym $super+$alt+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacsclient -c -s doom -a emacs"
-# bindsym $super+Control+Return exec "tdrop -mta -w -20 -h -44 -x 10 -y 9 emacs --with-profile=space"
+bindsym $super+Shift+Return exec "tdrop -mta -w -12 -h -36 -x 6 -y 6 emacsclient -c -s doom -a doom"
+bindsym $super+$alt+Return exec "tdrop -mta -w -12 -h -36 -x 6 -y 6 emacsclient -c -s stemacs -a stemacs"
 
 # - You can change the preferredTerminalEmulator variable
 # - Terminal can also be started using their individual keybindings
@@ -99,10 +98,12 @@ exec --no-startup-id ~/.local/bin/fastfetch-garuda
 exec --no-startup-id xset s off &
 exec --no-startup-id xset dpms force off &
 
-exec --no-startup-id "emacs --with-profile=doom --daemon"
+exec --no-startup-id '/usr/bin/emacs --init-directory="~/dotfiles/emacs/doom/doomemacs" --bg-daemon="doom"'
+exec --no-startup-id '/usr/bin/emacs --init-directory="~/dotfiles/emacs/stemacs/stemacs" --bg-daemon="stemacs"'
+
 exec --no-startup-id syncthing &
 
-exec --no-startup-id 'codium --password-store="kwallet5" &'
+# exec --no-startup-id 'codium --password-store="kwallet5" &'
 for_window [class="VSCodium"] move scratchpad; floating disable
 
 exec --no-startup-id "vboxheadless -s WoSEE &"

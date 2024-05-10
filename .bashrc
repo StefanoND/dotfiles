@@ -506,7 +506,7 @@ export CARGO_INSTALL_ROOT=$HOME/.cargo
 export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.dotnet/tools"
-export PATH="$PATH:$HOME/dotfiles/emacs/.doom.d/bin"
+export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export PATH="$PATH:/usr/local"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
@@ -580,3 +580,8 @@ eval "$(thefuck --alias fk)"
 
 # Zoxide (better cd)
 eval "$(zoxide init bash)"
+
+export LSP_USE_PLISTS=true
+
+DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
+STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
