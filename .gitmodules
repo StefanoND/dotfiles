@@ -1,18 +1,9 @@
-[submodule "emacs/.doom.d"]
-	path = emacs/.doom.d
-	url = https://github.com/doomemacs/doomemacs
-[submodule "emacs/.spacemacs.d"]
-	path = emacs/.spacemacs.d
-	url = https://github.com/syl20bnr/spacemacs
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = https://github.com/StefanoND/stvim.git
 [submodule "scripts/fzf-git.sh"]
 	path = scripts/fzf-git.sh
 	url = https://github.com/junegunn/fzf-git.sh.git
-[submodule "/home/archuser/dotfiles/apps/oh-my-bash"]
-	path = /home/archuser/dotfiles/apps/oh-my-bash
-	url = https://github.com/ohmybash/oh-my-bash.git
 [submodule "apps/ble.sh"]
 	path = apps/ble.sh
 	url = https://github.com/akinomyoga/ble.sh.git
