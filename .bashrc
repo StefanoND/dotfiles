@@ -500,7 +500,7 @@ fi
 #######################################################
 
 # Makes new panels open $HOME instead of folder you're currently in
-wezterm set-working-directory "$HOME"
+# wezterm set-working-directory "$HOME"
 
 export CARGO_INSTALL_ROOT=$HOME/.cargo
 export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"

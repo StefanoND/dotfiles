@@ -310,6 +310,7 @@ PKGT=(
   # LSP
   'cmake-language-server'
   'gdtoolkit'
+  'argcomplete'
 )
 
 for PKG in "${PKGT[@]}"; do
