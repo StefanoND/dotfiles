@@ -471,9 +471,10 @@ echo 'Installing DOOM Emacs'
 echo
 "$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom install
 
-emacs
+emacs &
 sleep 5s
 sudo killall -9 emacs
+sleep 5s
 "$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom sync
 sleep 1s
 

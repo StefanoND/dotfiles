@@ -19,3 +19,6 @@
 [submodule "apps/z"]
 	path = apps/z
 	url = https://github.com/rupa/z.git
+[submodule ".config/tmux/plugins/tpm"]
+	path = .config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
