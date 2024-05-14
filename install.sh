@@ -142,18 +142,59 @@ if [ -d ~/.omnisharp ]; then
 fi
 ln -svf ~/dotfiles/.omnisharp ~/
 
+if [ -d ~/.doom.d ]; then
+  mv ~/.doom.d ~/dotfiles/backup/
+  sync
+fi
+ln -svf ~/dotfiles/emacs/doom/.doom.d ~/
+
+if [ -d ~/.stemacs.d ]; then
+  mv ~/.stemacs.d ~/dotfiles/backup/
+  sync
+fi
+ln -svf ~/dotfiles/emacs/stemacs/.stemacs.d ~/
+
+if [ -d ~/.gnupg ]; then
+  mv ~/.gnupg ~/dotfiles/backup/
+  sync
+fi
+ln -svf /mnt/SSD_1TB_WORK/.gnupg ~/
+
+if [ -d ~/.ssh ]; then
+  mv ~/.ssh ~/dotfiles/backup/
+  sync
+fi
+ln -svf /mnt/SSD_1TB_WORK/.ssh ~/
+
+ln -svf /mnt/SSD_1TB_WORK ~/WORK
+ln -svf /mnt/SSD_1TB_WORK/org ~/org
+ln -svf /mnt/SSD_1TB_WORK/WoSEE ~/WOSEE
+ln -svf /mnt/SSD_1TB_WORK/org ~/Documents/org
+ln -svf /mnt/SSD_1TB_WORK/vault ~/vault
+ln -svf /mnt/SSD_1TB_WORK/Projects ~/PROJECTS
+ln -svf /mnt/SSD_1TB_WORK/StrifeEngine ~/STRIFE
+ln -svf /mnt/SSD_1TB_WORK/Godot ~/GODOT
+ln -svf /mnt/SSD_1TB_WORK/Unity ~/UNITY
+ln -svf /mnt/SSD_1TB_WORK/UnrealEngine ~/UNREAL
+ln -svf /mnt/SSD_1TB_GAMES ~/GAMES
+ln -svf /mnt/HDD_COMMON ~/COMMON
+ln -svf /mnt/HDD_LINUX ~/LINUX
+
 sync
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # PACMAN
 PKGS=(
+  # Tools
   'rustup'                  # Rust
   'meson'                   # High productivity build system
   'mingw-w64'               # MinGW Cross-compiler pack (binutils, crt, gcc, headers and winpthreads)
   'libconfig'               # C/C++ Configuration file library
   'gdb'                     # GNU Debugger
   'lldb'                    # High performance debugger
+  'bear'                    # C++ compilation database generator
+
   'flatpak'                 # Mostly Sandboxed Package Manager
   'flatpak-xdg-utils'       # Tools for Flatpak
   'neovim'                  # Good Text Editor
@@ -168,12 +209,25 @@ PKGS=(
   'skanlite'                # Image Scanning App (If you have a scanner or aio printer/scanner)
   'tmux'                    # Terminal Multiplexer
   'vifm'                    # Vim-like file manager
-  'ttf-firacode-nerd'       # My personal favorite font for programming
   'tuned'                   #
   'zoxide'                  #
   'fzf'                     # Fuzzy finder
   'git-delta'               #
   'thefuck'                 # Auto correct past mistakes in terminal
+
+  # Fonts
+  'noto-fonts'       # Additional variants of noto fonts
+  'noto-fonts-extra'       # Additional variants of noto fonts
+  'noto-fonts-cjk'         # Chinese Japanese Korean (CJK) characters support
+  'noto-fonts-emoji'       # Support for emojis
+  'ttf-firacode-nerd'       # My personal favorite font for programming
+  'powerline-fonts'         # Patched fonts for powerline
+  'ttf-ms-fonts'         # Patched fonts for powerline
+
+
+  # Shell/Terminal
+  'starship'                # Terminal customizable prompt for shells
+  'qalc'                    # Terminal Calculator
   'autojump'                #
 
   # VM
@@ -181,6 +235,64 @@ PKGS=(
   'libvirt'
   'virt-manager'
   'edk2-ovmf'
+
+  # Neovim "Dependencies"
+  'ripgrep'
+  'fd'
+  'shfmt'
+  'shellcheck'
+  'lazygit'
+  'omnisharp-roslyn'
+  'vscode-json-languageserver'
+  'lua-language-server'
+  'rust-analyzer'
+  'yaml-language-server'
+  'bash-language-server'
+
+  # LSP
+  'python-pip' # Required to install some LSP servers
+  'npm'        # Required to install some LSP servers
+  'yarn'       # Required to install some LSP servers
+  'lua-language-server'
+  'bash-language-server'
+  'rust-analyzer'
+  # C Sharp
+  'dotnet-sdk-6.0'
+  'dotnet-sdk-7.0'
+  'mono'
+  'mono-msbuild'
+  'libuv'
+
+  # Emacs "dependencies"
+  'aspell'
+  'enchant'
+  'hunspell'
+  'gnuplot'
+  'maim'
+  'hydra'
+  'ispell'
+  'aspell-en'
+  'aspell-pt'
+  'hunspell-en_us'
+  'hunspell-en_gb'
+  'hunspell-pt-br'
+
+  # Misc
+  'figlet'                      # Make large letters out of text
+  'freerdp'                     # RDP Software
+  'tumbler'                     # D-Bus thumbnailing service
+  'papirus-icon-theme'          # Theme
+  'ark'                         # (KDE) (Un)packer software
+  'dolphin'                     # (KDE) File manager
+  'dolphin-plugins'             # (KDE) Plugins for Dolphin
+  'gwenview'                    # (KDE) Image viewer
+  'kate'                        # (KDE) Text Editor
+  'kleopatra'                   # (KDE) Certificate Manager
+  'okular'                      # (KDE) Document Viewer
+  'qalculate-qt'                # Calculator
+  'btop'
+  'jre21-openjdk'
+  'jdk21-openjdk'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -191,8 +303,55 @@ for PKG in "${PKGS[@]}"; do
   sync
 done
 
+PKGT=(
+  # LSP
+  'cmake-language-server'
+  'gdtoolkit'
+)
+
+for PKG in "${PKGT[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  pip install --break-system-packages "$PKG"
+  echo
+  sleep 1s
+done
+
+PKGTS=(
+  # LSP
+  'vscode-langservers-extracted'
+  'sql-language-server'
+)
+
+for PKG in "${PKGTS[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  sudo npm i -g "$PKG"
+  echo
+  sleep 1s
+done
+
+PKGST=(
+  # LSP
+  'yaml-language-server'
+)
+
+for PKG in "${PKGST[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  yarn global add "$PKG"
+  echo
+  sleep 1s
+done
+
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH="$PATH:/root/.dotnet/tools"
+
+dotnet tool install --global csharp-ls
+sudo dotnet tool install --global csharp-ls
 
 echo
 echo "Adding flathub"
@@ -227,6 +386,7 @@ PKGFP=(
   'com.valvesoftware.Steam'                       # Steam
   'net.lutris.Lutris'                             # Lutris
   'io.github.achetagames.epic_asset_manager'      # Epic Games' Marketplace for Linux
+  'io.gdevs.GDLauncher'                           # Minecraft Launcher
   'net.davidotek.pupgui2'                         # ProtonUp-Qt
   'io.github.antimicrox.antimicrox'               # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
 
@@ -299,6 +459,17 @@ echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
 sync
 
 echo
+echo 'Installing DOOM Emacs'
+echo
+"$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom install
+
+emacs
+sleep 5s
+sudo killall -9 emacs
+"$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom sync
+sleep 1s
+
+echo
 echo "Enabling tuned"
 echo
 sudo systemctl enable --now tuned.service
@@ -345,6 +516,94 @@ sleep 1s
 sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/home)/allocation/data/bg_reclaim_threshold"
 sync
 sleep 1s
+
+# Enabling autologin
+sudo sed -i "0,/\[Autologin\]/s//\[Autologin\]\nUser\=$(logname)/" /etc/sddm.conf
+
+echo
+echo "Setting up fq_pie queue discipline for TCP congestion control"
+echo
+echo 'net.core.default_qdisc = fq_pie' | sudo tee /etc/sysctl.d/90-override.conf
+sleep 1s
+
+echo
+echo "Amending journald Logging to 200M"
+echo
+sudo sed -i "s|#SystemMaxUse=.*|SystemMaxUse=200M|g" /etc/systemd/journald.conf
+sleep 1s
+
+echo
+echo "Restricting Kernel Log Access"
+echo
+sudo sysctl -w kernel.dmesg_restrict=1
+sleep 1s
+
+if ! [ -d "$HOME"/.tmux/plugins/tpm ]; then
+  mkdir -p "$HOME"/.tmux/plugins
+  sync
+fi
+if ! [ -d "$HOME"/.tmux/plugins/tpm ]; then
+  echo
+  echo 'Cloning tmux plugin manager'
+  echo
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  sync
+  sleep 1s
+fi
+
+if ! [ -f /etc/sysctl.d/99-sysctl.conf ]; then
+  sudo touch /etc/sysctl.d/99-sysctl.conf
+fi
+
+printf "fs.inotify.max_user_instances\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.inotify.max_user_watches=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "vm.max_map_count=262144\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.tcp_fin_timeout=5\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.sched_cfs_bandwidth_slice_us=3000\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.core.rmem_max=2621440\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.core.wmem_max=2621440\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.core_pipe_limit=16\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.suid_dumpable=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.sysrq=16\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.core_uses_pid=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.default.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.docker0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.enp34s0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.lo.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.tun0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.vboxnet0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.virbr0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.default.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.docker0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.enp34s0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.lo.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.tun0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.vboxnet0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.virbr0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.default.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.docker0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.enp34s0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.lo.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.tun0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.vboxnet0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.conf.virbr0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.ipv4.ping_group_range=0 2147483647\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.core.default_qdisc=fq_codel\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.protected_hardlinks=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.protected_symlinks=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.protected_regular=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.protected_fifos=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.pid_max=4194304\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "fs.aio-max-nr=1048576\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "vm.unprivileged_userfaultfd=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "vm.swappiness=133\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.nmi_watchdog=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.unprivileged_userns_clone=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.printk=3 3 3 3\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "kernel.sysrq=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+sync
+sudo sysctl --system
 
 # Enable services
 sudo systemctl enable fstrim.timer
