@@ -13,3 +13,6 @@
 [submodule "emacs/doom/doomemacs"]
 	path = emacs/doom/doomemacs
 	url = https://github.com/doomemacs/doomemacs.git
+[submodule "apps/hdrop"]
+	path = apps/hdrop
+	url = https://github.com/Schweber/hdrop.git
