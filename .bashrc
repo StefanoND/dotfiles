@@ -581,6 +581,8 @@ eval "$(thefuck --alias fk)"
 # Zoxide (better cd)
 eval "$(zoxide init bash)"
 
+. "$HOME"/dotfiles/apps/z/z.sh
+
 export LSP_USE_PLISTS=true
 
 DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"

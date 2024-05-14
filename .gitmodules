@@ -16,3 +16,6 @@
 [submodule "apps/hdrop"]
 	path = apps/hdrop
 	url = https://github.com/Schweber/hdrop.git
+[submodule "apps/z"]
+	path = apps/z
+	url = https://github.com/rupa/z.git

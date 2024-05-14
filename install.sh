@@ -194,6 +194,8 @@ PKGS=(
   'gdb'                     # GNU Debugger
   'lldb'                    # High performance debugger
   'bear'                    # C++ compilation database generator
+  'cmake'
+  'extra-cmake-modules'
 
   'flatpak'                 # Mostly Sandboxed Package Manager
   'flatpak-xdg-utils'       # Tools for Flatpak
@@ -248,6 +250,7 @@ PKGS=(
   'rust-analyzer'
   'yaml-language-server'
   'bash-language-server'
+  'go'
 
   # LSP
   'python-pip' # Required to install some LSP servers
@@ -346,6 +349,8 @@ for PKG in "${PKGST[@]}"; do
   echo
   sleep 1s
 done
+
+go install golang.org/x/tools/gopls@latest
 
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH="$PATH:/root/.dotnet/tools"
@@ -451,11 +456,13 @@ sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
 sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
 sync
 
+echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
+sync
+echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
+sync
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
 sync
 echo 'PATH="$PATH:/root/.dotnet/tools"' | sudo tee -a /etc/environment
-sync
-echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
 sync
 
 echo
