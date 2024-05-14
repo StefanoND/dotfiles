@@ -1,5 +1,16 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Performance - GC buffer Before Everything
+(setq gc-cons-threshold #x40000000)
+(setq read-process-output-max (* 1024 1024 4)) ;; 4mb
+
+;;  Quickier filename handling, resetted after load
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+;;  The basic fundamental mode for begin with
+(setq initial-major-mode 'fundamental-mode)
+
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
@@ -80,11 +91,6 @@
 
 ;; which key
 (setq which-key-idle-delay 0.3)
-
-;; Performance
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-
 
 ;; we recommend using use-package to organize your init.el
 (use-package codeium
@@ -174,12 +180,25 @@
 (setq-default prescient-history-length 1000)
 (setq lsp-log-io nil) ; if set to true can cause a performance hit
 
+;;treesitter
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
 ;; GDScript
 (setq treesit-extra-load-path '("~/tree-sitter-gdscript/src/"))
 (setq gdscript-use-tab-indents t) ;; If true, use tabs for indents. Default: t
 (setq gdscript-indent-offset 4) ;; Controls the width of tab-based indents
 (setq gdscript-godot-executable "/usr/bin/godot") ;; Use this executable instead of 'godot' to open the Godot editor.
 (setq gdscript-gdformat-save-and-format t) ;; Save all buffers and format them with gdformat anytime Godot executable is run.
+
+;; ;; C#
+;; (use-package csharp-mode
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode)))
 
 ;; lsp performance
 (setq lsp-use-plists "true")
@@ -269,13 +288,6 @@
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
   (map! :leader "su" #'undo-tree-visualize))
-
-;;treesitter
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 ;; treemacs
 (after! treemacs

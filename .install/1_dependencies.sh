@@ -425,10 +425,10 @@ echo
 echo "Enabling btrfs's automatic balance at 10% threshold"
 echo
 sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/root)/allocation/data/bg_reclaim_threshold"
+sync
 sleep 1s
 sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/home)/allocation/data/bg_reclaim_threshold"
-sleep 1s
-
+sync
 sleep 1s
 
 exit 0
