@@ -8,6 +8,11 @@ if ! [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+if ! [ -d ~/.apps ]; then
+  mkdir -p ~/.apps
+  sync
+fi
+
 if [ -f ~/.bash_aliases ]; then
   mv ~/.bash_aliases ~/dotfiles/backup/
   sync
@@ -56,12 +61,6 @@ if [ -f ~/.gitconfig ]; then
 fi
 ln -svf ~/dotfiles/.gitconfig ~/
 
-if [ -f ~/.gtkrc-2.0.mine ]; then
-  mv ~/.gtkrc-2.0.mine ~/dotfiles/backup/
-  sync
-fi
-ln -svf ~/dotfiles/.gtkrc-2.0.mine ~/
-
 if [ -f ~/.profile ]; then
   mv ~/.profile ~/dotfiles/backup/
   sync
@@ -92,6 +91,12 @@ if [ -d ~/.config/godot ]; then
   sync
 fi
 ln -svf ~/dotfiles/.config/godot ~/.config/
+
+if [ -d ~/.config/hypr ]; then
+  mv ~/.config/hypr ~/dotfiles/backup/.config/
+  sync
+fi
+ln -svf ~/dotfiles/.config/hypr ~/.config/
 
 # i3
 # if [ -d ~/.config/i3 ]; then
@@ -154,6 +159,18 @@ if [ -d ~/.stemacs.d ]; then
 fi
 ln -svf ~/dotfiles/emacs/stemacs/.stemacs.d ~/
 
+if [ -f ~/activewindow.sh ]; then
+  mv ~/activewindow.sh ~/dotfiles/backup/
+  sync
+fi
+ln -svf ~/dotfiles/scripts/activewindow.sh ~/
+
+if [ -f ~/appify.sh ]; then
+  mv ~/appify.sh ~/dotfiles/backup/
+  sync
+fi
+ln -svf ~/dotfiles/scripts/appify.sh ~/
+
 sync
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
@@ -189,6 +206,7 @@ PKGS=(
   'fzf'                     # Fuzzy finder
   'git-delta'               #
   'thefuck'                 # Auto correct past mistakes in terminal
+  'syncthing'
 
   # Fonts
   'noto-fonts'       # Additional variants of noto fonts
@@ -422,6 +440,7 @@ PKGFP=(
   'fr.handbrake.ghb'                              # Transcoder
   'io.github.shiftey.Desktop'                     # Github Desktop app
   'com.visualstudio.code'                         # VSCode, required for *some* game engines generate project files properly
+  'com.unity.UnityHub'                            # Game Engine
 
   # Games/Game Related
   'com.heroicgameslauncher.hgl'                   # Epic Games and GOG launcher
@@ -474,7 +493,7 @@ printf "Server = http://repo.steampowered.com/arch/valveaur\n" | sudo tee -a /et
 sync
 sudo pacman -Syy
 
-sed -i "s/font-family.*/font-family:FiraCode Nerd Font Mono/g" "$HOME"/.config/waybar/style.css
+sed -i "s/font-family.*/font-family: FiraCode Nerd Font Mono\;/g" "$HOME"/.config/waybar/style.css
 
 # Change pacman.conf
 sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 20/g" /etc/pacman.conf
@@ -583,19 +602,6 @@ echo
 sudo sysctl -w kernel.dmesg_restrict=1
 sleep 1s
 
-if ! [ -d "$HOME"/.tmux/plugins/tpm ]; then
-  mkdir -p "$HOME"/.tmux/plugins
-  sync
-fi
-if ! [ -d "$HOME"/.tmux/plugins/tpm ]; then
-  echo
-  echo 'Cloning tmux plugin manager'
-  echo
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  sync
-  sleep 1s
-fi
-
 if ! [ -f /etc/sysctl.d/99-sysctl.conf ]; then
   sudo touch /etc/sysctl.d/99-sysctl.conf
 fi
@@ -653,12 +659,18 @@ sleep 1s
 
 # Enable services
 sudo systemctl enable fstrim.timer
+sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
 sudo systemctl enable btrfs-scrub@home.timer
 sleep 1s
 
 cd "$HOME"/dotfiles/apps/hdrop
 sudo make install
+sync
+sleep 1s
+sudo make install
+sync
+sleep 1s
 
 echo
 echo "Done..."
