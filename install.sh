@@ -175,7 +175,6 @@ PKGS=(
   'flatpak-xdg-utils'       # Tools for Flatpak
   'neovim'                  # Good Text Editor
   'emacs-wayland'           # OS with bad text editor
-  'hdrop'                   # TDrop for Wayland
   'grim'                    # Grimshot dependency
   'slurp'                   # Grimshot dependency
   'grimshot'                # Screenshot App
@@ -203,7 +202,7 @@ PKGS=(
 
   # Shell/Terminal
   'starship'                # Terminal customizable prompt for shells
-  'qalc'                    # Terminal Calculator
+  'qalculate-qt'            # Terminal Calculator
   'autojump'                #
 
   # VM
@@ -650,11 +649,27 @@ printf "kernel.printk=3 3 3 3\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "kernel.sysrq=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 sync
 sudo sysctl --system
+sleep 1s
 
 # Enable services
 sudo systemctl enable fstrim.timer
 sudo systemctl enable btrfs-scrub@-.timer
 sudo systemctl enable btrfs-scrub@home.timer
 sleep 1s
+
+cd "$HOME"/dotfiles/apps/hdrop
+sudo make install
+
+echo
+echo "Done..."
+echo
+sleep 1s
+echo
+echo "Press Y to reboot now or N if you plan to manually reboot later."
+echo
+read REBOOT
+if [ "${REBOOT,,}" = y ]; then
+    reboot
+fi
 
 exit 0
