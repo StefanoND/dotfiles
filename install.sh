@@ -19,12 +19,6 @@ if [ -f ~/.bash_aliases ]; then
 fi
 ln -svf ~/dotfiles/.bash_aliases ~/
 
-if [ -f ~/.bash_logout ]; then
-  mv ~/.bash_logout ~/dotfiles/backup/
-  sync
-fi
-ln -svf ~/dotfiles/.bash_logout ~/
-
 if [ -f ~/.bash_profile ]; then
   mv ~/.bash_profile ~/dotfiles/backup/
   sync
@@ -36,12 +30,6 @@ if [ -f ~/.bashrc ]; then
   sync
 fi
 ln -svf ~/dotfiles/.bashrc ~/
-
-if [ -f ~/.dircolors ]; then
-  mv ~/.dircolors ~/dotfiles/backup/
-  sync
-fi
-ln -svf ~/dotfiles/.dircolors ~/
 
 if [ -f ~/.editorconfig ]; then
   mv ~/.editorconfig ~/dotfiles/backup/
