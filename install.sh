@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if ! [ "$EUID" -ne 0 ]; then
     echo
@@ -154,32 +154,6 @@ if [ -d ~/.stemacs.d ]; then
 fi
 ln -svf ~/dotfiles/emacs/stemacs/.stemacs.d ~/
 
-if [ -d ~/.gnupg ]; then
-  mv ~/.gnupg ~/dotfiles/backup/
-  sync
-fi
-ln -svf /mnt/SSD_1TB_WORK/.gnupg ~/
-
-if [ -d ~/.ssh ]; then
-  mv ~/.ssh ~/dotfiles/backup/
-  sync
-fi
-ln -svf /mnt/SSD_1TB_WORK/.ssh ~/
-
-ln -svf /mnt/SSD_1TB_WORK ~/WORK
-ln -svf /mnt/SSD_1TB_WORK/org ~/org
-ln -svf /mnt/SSD_1TB_WORK/WoSEE ~/WOSEE
-ln -svf /mnt/SSD_1TB_WORK/org ~/Documents/org
-ln -svf /mnt/SSD_1TB_WORK/vault ~/vault
-ln -svf /mnt/SSD_1TB_WORK/Projects ~/PROJECTS
-ln -svf /mnt/SSD_1TB_WORK/StrifeEngine ~/STRIFE
-ln -svf /mnt/SSD_1TB_WORK/Godot ~/GODOT
-ln -svf /mnt/SSD_1TB_WORK/Unity ~/UNITY
-ln -svf /mnt/SSD_1TB_WORK/UnrealEngine ~/UNREAL
-ln -svf /mnt/SSD_1TB_GAMES ~/GAMES
-ln -svf /mnt/HDD_COMMON ~/COMMON
-ln -svf /mnt/HDD_LINUX ~/LINUX
-
 sync
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
@@ -279,6 +253,18 @@ PKGS=(
   'hunspell-en_us'
   'hunspell-en_gb'
   'hunspell-pt-br'
+  'direnv'
+  'docker'
+  'docker-buildx'
+  'docker-compose'
+  'docker-machine'
+  'zig'
+  'zls'
+  'nim'
+  'nimble'
+  'sqlite'
+  'sqlitebrowser'
+  'graphviz'
 
   # Misc
   'figlet'                      # Make large letters out of text
@@ -292,6 +278,7 @@ PKGS=(
   'kate'                        # (KDE) Text Editor
   'kleopatra'                   # (KDE) Certificate Manager
   'okular'                      # (KDE) Document Viewer
+  'gwenview'                    # (KDE) Image Viewer
   'qalculate-qt'                # Calculator
   'btop'
   'jre21-openjdk'
@@ -306,11 +293,26 @@ for PKG in "${PKGS[@]}"; do
   sync
 done
 
+# PARU
+# PKGPARU=(
+#   ''
+# )
+#
+# for PKG in "${PKGPARU[@]}"; do
+#   echo
+#   echo "INSTALLING: ${PKG}"
+#   echo
+#   paru -S "$PKG" --noconfirm --needed --sudoloop
+#   sync
+# done
+
+# PIP
 PKGT=(
   # LSP
   'cmake-language-server'
   'gdtoolkit'
   'argcomplete'
+  'grip'
 )
 
 for PKG in "${PKGT[@]}"; do
@@ -322,10 +324,14 @@ for PKG in "${PKGT[@]}"; do
   sleep 1s
 done
 
+# NPM
 PKGTS=(
   # LSP
   'vscode-langservers-extracted'
   'sql-language-server'
+  'dockerfile-language-server-nodejs'
+  'markdownlint'
+  'marked'
 )
 
 for PKG in "${PKGTS[@]}"; do
@@ -337,6 +343,7 @@ for PKG in "${PKGTS[@]}"; do
   sleep 1s
 done
 
+# YARN
 PKGST=(
   # LSP
   'yaml-language-server'
@@ -351,13 +358,43 @@ for PKG in "${PKGST[@]}"; do
   sleep 1s
 done
 
-go install golang.org/x/tools/gopls@latest
+# GO
+PKGGO=(
+  # LSP
+  'golang.org/x/tools/gopls@latest'
+)
+
+for PKG in "${PKGGO[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  go install "$PKG"
+  echo
+  sleep 1s
+done
+
+export DOCKFMT_SHA256="f6bc025739cf4f56287e879c75c11cc73ebafdf93a57c9bcd8805d1ab82434a0"
+sudo curl -fSL "https://github.com/jessfraz/dockfmt/releases/download/v0.3.3/dockfmt-linux-amd64" -o "/usr/local/bin/dockfmt"
+echo "${DOCKFMT_SHA256}  /usr/local/bin/dockfmt" | sha256sum -c -
+sudo chmod a+x "/usr/local/bin/dockfmt"
 
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH="$PATH:/root/.dotnet/tools"
 
-dotnet tool install --global csharp-ls
-sudo dotnet tool install --global csharp-ls
+PKGDN=(
+  # LSP
+  'csharp-ls'
+  'csharpier'
+)
+
+for PKG in "${PKGDN[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  dotnet tool install --global "$PKG"
+  echo
+  sleep 1s
+done
 
 echo
 echo "Adding flathub"
