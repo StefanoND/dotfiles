@@ -405,7 +405,7 @@ sync
 PKGFP=(
   # Main
   'com.github.tchx84.Flatseal'                    # Flatpak permission manager
-  'rg.libreoffice.LibreOffice'                    # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
+  'org.libreoffice.LibreOffice'                    # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
   'md.obsidian.Obsidian'                          # A knowledge base that works on local Markdown files
   'org.telegram.desktop'                          # Messaging App
   'com.discordapp.Discord'                        # VoIP app
