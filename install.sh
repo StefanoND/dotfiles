@@ -62,6 +62,12 @@ if [ -d ~/.config/bat ]; then
 fi
 ln -svf ~/dotfiles/.config/bat ~/.config/
 
+if [ -d ~/.config/cura ]; then
+  mv ~/.config/cura ~/dotfiles/backup/.config/
+  sync
+fi
+ln -svf ~/dotfiles/.config/cura ~/.config/
+
 if [ -d ~/.config/godot ]; then
   mv ~/.config/godot ~/dotfiles/backup/.config/
   sync
@@ -98,6 +104,18 @@ ln -svf ~/dotfiles/.config/nvim ~/.config/
 #   sync
 # fi
 # ln -svf ~/dotfiles/.config/picom ~/.config/
+
+if [ -d ~/.config/PrusaSlicer ]; then
+  mv ~/.config/PrusaSlicer ~/dotfiles/backup/.config/
+  sync
+fi
+ln -svf ~/dotfiles/.config/PrusaSlicer ~/.config/
+
+if [ -d ~/.config/SuperSlicer ]; then
+  mv ~/.config/SuperSlicer ~/dotfiles/backup/.config/
+  sync
+fi
+ln -svf ~/dotfiles/.config/SuperSlicer ~/.config/
 
 if [ -d ~/.config/tmux ]; then
   mv ~/.config/tmux ~/dotfiles/backup/.config/
@@ -280,6 +298,7 @@ PKGS=(
   'btop'
   'jre21-openjdk'
   'jdk21-openjdk'
+  'gio'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -451,6 +470,8 @@ PKGFP=(
   'org.kde.kleopatra'                             # Certificate Manager and Unified Crypto GUI
   'org.kde.okteta'                                # Hex Editor
   'com.bitwarden.desktop'                         # Password Manager
+  'org.getmonero.Monero'                          # Crypto
+  'org.eclipse.Java'                              # Needed for M$ TFVC (Terrible Fucking Version Control)
 #    ''         #
 )
 
