@@ -8,162 +8,164 @@ if ! [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-if ! [ -d ~/.apps ]; then
-  mkdir -p ~/.apps
+
+
+if ! [ -d "$HOME"/.apps ]; then
+  mkdir -p "$HOME"/.apps
   sync
 fi
 
-if [ -f ~/.bash_aliases ]; then
-  mv ~/.bash_aliases ~/dotfiles/backup/
+if [ -f "$HOME"/.bash_aliases ]; then
+  mv "$HOME"/.bash_aliases "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.bash_aliases ~/
+ln -svf "$HOME"/dotfiles/.bash_aliases "$HOME"/
 
-if [ -f ~/.bashrc ]; then
-  mv ~/.bashrc ~/dotfiles/backup/
+if [ -f "$HOME"/.bashrc ]; then
+  mv "$HOME"/.bashrc "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.bashrc ~/
+ln -svf "$HOME"/dotfiles/.bashrc "$HOME"/
 
-if [ -f ~/.editorconfig ]; then
-  mv ~/.editorconfig ~/dotfiles/backup/
+if [ -f "$HOME"/.editorconfig ]; then
+  mv "$HOME"/.editorconfig "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.editorconfig ~/
+ln -svf "$HOME"/dotfiles/.editorconfig "$HOME"/
 
-if [ -f ~/.gitattributes ]; then
-  mv ~/.gitattributes ~/dotfiles/backup/
+if [ -f "$HOME"/.gitattributes ]; then
+  mv "$HOME"/.gitattributes "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.gitattributes ~/
+ln -svf "$HOME"/dotfiles/.gitattributes "$HOME"/
 
-if [ -f ~/.gitconfig ]; then
-  mv ~/.gitconfig ~/dotfiles/backup/
+if [ -f "$HOME"/.gitconfig ]; then
+  mv "$HOME"/.gitconfig "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.gitconfig ~/
+ln -svf "$HOME"/dotfiles/.gitconfig "$HOME"/
 
 # Wezterm config
-# if [ -f ~/.wezterm.lua ]; then
-#   mv ~/.wezterm.lua ~/dotfiles/backup/
+# if [ -f $HOME/.wezterm.lua ]; then
+#   mv $HOME/.wezterm.lua $HOME/dotfiles/backup/
 #   sync
 # fi
-# ln -svf ~/dotfiles/.wezterm.lua ~/
+# ln -svf $HOME/dotfiles/.wezterm.lua $HOME/
 
-if [ -f ~/.config/starship.toml ]; then
-  mv ~/.config/starship.toml ~/dotfiles/backup/.config/
+if [ -f "$HOME"/.config/starship.toml ]; then
+  mv "$HOME"/.config/starship.toml "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/starship.toml ~/.config/
+ln -svf "$HOME"/dotfiles/.config/starship.toml "$HOME"/.config/
 
-if [ -d ~/.config/bat ]; then
-  mv ~/.config/bat ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/bat ]; then
+  mv "$HOME"/.config/bat "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/bat ~/.config/
+ln -svf "$HOME"/dotfiles/.config/bat "$HOME"/.config/
 
-if [ -d ~/.config/cura ]; then
-  mv ~/.config/cura ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/cura ]; then
+  mv "$HOME"/.config/cura "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/cura ~/.config/
+ln -svf "$HOME"/dotfiles/.config/cura "$HOME"/.config/
 
-if [ -d ~/.config/godot ]; then
-  mv ~/.config/godot ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/godot ]; then
+  mv "$HOME"/.config/godot "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/godot ~/.config/
+ln -svf "$HOME"/dotfiles/.config/godot "$HOME"/.config/
 
-if [ -d ~/.config/hypr ]; then
-  mv ~/.config/hypr ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/hypr ]; then
+  mv "$HOME"/.config/hypr "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/hypr ~/.config/
+ln -svf "$HOME"/dotfiles/.config/hypr "$HOME"/.config/
 
 # i3
-# if [ -d ~/.config/i3 ]; then
-#   mv ~/.config/i3 ~/dotfiles/backup/.config/
+# if [ -d $HOME/.config/i3 ]; then
+#   mv $HOME/.config/i3 $HOME/dotfiles/backup/.config/
 #   sync
 # fi
-# ln -svf ~/dotfiles/.config/i3 ~/.config/
+# ln -svf $HOME/dotfiles/.config/i3 $HOME/.config/
 
-if [ -d ~/.config/kitty ]; then
-  mv ~/.config/kitty ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/kitty ]; then
+  mv "$HOME"/.config/kitty "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/kitty ~/.config/
+ln -svf "$HOME"/dotfiles/.config/kitty "$HOME"/.config/
 
-if [ -d ~/.config/nvim ]; then
-  mv ~/.config/nvim ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/nvim ]; then
+  mv "$HOME"/.config/nvim "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/nvim ~/.config/
+ln -svf "$HOME"/dotfiles/.config/nvim "$HOME"/.config/
 
-# if [ -d ~/.config/picom ]; then
-#   mv ~/.config/picom ~/dotfiles/backup/.config/
+# if [ -d $HOME/.config/picom ]; then
+#   mv $HOME/.config/picom $HOME/dotfiles/backup/.config/
 #   sync
 # fi
-# ln -svf ~/dotfiles/.config/picom ~/.config/
+# ln -svf $HOME/dotfiles/.config/picom $HOME/.config/
 
-if [ -d ~/.config/PrusaSlicer ]; then
-  mv ~/.config/PrusaSlicer ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/PrusaSlicer ]; then
+  mv "$HOME"/.config/PrusaSlicer "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/PrusaSlicer ~/.config/
+ln -svf "$HOME"/dotfiles/.config/PrusaSlicer "$HOME"/.config/
 
-if [ -d ~/.config/SuperSlicer ]; then
-  mv ~/.config/SuperSlicer ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/SuperSlicer ]; then
+  mv "$HOME"/.config/SuperSlicer "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/SuperSlicer ~/.config/
+ln -svf "$HOME"/dotfiles/.config/SuperSlicer "$HOME"/.config/
 
-if [ -d ~/.config/tmux ]; then
-  mv ~/.config/tmux ~/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/tmux ]; then
+  mv "$HOME"/.config/tmux "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf ~/dotfiles/.config/tmux ~/.config/
+ln -svf "$HOME"/dotfiles/.config/tmux "$HOME"/.config/
 
-# if [ -d ~/.config/VSCodium ]; then
-#   mv ~/.config/VSCodium ~/dotfiles/backup/.config/
+# if [ -d $HOME/.config/VSCodium ]; then
+#   mv $HOME/.config/VSCodium $HOME/dotfiles/backup/.config/
 #   sync
 # fi
-# ln -svf ~/dotfiles/.config/VSCodium ~/.config/
+# ln -svf $HOME/dotfiles/.config/VSCodium $HOME/.config/
 
-if [ -f ~/.firedragon/firedragon.overrides.cfg ]; then
-  mv ~/.firedragon/firedragon.overrides.cfg ~/dotfiles/backup/.firedragon/
+if [ -f "$HOME"/.firedragon/firedragon.overrides.cfg ]; then
+  mv "$HOME"/.firedragon/firedragon.overrides.cfg "$HOME"/dotfiles/backup/.firedragon/
   sync
 fi
-ln -svf ~/dotfiles/.firedragon/firedragon.overrides.cfg ~/.firedragon/
+ln -svf "$HOME"/dotfiles/.firedragon/firedragon.overrides.cfg "$HOME"/.firedragon/
 
-if [ -d ~/.omnisharp ]; then
-  mv ~/.omnisharp ~/dotfiles/backup/
+if [ -d "$HOME"/.omnisharp ]; then
+  mv "$HOME"/.omnisharp "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/.omnisharp ~/
+ln -svf "$HOME"/dotfiles/.omnisharp "$HOME"/
 
-if [ -d ~/.doom.d ]; then
-  mv ~/.doom.d ~/dotfiles/backup/
+if [ -d "$HOME"/.doom.d ]; then
+  mv "$HOME"/.doom.d "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/emacs/doom/.doom.d ~/
+ln -svf "$HOME"/dotfiles/emacs/doom/.doom.d "$HOME"/
 
-if [ -d ~/.stemacs.d ]; then
-  mv ~/.stemacs.d ~/dotfiles/backup/
+if [ -d "$HOME"/.stemacs.d ]; then
+  mv "$HOME"/.stemacs.d "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/emacs/stemacs/.stemacs.d ~/
+ln -svf "$HOME"/dotfiles/emacs/stemacs/.stemacs.d "$HOME"/
 
-if [ -f ~/activewindow.sh ]; then
-  mv ~/activewindow.sh ~/dotfiles/backup/
+if [ -f "$HOME"/activewindow.sh ]; then
+  mv "$HOME"/activewindow.sh "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/scripts/activewindow.sh ~/
+ln -svf "$HOME"/dotfiles/scripts/activewindow.sh "$HOME"/
 
-if [ -f ~/appify.sh ]; then
-  mv ~/appify.sh ~/dotfiles/backup/
+if [ -f "$HOME"/appify.sh ]; then
+  mv "$HOME"/appify.sh "$HOME"/dotfiles/backup/
   sync
 fi
-ln -svf ~/dotfiles/scripts/appify.sh ~/
+ln -svf "$HOME"/dotfiles/scripts/appify.sh "$HOME"/
 
 sync
 

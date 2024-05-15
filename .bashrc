@@ -463,7 +463,7 @@ prefixWineboot() {
         flatpak run --env="WINEPREFIX=$1" --command=wineboot org.winehq.Wine "${*:2}"
 }
 
-# alias lookingglass="~/looking-glass-B5.0.1/client/build/looking-glass-client -F"
+# alias lookingglass=""$HOME"/looking-glass-B5.0.1/client/build/looking-glass-client -F"
 
 #######################################################
 # "Ultimate amazing command prompt"
@@ -510,9 +510,9 @@ export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export PATH="$PATH:/usr/local"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
-# The name is in ~/dotfiles/emacs/.emacs-profiles.el
+# The name is in "$HOME"/dotfiles/emacs/.emacs-profiles.el
 setdefaultemacsprofile() {
-        echo "$1" >~/dotfiles/emacs/.emacs-profile
+        echo "$1" > "$HOME"/dotfiles/emacs/.emacs-profile
 }
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -554,7 +554,7 @@ _fzf_compgen_dir() {
         fd --type d --hidden --exclude ".git" . "$1"
 }
 
-source ~/dotfiles/scripts/fzf-git.sh/fzf-git.sh
+source "$HOME"/dotfiles/scripts/fzf-git.sh/fzf-git.sh
 
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza -al --color=always --group-directories-first --icons --git | head -200'"
@@ -585,5 +585,5 @@ eval "$(zoxide init bash)"
 
 export LSP_USE_PLISTS=true
 
-DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
-STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
+export DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
+export STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
