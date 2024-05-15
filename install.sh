@@ -19,12 +19,6 @@ if [ -f ~/.bash_aliases ]; then
 fi
 ln -svf ~/dotfiles/.bash_aliases ~/
 
-if [ -f ~/.bash_profile ]; then
-  mv ~/.bash_profile ~/dotfiles/backup/
-  sync
-fi
-ln -svf ~/dotfiles/.bash_profile ~/
-
 if [ -f ~/.bashrc ]; then
   mv ~/.bashrc ~/dotfiles/backup/
   sync
@@ -48,12 +42,6 @@ if [ -f ~/.gitconfig ]; then
   sync
 fi
 ln -svf ~/dotfiles/.gitconfig ~/
-
-if [ -f ~/.profile ]; then
-  mv ~/.profile ~/dotfiles/backup/
-  sync
-fi
-ln -svf ~/dotfiles/.profile ~/
 
 # Wezterm config
 # if [ -f ~/.wezterm.lua ]; then
@@ -205,6 +193,10 @@ PKGS=(
   'powerline-fonts'         # Patched fonts for powerline
   'ttf-ms-fonts'         # Patched fonts for powerline
 
+  # Themes
+  'catppuccin-gtk-theme-mocha'
+  'catppuccin-cursors-mocha'
+  'papirus-icon-theme'
 
   # Shell/Terminal
   'starship'                # Terminal customizable prompt for shells
