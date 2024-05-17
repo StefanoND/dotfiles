@@ -103,7 +103,7 @@ alias torbrowser-launcher='cd ~/ && nohup flatpak run com.github.micahflee.torbr
 alias torbrowser='cd ~/ && nohup flatpak run com.github.micahflee.torbrowser-launcher &'
 alias mullvadbrowser='cd ~/ && nohup flatpak run net.mullvad.MullvadBrowser &'
 alias firefox='cd ~/ && nohup flatpak run org.mozilla.firefox &'
-alias spotify='cd ~/ && nohup flatpak run com.spotify.Client &'
+alias spotify='cd ~/ && nohup flatpak run com.spotify.Client --command="spotify --enable-features=UseOzonePlatform --ozone-platform=wayland" &'
 alias qalculate-qt='cd ~/ && nohup flatpak run io.github.Qalculate.qalculate-qt &'
 alias qalculate='cd ~/ && nohup flatpak run io.github.Qalculate.qalculate-qt &'
 alias gcolor='cd ~/ && nohup flatpak run nl.hjdskes.gcolor3 &'

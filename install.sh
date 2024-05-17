@@ -8,8 +8,6 @@ if ! [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-
-
 if ! [ -d "$HOME"/.apps ]; then
   mkdir -p "$HOME"/.apps
   sync
@@ -170,6 +168,7 @@ ln -svf "$HOME"/dotfiles/scripts/appify.sh "$HOME"/
 sync
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # PACMAN
 PKGS=(
@@ -202,7 +201,8 @@ PKGS=(
   'fzf'                     # Fuzzy finder
   'git-delta'               #
   'thefuck'                 # Auto correct past mistakes in terminal
-  'syncthing'
+  'syncthing'               #
+  'nextcloud-client'        #
 
   # Fonts
   'noto-fonts'       # Additional variants of noto fonts
@@ -216,7 +216,7 @@ PKGS=(
   # Themes
   'catppuccin-gtk-theme-mocha'
   'catppuccin-cursors-mocha'
-  'papirus-icon-theme'
+  'papirus-icon-theme-git'
 
   # Shell/Terminal
   'starship'                # Terminal customizable prompt for shells
@@ -242,6 +242,14 @@ PKGS=(
   'yaml-language-server'
   'bash-language-server'
   'go'
+
+  # Unreal Engine dependencies
+  'dotnet-host'
+  'dotnet-sdk'
+  'dotnet-runtime'
+  'dotnet-runtime-6.0'
+  'dotnet-runtime-7.0'
+  'babeltrace2'
 
   # LSP
   'python-pip' # Required to install some LSP servers
@@ -301,6 +309,9 @@ PKGS=(
   'jre21-openjdk'
   'jdk21-openjdk'
   'gio'
+  'xboxdrv'                     # Gamepad driver for Linux (Controller Support)
+  'gamemode'
+  'lib32-gamemode'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -312,17 +323,18 @@ for PKG in "${PKGS[@]}"; do
 done
 
 # PARU
-# PKGPARU=(
-#   ''
-# )
-#
-# for PKG in "${PKGPARU[@]}"; do
-#   echo
-#   echo "INSTALLING: ${PKG}"
-#   echo
-#   paru -S "$PKG" --noconfirm --needed --sudoloop
-#   sync
-# done
+PKGPARU=(
+  'libicu53'                    # Required for Unreal Engine
+  'opentabletdriver'            # Tablet Driver ("-git" version not working)
+)
+
+for PKG in "${PKGPARU[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  paru -S "$PKG" --noconfirm --needed --sudoloop
+  sync
+done
 
 # PIP
 PKGT=(
@@ -341,6 +353,26 @@ for PKG in "${PKGT[@]}"; do
   echo
   sleep 1s
 done
+
+echo
+echo "Enabling npm's tab completion"
+echo
+sudo npm install --global all-the-package-names
+sleep 1s
+
+echo
+echo "Updating npm to latest version"
+echo
+sudo npm install -g npm@latest
+sleep 1s
+
+echo
+echo "Auditting and fixing npm's issues/vulnerabilities (if there's any)"
+echo
+npm i --package-lock-only
+sync
+npm audit fix
+sleep 1s
 
 # NPM
 PKGTS=(
@@ -424,24 +456,53 @@ sync
 PKGFP=(
   # Main
   'com.github.tchx84.Flatseal'                    # Flatpak permission manager
-  'org.libreoffice.LibreOffice'                    # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
+  'org.libreoffice.LibreOffice'                   # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
   'md.obsidian.Obsidian'                          # A knowledge base that works on local Markdown files
-  'org.telegram.desktop'                          # Messaging App
   'com.discordapp.Discord'                        # VoIP app
   'com.github.eneshecan.WhatsAppForLinux'         # Messaging App
   'org.qbittorrent.qBittorrent'                   # Torrent app
   'org.tenacityaudio.Tenacity'                    # Audio Recorder and Editor
-  'com.obsproject.Studio'                         # Streaming software
   'info.smplayer.SMPlayer'                        # Media Player
   'io.mpv.Mpv'                                    # Media player
   'org.kde.krita'                                 # Digital Painting Software
-  'org.gimp.GIMP'                                 # GNU Image Manipulator
   'org.inkscape.Inkscape'                         # Vector Graphics Editor
   'org.blender.Blender'                           # 3D Modelling Software
   'fr.handbrake.ghb'                              # Transcoder
   'io.github.shiftey.Desktop'                     # Github Desktop app
   'com.visualstudio.code'                         # VSCode, required for *some* game engines generate project files properly
   'com.unity.UnityHub'                            # Game Engine
+
+  # GIMP
+  'org.gimp.GIMP'                                 # GNU Image Manipulator
+  'org.gimp.GIMP.Plugin.Resynthesizer//2-40'      # Set of GIMP plug-ins that heal (in-paint), synthesize texture, theme an image, and more
+  'org.gimp.GIMP.Plugin.LiquidRescale//2-40'      # LiquidRescale plugin to resize pictures non uniformly while preserving their features, i.e. avoiding distortion of the important parts.
+  'org.gimp.GIMP.Plugin.Lensfun//2-40'            # GimpLensfun is a Gimp plugin to correct lens distortion using the lensfun library and database.
+  'org.gimp.GIMP.Plugin.GMic//2-40'               # GREYC's Magic for Image Computing
+  'org.gimp.GIMP.Plugin.Fourier//2-40'            # A simple GIMP plug-in to do fourier transform on your image.
+  'org.gimp.GIMP.Plugin.FocusBlur//2-40'          # Focus Blur plug-in crete a blurring effect similar to Depth of Field.
+  'org.gimp.GIMP.Plugin.BIMP//2-40'               # Batch Image Manipulation Program, a GIMP plugin to apply a set of manipulations to an entire group of images!
+
+  # Telegram
+  'org.telegram.desktop'                          # Messaging App
+  'org.telegram.desktop.webview'                  # Webview support
+
+  # OBS Studio
+  'com.obsproject.Studio'                         # Streaming software
+  'com.obsproject.Studio.Plugin.VerticalCanvas'   # Add a vertical canvas to stream and record in secondary resolution, by Aitum
+  'com.obsproject.Studio.Plugin.TransitionTable'  # Fine-tune your transitions with a transition table
+  'com.obsproject.Studio.Plugin.SceneSwitcher'    # An advanced automated scene switcher for OBS Studio
+  'com.obsproject.Studio.Plugin.ScaleToSound'     # Scale sources according to the sound of an audio source
+  'com.obsproject.Studio.Plugin.RewardsTheater'   # An OBS plugin that lets your viewers redeem videos or sounds on stream via Twitch Channel Points
+  'com.obsproject.Studio.Plugin.Ocr'              # Extract and detect text in image and video inside OBS
+  'com.obsproject.Studio.Plugin.OBSVkCapture'     # Capture Vulkan and OpenGL applications
+  'com.obsproject.Studio.Plugin.OBSLivesplitOne'  # Add LiveSplit One as a source
+  'com.obsproject.Studio.Plugin.NDI'              # NewTek NDI integration for OBS Studio
+  'com.obsproject.Studio.Plugin.MoveTransition'   # Moves source to a new position during scene transition
+  'com.obsproject.Studio.Plugin.InputOverlay'     # Show keyboard, gamepad and mouse input on stream
+  'com.obsproject.Studio.Plugin.Gstreamer'        # Encode streams and recordings using GStreamer
+  'com.obsproject.Studio.Plugin.GStreamerVaapi'   # GStreamer-based VA-API encoder
+  'com.obsproject.Studio.Plugin.DroidCam'         # Use your phone as a camera source with the DroidCam app
+  'com.obsproject.Studio.Plugin.BackgroundRemoval' # Remove the background from your camera video
 
   # Games/Game Related
   'com.heroicgameslauncher.hgl'                   # Epic Games and GOG launcher
@@ -451,20 +512,27 @@ PKGFP=(
   'io.gdevs.GDLauncher'                           # Minecraft Launcher
   'net.davidotek.pupgui2'                         # ProtonUp-Qt
   'io.github.antimicrox.antimicrox'               # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
+  'io.github.dosbox-staging'                      # DOS/x86 Emulator
+  'org.libretro.RetroArch'                        # Frontend for emulators, game engines and media players
+  'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
 
   # Wine
-  'org.winehq.Wine'                               # Windows Compatibility Layer for Linux
+  'org.winehq.Wine//stable-23.08'                 # Windows Compatibility Layer
+  'org.winehq.Wine.mono//stable-23.08'            # .NET Framework implementation for Wine based on Mono
+  'org.winehq.Wine.gecko//stable-23.08'           # Web engine for Wine based on Mozilla Gecko
+  'org.winehq.Wine.DLLs.dxvk//stable-23.08'       # Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine
   'com.github.Matoking.protontricks'              # Wrapper to make winetricks work with Proton
   'org.phoenicis.playonlinux'                     # GUI front-end for wine. "PlayOnLinux's Designated Successor"
 
   # VM
   'org.gnome.Boxes'                               # VM
+  'org.gnome.Boxes.Extension.OsinfoDb'            # OS Database for Gnome Boxes
   'com.usebottles.bottles'                        # VM Bottles
 
   # Browser
-  'com.github.micahflee.torbrowser-launcher'      # Tor Browser
+  'org.torproject.torbrowser-launcher'      # Tor Browser
   'net.mullvad.MullvadBrowser'                    # Mullvad Browser
-  'org.mozilla.firefox'                           # Firefox Browser
+  'com.brave.Browser'                             # Brave Browser
 
   'com.spotify.Client'                            # Spotify
   'io.github.Qalculate.qalculate-qt'              # Calculator
@@ -474,6 +542,10 @@ PKGFP=(
   'com.bitwarden.desktop'                         # Password Manager
   'org.getmonero.Monero'                          # Crypto
   'org.eclipse.Java'                              # Needed for M$ TFVC (Terrible Fucking Version Control)
+  'com.stremio.Stremio'                           #
+  'org.kde.KStyle.Kvantum//6.6'                        # Theme for QT apps
+  'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08' #
+  'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08' #
 #    ''         #
 )
 
@@ -485,6 +557,57 @@ for PKG in "${PKGFP[@]}"; do
     echo
     sync
 done
+
+
+echo
+echo "Fixing cursor and themes with flatpak apps"
+echo
+sleep 1s
+
+if [ -d "$HOME"/.fonts ]; then
+  mv "$HOME"/.fonts "$HOME"/dotfiles/backup/
+  sync
+fi
+
+if [ -d "$HOME"/.icons ]; then
+  mv "$HOME"/.icons "$HOME"/dotfiles/backup/
+  sync
+fi
+
+if [ -d "$HOME"/.themes ]; then
+  mv "$HOME"/.themes "$HOME"/dotfiles/backup/
+  sync
+fi
+
+cp -ur /usr/share/fonts "$HOME"/.fonts
+cp -ur /usr/share/icons "$HOME"/.icons
+cp -ur /usr/share/themes "$HOME"/.themes
+flatpak --user override --filesystem="$HOME"/.fonts/:ro
+flatpak --user override --filesystem="$HOME"/.icons/:ro
+flatpak --user override --filesystem="$HOME"/.themes/:ro
+flatpak --user override --filesystem=xdg-config/gtk-3.0:ro
+flatpak --user override --filesystem=xdg-config/Kvantum:ro
+flatpak --user override --env=XCURSOR_PATH="$HOME"/.icons
+flatpak --user override --env=XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
+flatpak --user override --env=GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
+flatpak --user override --env=ICON_THEME=Papirus-Dark
+flatpak --user override --env=QT_STYLE_OVERRIDE=kvantum
+
+flatpak --user override --filesystem=~/.var/app/org.winehq.Wine net.lutris.Lutris
+flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.mono net.lutris.Lutris
+flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.gecko net.lutris.Lutris
+flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.DLLs.dxvk net.lutris.Lutris
+
+# Workaround for Copy-Paste issues with lutris
+flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
+flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
+
+flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
+flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
+flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
+
+sync
+sleep 1s
 
 echo
 echo "Adding Valve aur repo to the mirror list"
@@ -519,10 +642,17 @@ echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
 sync
 echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
 sync
+echo "DOTNET_CLI_TELEMETRY_OPTOUT=1" | sudo tee -a /etc/environment
+sync
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
 sync
 echo 'PATH="$PATH:/root/.dotnet/tools"' | sudo tee -a /etc/environment
 sync
+echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
+sync
+echo 'QT_QPA_PLATFORMTHEME=qt5ct' | sudo tee -a /etc/environment
+sync
+sleep 1s
 
 echo
 echo 'Installing DOOM Emacs'
@@ -575,28 +705,38 @@ cargo install async-cmd
 sync
 
 echo
+echo "Set make to be multi-threaded by default"
+echo
+sudo sed -i "s|\#MAKEFLAGS=.*|MAKEFLAGS=\"-j$(expr "$(nproc)" \+ 1)\"|g" /etc/makepkg.conf
+sync
+sudo sed -i "s|COMPRESSXZ=.*|COMPRESSXZ=(xz -c -T $(expr "$(nproc)" \+ 1) -z -)|g" /etc/makepkg.conf
+sync
+sl
+echo
 echo "Enabling btrfs's automatic balance at 10% threshold"
 echo
 sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/root)/allocation/data/bg_reclaim_threshold"
 sync
-sleep 1s
 sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/home)/allocation/data/bg_reclaim_threshold"
 sync
 sleep 1s
 
 # Enabling autologin
 sudo sed -i "0,/\[Autologin\]/s//\[Autologin\]\nUser\=$(logname)/" /etc/sddm.conf
+sync
 
 echo
 echo "Setting up fq_pie queue discipline for TCP congestion control"
 echo
 echo 'net.core.default_qdisc = fq_pie' | sudo tee /etc/sysctl.d/90-override.conf
+sync
 sleep 1s
 
 echo
 echo "Amending journald Logging to 200M"
 echo
 sudo sed -i "s|#SystemMaxUse=.*|SystemMaxUse=200M|g" /etc/systemd/journald.conf
+sync
 sleep 1s
 
 echo
@@ -607,7 +747,15 @@ sleep 1s
 
 if ! [ -f /etc/sysctl.d/99-sysctl.conf ]; then
   sudo touch /etc/sysctl.d/99-sysctl.conf
+  sync
 fi
+
+echo
+echo "Increasing file watcher count. This prevents a \"too many files\" error in VS Code(ium)"
+echo
+echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf
+sync
+sleep 1s
 
 printf "fs.inotify.max_user_instances\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "fs.inotify.max_user_watches=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
@@ -660,11 +808,67 @@ sync
 sudo sysctl --system
 sleep 1s
 
+echo
+echo "Increasing open file limit"
+echo
+sudo sed -i "s|# End of file.*|$(logname)        hard    nofile          2097152\n\n# End of file\n|g" /etc/security/limits.conf
+sudo sed -i "s|# End of file.*|$(logname)        soft    nofile          1048576\n\n# End of file\n|g" /etc/security/limits.conf
+sudo sed -i "s|#DefaultLimitNOFILE=.*|DefaultLimitNOFILE=2097152|g" /etc/systemd/system.conf
+sudo sed -i "s|#DefaultLimitNOFILE=.*|DefaultLimitNOFILE=1048576|g" /etc/systemd/user.conf
+sync
+sleep 1s
+
+echo
+echo "Disabling built-in kernel modules of tablet so OpenTablerDriver can work"
+echo
+if ! test -e /etc/modprobe.d/blacklist.conf; then
+    sudo touch /etc/modprobe.d/blacklist.conf
+    printf "blacklist wacom\nblacklist hid_uclogic" | sudo tee /etc/modprobe.d/blacklist.conf
+else
+    printf "\nblacklist wacom\nblacklist hid_uclogic" | sudo tee -a /etc/modprobe.d/blacklist.conf
+fi
+sync
+sleep 1s
+
+echo
+echo "Stopping Wacom kernel module (if present)"
+echo
+sudo rmmod wacom
+sleep 1s
+
+echo
+echo "Stopping non-Wacom kernel module (if present)"
+echo
+sudo rmmod hid_uclogic
+sleep 1s
+
+echo
+echo "Creating udev rule for AntiMicroX to avoid problems with wayland"
+echo
+if test -e /usr/lib/udev/rules.d/60-antimicrox-uinput.rules; then
+    sudo mv /usr/lib/udev/rules.d/60-antimicrox-uinput.rules /usr/lib/udev/rules.d/60-antimicrox-uinput.rules.old
+    sync
+fi
+sudo touch /usr/lib/udev/rules.d/60-antimicrox-uinput.rules
+sync
+
+curl https://raw.githubusercontent.com/AntiMicroX/antimicrox/master/other/60-antimicrox-uinput.rules -o - | sudo tee /usr/lib/udev/rules.d/60-antimicrox-uinput.rules
+sleep 1s
+
+echo
+echo "Making Gamemode start on boot"
+echo
+sudo systemctl --user enable --now gamemoded.service
+sudo chmod +x /usr/bin/gamemoderun
+sleep 1s
+
 # Enable services
+systemctl --user enable --now opentabletdriver.service
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
 sudo systemctl enable btrfs-scrub@home.timer
+sudo systemctl daemon-reload
 sleep 1s
 
 cd "$HOME"/dotfiles/apps/hdrop
@@ -674,6 +878,28 @@ sleep 1s
 sudo make install
 sync
 sleep 1s
+
+if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
+    if ! grep -iq "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" /etc/environment; then
+        echo
+        echo "Assigning \"VK_ICD_FILENAMES\" to \"nvidia_icd.json\""
+        echo
+        echo "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" | sudo tee -a /etc/environment
+    sleep 1s
+    fi
+    echo
+    echo "Removing vulkan for non-NVidia GPUs to avoid conflicts"
+    echo
+    sudo pacman -Rsn lib32-vulkan-radeon vulkan-radeon lib32-vulkan-intel vulkan-amdgpu-pro amf-amdgpu-pro --noconfirm
+    sleep 1s
+fi
+if ! grep -iq "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" /etc/environment; then
+    echo
+    echo "Assigning \"VK_LAYER_PATH\" to \"explicit_layer.d\""
+    echo
+    echo "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" | sudo tee -a /etc/environment
+    sleep 1s
+fi
 
 echo
 echo "Done..."

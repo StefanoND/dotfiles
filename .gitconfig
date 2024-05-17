@@ -1,3 +1,7 @@
+# Private settings in include file
+[include]
+  path = ~/.gitconfig.local
+
 # Dracula theme
 [url "https://github.com/dracula/"]
   insteadOf = dracula://
@@ -42,11 +46,6 @@
   untracked = red
   updated = green bold
 
-[user]
-  name = Stefano N. Dobbin
-  email = sndobbin@gmail.com
-	signingKey = DEEC83D31469B12A
-
 [core]
   editor = nvim
   pager = delta
@@ -60,13 +59,6 @@
 
 [push]
   default = simple
-
-[credential]
-  helper = cache --timeout 7200
-[credential "https://github.com"]
-  username = StefanoND
-[credential "https://gitlab.com"]
-  username = StefanoND
 
 [alias]
   co = checkout

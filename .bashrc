@@ -81,7 +81,7 @@ shopt -s histappend
 
 # Changed from 'ex' to 'extract', added '.tar.xz', added recursion support
 extract() {
-        for archive in "$@"; do
+        for archive in "${@}"; do
                 if [ -f "$archive" ]; then
                         case $archive in
                         *.tar.xz) tar xvJf "$archive" ;;
@@ -106,7 +106,7 @@ extract() {
 
 # Calls extract
 ex() {
-        extract "$@"
+        extract "${@}"
 }
 
 iatest=$(expr index "$-" i)
@@ -161,7 +161,7 @@ _bash_history_sync_and_reload() {
 
 history() {
         _bash_history_sync_and_reload
-        builtin history "$@"
+        builtin history "${@}"
 }
 
 export HISTTIMEFORMAT="%d/%m/%y %H:%M:%S   "
@@ -206,25 +206,25 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 edit() {
         if [ "$(type -t jpico)" = "file" ]; then
                 # Use JOE text editor http://joe-editor.sourceforge.net/
-                jpico -nonotice -linums -nobackups "$@"
+                jpico -nonotice -linums -nobackups "${@}"
         elif [ "$(type -t nano)" = "file" ]; then
-                nano -c "$@"
+                nano -c "${@}"
         elif [ "$(type -t pico)" = "file" ]; then
-                pico "$@"
+                pico "${@}"
         else
-                nvim "$@"
+                nvim "${@}"
         fi
 }
 sedit() {
         if [ "$(type -t jpico)" = "file" ]; then
                 # Use JOE text editor http://joe-editor.sourceforge.net/
-                sudo jpico -nonotice -linums -nobackups "$@"
+                sudo jpico -nonotice -linums -nobackups "${@}"
         elif [ "$(type -t nano)" = "file" ]; then
-                sudo nano -c "$@"
+                sudo nano -c "${@}"
         elif [ "$(type -t pico)" = "file" ]; then
-                sudo pico "$@"
+                sudo pico "${@}"
         else
-                sudo nvim "$@"
+                sudo nvim "${@}"
         fi
 }
 
@@ -237,7 +237,7 @@ ftext() {
         # -n causes line number to be printed
         # optional: -F treat search term as a literal, not a regular expression
         # optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
-        grep -iIHrn --color=always "$1" . | less -r
+        grep -iIHrn --color=always "${1}" . | less -r
 }
 
 # Copy files or directories/folders with a progress bar
@@ -251,29 +251,27 @@ cprs() {
         # --progress Shows progress during transfer
         if [ -d "${1}" ]; then
                 #        rsync -rlptDvu --progress "${1}"/ "${2}"
-                rsync -avu --progress "${1}"/ "${2}"
+                rsync -avu --progress "${1}" "${2}"
         else
                 #        rsync -lptDvu --progress "${1}" "${2}"
                 rsync -avu --progress "${1}" "${2}"
         fi
+        sync
 }
 
 # Copy files or directories/folder with a progress bar as sudo
 scprs() {
-        if [ -d "${1}" ]; then
-                sudo rsync -rlptDvu --progress "${1}/" "${2}"
-        else
-                sudo rsync -lptDvu --progress "${1}" "${2}"
-        fi
+  sudo bash -c "cprs ${1} ${2}"
 }
 
 # Copy and go to the directory
 cpg() {
-        if [ -d "$2" ]; then
-                cprs "$1" "$2" && cd "$2"
+        if [ -d "${2}" ]; then
+                cprs "${1}" "${2}" && cd "${2}"
         else
-                cprs "$1" "$2"
+                cprs "${1}" "${2}"
         fi
+        sync
 }
 
 # Moves files or directories/folders with a progress bar
@@ -289,27 +287,33 @@ mvrs() {
         # --progress Shows progress during transfer
         # --remove-source-files deletes files from source
         if [ -d "${1}" ]; then
-                sudo rsync -rlptDvu --progress --remove-source-files "${1}/" "${2}"
-                rmd "${1}"
+                rsync -rlptDvu --progress --remove-source-files "${1}" "${2}"
+                sync
         else
-                sudo rsync -lptDvu --progress --remove-source-files "${1}" "${2}"
+                rsync -lptDvu --progress --remove-source-files "${1}" "${2}"
+                sync
                 #rm "${1}"
         fi
+        rm -rf "${1}"
+        sync
+}
+
+smvrs() {
+  sudo bash -c "mvrs ${1} ${2}"
 }
 
 # Move and go to the directory
 mvg() {
-        if [ -d "$2" ]; then
-                mvv "$1" "$2" && cd "$2"
+        if [ -d "${2}" ]; then
+                mvrs "${1}" "${2}" && cd "${2}"
         else
-                mvv "$1" "$2"
+                mvrs "${1}" "${2}"
         fi
 }
 
 # Create and go to the directory
 mkdirg() {
-        mkdir -p "$1"
-        cd "$1"
+        mkdir -p "${1}" && cd "${1}"
 }
 
 # Goes up a specified number of directories  (i.e. up 4)
@@ -328,7 +332,7 @@ up() {
 
 # Automatically do an ls after each cd
 cd() {
-        z "$@" && ls
+        z "${@}" && ls
 }
 
 # For some reason, rot13 pops up everywhere
@@ -336,7 +340,7 @@ rot13() {
         if [ $# -eq 0 ]; then
                 tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
         else
-                echo "$@" | tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
+                echo "${@}" | tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
         fi
 }
 
@@ -519,6 +523,8 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 export XDG_CONFIG_HOME="$HOME/.config"
+export QT_STYLE_OVERRIDE=kvantum
+export QT_QPA_PLATFORMTHEME=qt5ct
 
 export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
@@ -564,10 +570,10 @@ _fzf_comprun() {
         shift
 
         case "$command" in
-        cd) fzf --preview 'eza -T --color=always --group-directories-first --icons --git {} | head -200' "$@" ;;
-        export | unset) fzf --preview "eval 'echo $' {}" "$@" ;;
-        ssh) fzf --preview 'dig {}' "$@" ;;
-        *) fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+        cd) fzf --preview 'eza -T --color=always --group-directories-first --icons --git {} | head -200' "${@}" ;;
+        export | unset) fzf --preview "eval 'echo $' {}" "${@}" ;;
+        ssh) fzf --preview 'dig {}' "${@}" ;;
+        *) fzf --preview "bat -n --color=always --line-range :500 {}" "${@}" ;;
         esac
 }
 
