@@ -185,6 +185,7 @@ PKGS=(
 
   'flatpak'                 # Mostly Sandboxed Package Manager
   'flatpak-xdg-utils'       # Tools for Flatpak
+  'flatpak-builder'                 # Mostly Sandboxed Package Manager
   'neovim'                  # Good Text Editor
   'emacs-wayland'           # OS with bad text editor
   'grim'                    # Grimshot dependency
@@ -250,6 +251,11 @@ PKGS=(
   'dotnet-runtime-6.0'
   'dotnet-runtime-7.0'
   'babeltrace2'
+  'icu'
+  'libicu'
+  'lttng-ust'
+  'ncursers5-compat-libs'
+  'vulkan-validation-layers'
 
   # LSP
   'python-pip' # Required to install some LSP servers
@@ -312,6 +318,12 @@ PKGS=(
   'xboxdrv'                     # Gamepad driver for Linux (Controller Support)
   'gamemode'
   'lib32-gamemode'
+  'libappindicator-gtk3'
+  'gnome-icon-theme'
+  'libayatana-appindicator'
+  'php'
+  'libnotify'
+  'distrobox'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -455,97 +467,103 @@ sync
 # Flatpak
 PKGFP=(
   # Main
-  'com.github.tchx84.Flatseal'                    # Flatpak permission manager
-  'org.libreoffice.LibreOffice'                   # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
-  'md.obsidian.Obsidian'                          # A knowledge base that works on local Markdown files
-  'com.discordapp.Discord'                        # VoIP app
-  'com.github.eneshecan.WhatsAppForLinux'         # Messaging App
-  'org.qbittorrent.qBittorrent'                   # Torrent app
-  'org.tenacityaudio.Tenacity'                    # Audio Recorder and Editor
-  'info.smplayer.SMPlayer'                        # Media Player
-  'io.mpv.Mpv'                                    # Media player
-  'org.kde.krita'                                 # Digital Painting Software
-  'org.inkscape.Inkscape'                         # Vector Graphics Editor
-  'org.blender.Blender'                           # 3D Modelling Software
-  'fr.handbrake.ghb'                              # Transcoder
-  'io.github.shiftey.Desktop'                     # Github Desktop app
-  'com.visualstudio.code'                         # VSCode, required for *some* game engines generate project files properly
-  'com.unity.UnityHub'                            # Game Engine
+  'com.github.tchx84.Flatseal'                            # Flatpak permission manager
+  'org.libreoffice.LibreOffice'                           # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
+  'md.obsidian.Obsidian'                                  # A knowledge base that works on local Markdown files
+  'com.discordapp.Discord'                                # VoIP app
+  'com.github.eneshecan.WhatsAppForLinux'                 # Messaging App
+  'org.qbittorrent.qBittorrent'                           # Torrent app
+  'org.tenacityaudio.Tenacity'                            # Audio Recorder and Editor
+  'info.smplayer.SMPlayer'                                # Media Player
+  'io.mpv.Mpv'                                            # Media player
+  'org.kde.krita'                                         # Digital Painting Software
+  'org.inkscape.Inkscape'                                 # Vector Graphics Editor
+  'org.blender.Blender'                                   # 3D Modelling Software
+  'fr.handbrake.ghb'                                      # Transcoder
+  'io.github.shiftey.Desktop'                             # Github Desktop app
+  'com.visualstudio.code'                                 # VSCode, required for *some* game engines generate project files properly
+  'com.unity.UnityHub'                                    # Game Engine
 
   # GIMP
-  'org.gimp.GIMP'                                 # GNU Image Manipulator
-  'org.gimp.GIMP.Plugin.Resynthesizer//2-40'      # Set of GIMP plug-ins that heal (in-paint), synthesize texture, theme an image, and more
-  'org.gimp.GIMP.Plugin.LiquidRescale//2-40'      # LiquidRescale plugin to resize pictures non uniformly while preserving their features, i.e. avoiding distortion of the important parts.
-  'org.gimp.GIMP.Plugin.Lensfun//2-40'            # GimpLensfun is a Gimp plugin to correct lens distortion using the lensfun library and database.
-  'org.gimp.GIMP.Plugin.GMic//2-40'               # GREYC's Magic for Image Computing
-  'org.gimp.GIMP.Plugin.Fourier//2-40'            # A simple GIMP plug-in to do fourier transform on your image.
-  'org.gimp.GIMP.Plugin.FocusBlur//2-40'          # Focus Blur plug-in crete a blurring effect similar to Depth of Field.
-  'org.gimp.GIMP.Plugin.BIMP//2-40'               # Batch Image Manipulation Program, a GIMP plugin to apply a set of manipulations to an entire group of images!
+  'org.gimp.GIMP'                                         # GNU Image Manipulator
+  'org.gimp.GIMP.Plugin.Resynthesizer//2-40'              # Set of GIMP plug-ins that heal (in-paint), synthesize texture, theme an image, and more
+  'org.gimp.GIMP.Plugin.LiquidRescale//2-40'              # LiquidRescale plugin to resize pictures non uniformly while preserving their features, i.e. avoiding distortion of the important parts.
+  'org.gimp.GIMP.Plugin.Lensfun//2-40'                    # GimpLensfun is a Gimp plugin to correct lens distortion using the lensfun library and database.
+  'org.gimp.GIMP.Plugin.GMic//2-40'                       # GREYC's Magic for Image Computing
+  'org.gimp.GIMP.Plugin.Fourier//2-40'                    # A simple GIMP plug-in to do fourier transform on your image.
+  'org.gimp.GIMP.Plugin.FocusBlur//2-40'                  # Focus Blur plug-in crete a blurring effect similar to Depth of Field.
+  'org.gimp.GIMP.Plugin.BIMP//2-40'                       # Batch Image Manipulation Program, a GIMP plugin to apply a set of manipulations to an entire group of images!
 
   # Telegram
-  'org.telegram.desktop'                          # Messaging App
-  'org.telegram.desktop.webview'                  # Webview support
+  'org.telegram.desktop'                                  # Messaging App
+  'org.telegram.desktop.webview'                          # Webview support
 
   # OBS Studio
-  'com.obsproject.Studio'                         # Streaming software
-  'com.obsproject.Studio.Plugin.VerticalCanvas'   # Add a vertical canvas to stream and record in secondary resolution, by Aitum
-  'com.obsproject.Studio.Plugin.TransitionTable'  # Fine-tune your transitions with a transition table
-  'com.obsproject.Studio.Plugin.SceneSwitcher'    # An advanced automated scene switcher for OBS Studio
-  'com.obsproject.Studio.Plugin.ScaleToSound'     # Scale sources according to the sound of an audio source
-  'com.obsproject.Studio.Plugin.RewardsTheater'   # An OBS plugin that lets your viewers redeem videos or sounds on stream via Twitch Channel Points
-  'com.obsproject.Studio.Plugin.Ocr'              # Extract and detect text in image and video inside OBS
-  'com.obsproject.Studio.Plugin.OBSVkCapture'     # Capture Vulkan and OpenGL applications
-  'com.obsproject.Studio.Plugin.OBSLivesplitOne'  # Add LiveSplit One as a source
-  'com.obsproject.Studio.Plugin.NDI'              # NewTek NDI integration for OBS Studio
-  'com.obsproject.Studio.Plugin.MoveTransition'   # Moves source to a new position during scene transition
-  'com.obsproject.Studio.Plugin.InputOverlay'     # Show keyboard, gamepad and mouse input on stream
-  'com.obsproject.Studio.Plugin.Gstreamer'        # Encode streams and recordings using GStreamer
-  'com.obsproject.Studio.Plugin.GStreamerVaapi'   # GStreamer-based VA-API encoder
-  'com.obsproject.Studio.Plugin.DroidCam'         # Use your phone as a camera source with the DroidCam app
-  'com.obsproject.Studio.Plugin.BackgroundRemoval' # Remove the background from your camera video
+  'com.obsproject.Studio'                                 # Streaming software
+  'com.obsproject.Studio.Plugin.VerticalCanvas'           # Add a vertical canvas to stream and record in secondary resolution, by Aitum
+  'com.obsproject.Studio.Plugin.TransitionTable'          # Fine-tune your transitions with a transition table
+  'com.obsproject.Studio.Plugin.SceneSwitcher'            # An advanced automated scene switcher for OBS Studio
+  'com.obsproject.Studio.Plugin.ScaleToSound'             # Scale sources according to the sound of an audio source
+  'com.obsproject.Studio.Plugin.RewardsTheater'           # An OBS plugin that lets your viewers redeem videos or sounds on stream via Twitch Channel Points
+  'com.obsproject.Studio.Plugin.Ocr'                      # Extract and detect text in image and video inside OBS
+  'com.obsproject.Studio.Plugin.OBSVkCapture'             # Capture Vulkan and OpenGL applications
+  'com.obsproject.Studio.Plugin.OBSLivesplitOne'          # Add LiveSplit One as a source
+  'com.obsproject.Studio.Plugin.NDI'                      # NewTek NDI integration for OBS Studio
+  'com.obsproject.Studio.Plugin.MoveTransition'           # Moves source to a new position during scene transition
+  'com.obsproject.Studio.Plugin.InputOverlay'             # Show keyboard, gamepad and mouse input on stream
+  'com.obsproject.Studio.Plugin.Gstreamer'                # Encode streams and recordings using GStreamer
+  'com.obsproject.Studio.Plugin.GStreamerVaapi'           # GStreamer-based VA-API encoder
+  'com.obsproject.Studio.Plugin.DroidCam'                 # Use your phone as a camera source with the DroidCam app
+  'com.obsproject.Studio.Plugin.BackgroundRemoval'        # Remove the background from your camera video
 
   # Games/Game Related
-  'com.heroicgameslauncher.hgl'                   # Epic Games and GOG launcher
-  'com.valvesoftware.Steam'                       # Steam
-  'net.lutris.Lutris'                             # Lutris
-  'io.github.achetagames.epic_asset_manager'      # Epic Games' Marketplace for Linux
-  'io.gdevs.GDLauncher'                           # Minecraft Launcher
-  'net.davidotek.pupgui2'                         # ProtonUp-Qt
-  'io.github.antimicrox.antimicrox'               # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
-  'io.github.dosbox-staging'                      # DOS/x86 Emulator
-  'org.libretro.RetroArch'                        # Frontend for emulators, game engines and media players
+  'com.heroicgameslauncher.hgl'                           # Epic Games and GOG launcher
+  'com.valvesoftware.Steam'                               # Steam
+  'net.lutris.Lutris'                                     # Lutris
+  'io.github.achetagames.epic_asset_manager'              # Epic Games' Marketplace for Linux
+  'io.gdevs.GDLauncher'                                   # Minecraft Launcher
+  'net.davidotek.pupgui2'                                 # ProtonUp-Qt
+  'io.github.antimicrox.antimicrox'                       # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
+  'io.github.lime3ds.Lime3DS'                             # Citra Fork (3DS emulator)
+  'org.ryujinx.Ryujinx'                                   # Switch Emulator
+  'info.cemu.Cemu'                                        # Wii U Emulator
+  'io.github.dosbox-staging'                              # DOS/x86 Emulator
+  'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
   'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
 
   # Wine
-  'org.winehq.Wine//stable-23.08'                 # Windows Compatibility Layer
-  'org.winehq.Wine.mono//stable-23.08'            # .NET Framework implementation for Wine based on Mono
-  'org.winehq.Wine.gecko//stable-23.08'           # Web engine for Wine based on Mozilla Gecko
-  'org.winehq.Wine.DLLs.dxvk//stable-23.08'       # Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine
-  'com.github.Matoking.protontricks'              # Wrapper to make winetricks work with Proton
-  'org.phoenicis.playonlinux'                     # GUI front-end for wine. "PlayOnLinux's Designated Successor"
+  'org.winehq.Wine//stable-23.08'                         # Windows Compatibility Layer
+  'org.winehq.Wine.mono//stable-23.08'                    # .NET Framework implementation for Wine based on Mono
+  'org.winehq.Wine.gecko//stable-23.08'                   # Web engine for Wine based on Mozilla Gecko
+  'org.winehq.Wine.DLLs.dxvk//stable-23.08'               # Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine
+  'com.github.Matoking.protontricks'                      # Wrapper to make winetricks work with Proton
+  'org.phoenicis.playonlinux'                             # GUI front-end for wine. "PlayOnLinux's Designated Successor"
 
   # VM
-  'org.gnome.Boxes'                               # VM
-  'org.gnome.Boxes.Extension.OsinfoDb'            # OS Database for Gnome Boxes
-  'com.usebottles.bottles'                        # VM Bottles
+  'org.gnome.Boxes'                                       # VM
+  'org.gnome.Boxes.Extension.OsinfoDb'                    # OS Database for Gnome Boxes
+  'com.usebottles.bottles'                                # VM Bottles
 
   # Browser
-  'org.torproject.torbrowser-launcher'      # Tor Browser
-  'net.mullvad.MullvadBrowser'                    # Mullvad Browser
-  'com.brave.Browser'                             # Brave Browser
+  'org.torproject.torbrowser-launcher'                    # Tor Browser
+  'net.mullvad.MullvadBrowser'                            # Mullvad Browser
+  'com.brave.Browser'                                     # Brave Browser
 
-  'com.spotify.Client'                            # Spotify
-  'io.github.Qalculate.qalculate-qt'              # Calculator
-  'nl.hjdskes.gcolor3'                            # Color Picker
-  'org.kde.kleopatra'                             # Certificate Manager and Unified Crypto GUI
-  'org.kde.okteta'                                # Hex Editor
-  'com.bitwarden.desktop'                         # Password Manager
-  'org.getmonero.Monero'                          # Crypto
-  'org.eclipse.Java'                              # Needed for M$ TFVC (Terrible Fucking Version Control)
-  'com.stremio.Stremio'                           #
-  'org.kde.KStyle.Kvantum//6.6'                        # Theme for QT apps
-  'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08' #
-  'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08' #
+  'com.spotify.Client'                                    # Spotify
+  'io.github.Qalculate.qalculate-qt'                      # Calculator
+  'nl.hjdskes.gcolor3'                                    # Color Picker
+  'org.kde.kleopatra'                                     # Certificate Manager and Unified Crypto GUI
+  'org.kde.okteta'                                        # Hex Editor
+  'com.bitwarden.desktop'                                 # Password Manager
+  'org.getmonero.Monero'                                  # Crypto
+  'org.eclipse.Java'                                      # Needed for M$ TFVC (Terrible Fucking Version Control)
+  'com.stremio.Stremio'                                   #
+  'org.kde.KStyle.Kvantum//6.6'                           # Theme for QT apps
+  'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08'  #
+  'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'  #
+  'org.freedesktop.Platform//23.08'                       #
+  'org.freedesktop.Sdk//23.08'                            #
+  'io.github.dvlv.boxbuddyrs'                             # GUI fo Distrobox
 #    ''         #
 )
 
@@ -579,6 +597,9 @@ if [ -d "$HOME"/.themes ]; then
   sync
 fi
 
+sudo usermod -aG docker "$(logname)"
+newgrp docker
+
 cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
 cp -ur /usr/share/themes "$HOME"/.themes
@@ -605,6 +626,8 @@ flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppF
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
+
+flatpak --user override --allow=bluetooth org.ryujinx.Ryujinx
 
 sync
 sleep 1s
@@ -639,18 +662,16 @@ sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
 sync
 
 echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
-sync
 echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
-sync
 echo "DOTNET_CLI_TELEMETRY_OPTOUT=1" | sudo tee -a /etc/environment
-sync
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
-sync
 echo 'PATH="$PATH:/root/.dotnet/tools"' | sudo tee -a /etc/environment
-sync
 echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
-sync
 echo 'QT_QPA_PLATFORMTHEME=qt5ct' | sudo tee -a /etc/environment
+echo 'MOZ_ENABLE_WAYLAND=1' | sudo tee -a /etc/environment
+echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
+echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
+
 sync
 sleep 1s
 
@@ -664,6 +685,35 @@ sleep 5s
 sudo killall -9 emacs
 sleep 5s
 "$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom sync
+sleep 1s
+
+echo
+echo 'Installing HeadsetControl'
+echo
+cd "$HOME"/dotfiles/apps/HeadsetControl
+mkdir build && cd build
+cmake ..
+sync
+make
+sync
+sudo make install
+sync
+sudo udevadm control --reload-rules && sudo udevadm trigger
+cd ..
+echo
+echo 'Removing leftover'
+echo
+rm -rf build
+sync
+
+echo
+echo 'Installing HeadsetControl Notification daemon'
+echo
+sudo cp "$HOME"/dotfiles/apps/headsetcontrol-notificationd/headsetcontrol-notificationd.service /etc/systemd/user/
+sudo cp "$HOME"/dotfiles/apps/headsetcontrol-notificationd/headsetcontrol-notificationd /usr/local/bin/
+sudo chmod +x /usr/local/bin/headsetcontrol-notificationd
+sudo systemctl daemon-reload
+systemctl --user enable --now headsetcontrol-notificationd
 sleep 1s
 
 echo
@@ -759,11 +809,11 @@ sleep 1s
 
 printf "fs.inotify.max_user_instances\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "fs.inotify.max_user_watches=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "vm.max_map_count=262144\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "vm.max_map_count=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "net.ipv4.tcp_fin_timeout=5\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "kernel.sched_cfs_bandwidth_slice_us=3000\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.core.rmem_max=2621440\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.core.wmem_max=2621440\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.core.rmem_max=5242880\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+printf "net.core.wmem_max=5242880\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "kernel.core_pipe_limit=16\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 printf "fs.suid_dumpable=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf

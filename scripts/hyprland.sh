@@ -57,7 +57,10 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     sleep 1s
   done
 
-  printf "__GLX_VENDOR_LIBRARY_NAME=nvidia\n" | sudo tee -a /etc/environment
+  echo '__GLX_VENDOR_LIBRARY_NAME=nvidia' | sudo tee -a /etc/environment
+  echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+  echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+
   sleep 1s
 
   if ! [[ -f /etc/modprobe.d/nvidia.conf ]]; then

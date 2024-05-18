@@ -25,3 +25,12 @@
 [submodule "kvantumthemes/Kvantum"]
 	path = kvantumthemes/Kvantum
 	url = https://github.com/catppuccin/Kvantum.git
+[submodule "apps/HeadsetControl"]
+	path = apps/HeadsetControl
+	url = https://github.com/Sapd/HeadsetControl.git
+[submodule "apps/headsetcontrol-notificationd"]
+	path = apps/headsetcontrol-notificationd
+	url = https://github.com/Manawyrm/headsetcontrol-notificationd.git
+[submodule "apps/headset-charge-indicator"]
+	path = apps/headset-charge-indicator
+	url = https://github.com/centic9/headset-charge-indicator.git
