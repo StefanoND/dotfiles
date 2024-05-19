@@ -661,16 +661,14 @@ sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
 sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
 sync
 
-echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
 echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
-echo "DOTNET_CLI_TELEMETRY_OPTOUT=1" | sudo tee -a /etc/environment
+echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
 echo 'PATH="$PATH:/root/.dotnet/tools"' | sudo tee -a /etc/environment
-echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
-echo 'QT_QPA_PLATFORMTHEME=qt5ct' | sudo tee -a /etc/environment
-echo 'MOZ_ENABLE_WAYLAND=1' | sudo tee -a /etc/environment
 echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
 echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
+echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
 
 sync
 sleep 1s
