@@ -8,8 +8,19 @@ if ! [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+lsblk
+ROOTDEV=sdd3
+HOMEDEV=nvme0n1p1
+
+cd "$HOME"/dotfiles
+
 if ! [ -d "$HOME"/.apps ]; then
   mkdir -p "$HOME"/.apps
+  sync
+fi
+
+if ! [ -d "$HOME"/Pictures/Grim ]; then
+  mkdir -p "$HOME"/Pictures/Grim
   sync
 fi
 
@@ -24,6 +35,12 @@ if [ -f "$HOME"/.bashrc ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.bashrc "$HOME"/
+
+if [ -f "$HOME"/.bash_profile ]; then
+  mv "$HOME"/.bash_profile "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.bash_profile "$HOME"/
 
 if [ -f "$HOME"/.editorconfig ]; then
   mv "$HOME"/.editorconfig "$HOME"/dotfiles/backup/
@@ -93,6 +110,12 @@ if [ -d "$HOME"/.config/kitty ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/kitty "$HOME"/.config/
 
+if [ -d "$HOME"/.config/mako ]; then
+  mv "$HOME"/.config/mako "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/mako "$HOME"/.config/
+
 if [ -d "$HOME"/.config/nvim ]; then
   mv "$HOME"/.config/nvim "$HOME"/dotfiles/backup/.config/
   sync
@@ -128,6 +151,12 @@ ln -svf "$HOME"/dotfiles/.config/tmux "$HOME"/.config/
 #   sync
 # fi
 # ln -svf $HOME/dotfiles/.config/VSCodium $HOME/.config/
+
+if [ -d "$HOME"/.config/waybar ]; then
+  mv "$HOME"/.config/waybar "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/waybar "$HOME"/.config/
 
 if [ -f "$HOME"/.firedragon/firedragon.overrides.cfg ]; then
   mv "$HOME"/.firedragon/firedragon.overrides.cfg "$HOME"/dotfiles/backup/.firedragon/
@@ -165,10 +194,40 @@ if [ -f "$HOME"/appify.sh ]; then
 fi
 ln -svf "$HOME"/dotfiles/scripts/appify.sh "$HOME"/
 
+if ! [ -d "$HOME"/.config/systemd/user/graphical-session.target.wants ]; then
+  mkdir -p "$HOME"/.config/systemd/user/graphical-session.target.wants
+  sync
+fi
+
+if ! [ -d /etc/libinput ]; then
+  sudo mkdir -p /etc/libinput
+  sync
+fi
+
+if [ -f /etc/libinput/local-overrides.quirks ]; then
+  sudo mv /etc/libinput/local-overrides.quirks "$HOME"/dotfiles/backup/etc/libinput
+  sync
+fi
+sudo cp "$HOME"/dotfiles/etc/libinput/local-overrides.quirks /etc/libinput/
+
+sudo ln -sv "$HOME"/.gtkrc-2.0 /etc/gtk-2.0/gtkrc
+sudo ln -sv "$HOME"/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
+
+if [ -d "$HOME"/.config/frogminer ]; then
+  mv "$HOME"/.config/frogminer "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/frogminer "$HOME"/.config/
+
+sudo cp "$HOME"/dotfiles/apps/steam-devices/60-steam-vr.rules /etc/udev/rules.d/
+sudo cp "$HOME"/dotfiles/apps/steam-devices/60-steam-input.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+
 sync
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
 # PACMAN
 PKGS=(
@@ -324,6 +383,15 @@ PKGS=(
   'php'
   'libnotify'
   'distrobox'
+  'expressvpn'
+  'xdg-desktop-portal-kde'
+  'xdg-desktop-portal-gtk'
+  'polkit'
+  'polkit-kde-agent'
+  'polkit-gnome'
+  'gnome-themes-extra'
+  'modprobed-db'
+  'cronie'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -332,6 +400,7 @@ for PKG in "${PKGS[@]}"; do
   echo
   sudo pacman -S "$PKG" --noconfirm --needed
   sync
+  sleep 1s
 done
 
 # PARU
@@ -346,6 +415,7 @@ for PKG in "${PKGPARU[@]}"; do
   echo
   paru -S "$PKG" --noconfirm --needed --sudoloop
   sync
+  sleep 1s
 done
 
 # PIP
@@ -362,7 +432,7 @@ for PKG in "${PKGT[@]}"; do
   echo "INSTALLING: ${PKG}"
   echo
   pip install --break-system-packages "$PKG"
-  echo
+  sync
   sleep 1s
 done
 
@@ -401,7 +471,7 @@ for PKG in "${PKGTS[@]}"; do
   echo "INSTALLING: ${PKG}"
   echo
   sudo npm i -g "$PKG"
-  echo
+  sync
   sleep 1s
 done
 
@@ -416,7 +486,7 @@ for PKG in "${PKGST[@]}"; do
   echo "INSTALLING: ${PKG}"
   echo
   yarn global add "$PKG"
-  echo
+  sync
   sleep 1s
 done
 
@@ -431,7 +501,7 @@ for PKG in "${PKGGO[@]}"; do
   echo "INSTALLING: ${PKG}"
   echo
   go install "$PKG"
-  echo
+  sync
   sleep 1s
 done
 
@@ -454,7 +524,7 @@ for PKG in "${PKGDN[@]}"; do
   echo "INSTALLING: ${PKG}"
   echo
   dotnet tool install --global "$PKG"
-  echo
+  sync
   sleep 1s
 done
 
@@ -518,7 +588,6 @@ PKGFP=(
 
   # Games/Game Related
   'com.heroicgameslauncher.hgl'                           # Epic Games and GOG launcher
-  'com.valvesoftware.Steam'                               # Steam
   'net.lutris.Lutris'                                     # Lutris
   'io.github.achetagames.epic_asset_manager'              # Epic Games' Marketplace for Linux
   'io.gdevs.GDLauncher'                                   # Minecraft Launcher
@@ -530,6 +599,13 @@ PKGFP=(
   'io.github.dosbox-staging'                              # DOS/x86 Emulator
   'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
   'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
+  'com.steamgriddb.SGDBoop'
+  'com.valvesoftware.Steam'                               # Steam
+  'com.valvesoftware.Steam.CompatibilityTool.Boxtron'
+  'com.valvesoftware.Steam.Utility.protontricks'
+  'com.valvesoftware.SteamLink'
+  'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'
+  'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08'
 
   # Wine
   'org.winehq.Wine//stable-23.08'                         # Windows Compatibility Layer
@@ -598,7 +674,11 @@ if [ -d "$HOME"/.themes ]; then
 fi
 
 sudo usermod -aG docker "$(logname)"
-newgrp docker
+sudo usermod -aG gamemode "$(logname)"
+sudo usermod -aG input "$(logname)"
+nohup newgrp docker &
+
+sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index.theme
 
 cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
@@ -618,6 +698,12 @@ flatpak --user override --filesystem=~/.var/app/org.winehq.Wine net.lutris.Lutri
 flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.mono net.lutris.Lutris
 flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.gecko net.lutris.Lutris
 flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.DLLs.dxvk net.lutris.Lutris
+
+flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam net.lutris.Lutris
+flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.heroicgameslauncher.hgl
+flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.usebottles.bottles
+
+flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
 
 # Workaround for Copy-Paste issues with lutris
 flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
@@ -649,7 +735,7 @@ sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 20/g" /etc/pacman.conf
 sync
 
 # Enabling btrfs defrag
-if ! "$(grep -q autodefrag /etc/fstab)"; then
+if ! [[ grep -q autodefrag /etc/fstab ]]; then
   sudo sed -i 's/compress=zstd/compress=zstd,autodefrag/g' /etc/fstab
   sync
 fi
@@ -661,14 +747,34 @@ sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
 sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
 sync
 
+echo 'Xcursor.theme: Catppuccin-Mocha-Mauve-Cursors' | tee -a "$HOME"/.Xresources
+echo 'Xcursor.size: 48' | tee -a "$HOME"/.Xresources
+
+echo 'xset r rate 300 60' | tee -a "$HOME"/.xinitrc
+echo 'xrdb ~/.Xresources' | tee -a "$HOME"/.xinitrc
+
+echo 'XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors' | sudo tee -a /etc/environment
+echo 'XCURSOR_SIZE=48' | sudo tee -a /etc/environment
+echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
 echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
 echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
-echo 'PATH="$PATH:/root/.dotnet/tools"' | sudo tee -a /etc/environment
-echo 'XDG_CONFIG_HOME="$HOME/.config"' | sudo tee -a /etc/environment
+echo 'PATH=$PATH:/root/.dotnet/tools' | sudo tee -a /etc/environment
 echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
 echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
 echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+echo 'XDG_CONFIG_HOME=$HOME/.config' | sudo tee -a /etc/environment
+echo 'XDG_SCREENSHOT_DIR=$HOME/Pictures/Grim' | sudo tee -a /etc/environment
+echo 'XDG_DATA_DIRS=/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS' | sudo tee -a /etc/environment
+
+sudo sed -i 's/QT_QPA_PLATFORMTHEME/# QT_QPA_PLATFORMTHEME/g' /etc/environment
+sudo sed -i 's/GTK_THEME.*/GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark/g' /etc/environment
+
+echo 'QT_QPA_PLATFORMTHEME=qt5ct:qt6ct' | sudo tee -a /etc/environment
+# exec = gsettings set org.gnome.desktop.interface gtk-theme 'Catppuccin-Mocha-Standard-Mauve-Dark'
+# exec = gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+# exec = gsettings set org.gnome.desktop.interface font-name 'FiraCode Nerd Font Mono'
+# exec = gsettings set org.gnome.desktop.interface cursor-theme 'Catppuccin-Mocha-Mauve-Cursors'
 
 sync
 sleep 1s
@@ -703,6 +809,7 @@ echo 'Removing leftover'
 echo
 rm -rf build
 sync
+cd "$HOME"/dotfiles
 
 echo
 echo 'Installing HeadsetControl Notification daemon'
@@ -759,13 +866,14 @@ sudo sed -i "s|\#MAKEFLAGS=.*|MAKEFLAGS=\"-j$(expr "$(nproc)" \+ 1)\"|g" /etc/ma
 sync
 sudo sed -i "s|COMPRESSXZ=.*|COMPRESSXZ=(xz -c -T $(expr "$(nproc)" \+ 1) -z -)|g" /etc/makepkg.conf
 sync
-sl
+sleep 1s
+
 echo
 echo "Enabling btrfs's automatic balance at 10% threshold"
 echo
-sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/root)/allocation/data/bg_reclaim_threshold"
+sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/"$ROOTDEV")/allocation/data/bg_reclaim_threshold"
 sync
-sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/mapper/home)/allocation/data/bg_reclaim_threshold"
+sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/"$HOMEDEV")/allocation/data/bg_reclaim_threshold"
 sync
 sleep 1s
 
@@ -903,15 +1011,7 @@ sync
 curl https://raw.githubusercontent.com/AntiMicroX/antimicrox/master/other/60-antimicrox-uinput.rules -o - | sudo tee /usr/lib/udev/rules.d/60-antimicrox-uinput.rules
 sleep 1s
 
-echo
-echo "Making Gamemode start on boot"
-echo
-sudo systemctl --user enable --now gamemoded.service
-sudo chmod +x /usr/bin/gamemoderun
-sleep 1s
-
 # Enable services
-systemctl --user enable --now opentabletdriver.service
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
@@ -948,6 +1048,32 @@ if ! grep -iq "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" /etc/environmen
     echo "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" | sudo tee -a /etc/environment
     sleep 1s
 fi
+
+make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
+
+rm -rf nohup.out
+
+modprobed-db
+
+sed -i 's/IGNORE/# IGNORE/g' "$HOME"/.config/modprobed-db.conf
+
+modprobed-db store
+
+sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
+sudo sed -i "s/GRUB_THEME.*/GRUB_THEME=\"\/boot\/grub\/themes\/CRT-Amber-GRUB-Theme\/theme.txt\"/g" /etc/default/grub
+sudo update-grub
+
+echo
+echo "You must run both qt5ct and qt6ct and adjust their themes, icons, etc accordingly"
+echo
+echo "Run otd-gui to configure your non-wacom Tablet"
+echo
+echo "Run crontab -e and place the following in there:"
+echo '0 */1 * * *   /usr/bin/modprobed-db store &> /dev/null'
+echo
+echo "Configure SGDBoop, go to the following site and follow instructions"
+echo 'https://www.steamgriddb.com/boop'
+echo
 
 echo
 echo "Done..."

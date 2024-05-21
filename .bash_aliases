@@ -31,6 +31,8 @@ alias rmt='gio trash'
 alias headset-charge-indicator='cd ~/ && nohup python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py &'
 alias headsetchargeindicator='cd ~/ && nohup python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py &'
 
+alias waybar='cd ~/ && nohup waybar &'
+
 # Neverwinter Nights: Enhanced Edition
 alias tlkedit='cd ~/ && nohup gtk-launch tlkedit &'
 alias nwnexplorer='cd ~/ && nohup gtk-launch nwnexplorer &'

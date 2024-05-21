@@ -1,0 +1,4 @@
+[OpenTabletDriver Virtual Tablet]
+MatchName=OpenTabletDriver*
+AttrTabletSmoothing=0
+

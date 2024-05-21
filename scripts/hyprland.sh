@@ -1,7 +1,7 @@
 #! /bin/env bash
 
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-  sudo pacman -S hyprland --noconfirm --needed
+  sudo pacman -S hyprland-git --noconfirm --needed
 fi
 
 # PACMAN
@@ -14,10 +14,8 @@ PKGS=(
   'libva-mesa-driver'
   'mesa-vdpau'
   'opencl-clover-mesa'
-  'xorg-xwayland'
+  'xorg-xwayland-git'
 )
-
-    pacman -S  --noconfirm --needed
 
 for PKG in "${PKGS[@]}"; do
   echo
@@ -57,14 +55,26 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     sleep 1s
   done
 
-  echo '__GLX_VENDOR_LIBRARY_NAME=nvidia' | sudo tee -a /etc/environment
-  echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
-  echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+  if ! [[ grep -qi '__GLX_VENDOR_LIBRARY_NAME' ]]; then
+    echo '__GLX_VENDOR_LIBRARY_NAME=nvidia' | sudo tee -a /etc/environment
+  else
+    sudo sed -i 's/__GLX_VENDOR_LIBRARY_NAME.*/__GLX_VENDOR_LIBRARY_NAME=nvidia/g' /etc/environment
+  fi
+  if ! [[ grep -qi 'VK_ICD_FILENAMES' ]]; then
+    echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+  else
+    sudo sed -i 's/VK_ICD_FILENAMES.*/VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json/g' /etc/environment
+  fi
+  if ! [[ grep -qi 'VK_LAYER_PATH' ]]; then
+    echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+  else
+    sudo sed -i 's/VK_LAYER_PATH.*/VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d/g' /etc/environment
+  fi
 
   sleep 1s
 
   if ! [[ -f /etc/modprobe.d/nvidia.conf ]]; then
-    touch /etc/modprobe.d/nvidia.conf
+    sudo touch /etc/modprobe.d/nvidia.conf
     sync
     printf "options nouveau modeset=0\n" | sudo tee /etc/modprobe.d/nvidia.conf
     printf "options nvidia-drm modeset=1\n" | sudo tee -a /etc/modprobe.d/nvidia.conf
@@ -72,7 +82,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
   fi
 
   if ! [[ -f /etc/dracut.conf.d/nvidia.conf ]]; then
-    touch /etc/dracut.conf.d/nvidia.conf
+    sudo touch /etc/dracut.conf.d/nvidia.conf
     sync
     echo 'force_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
   fi
@@ -82,7 +92,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
 
   GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
   sleep 1s
-  GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1\""
+  GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1'"
   sleep 1s
   sudo sed -ie "s|^GRUB_CMDLINE_LINUX_DEFAULT.*|${GRUB}|g" /etc/default/grub
 

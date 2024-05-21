@@ -34,3 +34,9 @@
 [submodule "apps/headset-charge-indicator"]
 	path = apps/headset-charge-indicator
 	url = https://github.com/centic9/headset-charge-indicator.git
+[submodule "apps/CRT-Amber-GRUB-Theme"]
+	path = apps/CRT-Amber-GRUB-Theme
+	url = https://github.com/Jacksaur/CRT-Amber-GRUB-Theme.git
+[submodule "apps/steam-devices"]
+	path = apps/steam-devices
+	url = https://github.com/ValveSoftware/steam-devices.git

@@ -131,10 +131,8 @@ if [ -f "$HOME"/.bash_aliases ]; then
         source "$HOME"/.bash_aliases
 fi
 
-if [ -f "$HOME"/dotfiles/apps/ble.sh/out/ble.sh ]; then
-        source "$HOME"/dotfiles/apps/ble.sh/out/ble.sh
-elif [ -f /usr/share/blesh/ble.sh ]; then
-        source /usr/share/blesh/ble.sh
+if [ -f "$HOME"/.local/share/blesh/ble.sh ]; then
+        source "$HOME"/.local/share/blesh/ble.sh
 fi
 
 #######################################################
@@ -522,9 +520,10 @@ setdefaultemacsprofile() {
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
-export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME"/.config
+export XDG_SCREENSHOT_DIR="$HOME"/Pictures/Grim/
 export QT_STYLE_OVERRIDE=kvantum
-export QT_QPA_PLATFORMTHEME=qt5ct
+# export QT_QPA_PLATFORMTHEME='qt5ct:qt6ct'
 
 export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
