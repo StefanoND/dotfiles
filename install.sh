@@ -1059,6 +1059,15 @@ sed -i 's/IGNORE/# IGNORE/g' "$HOME"/.config/modprobed-db.conf
 
 modprobed-db store
 
+# These can prevent some programs from starting. Let's comment them
+sudo sed -i 's/export GDK_BACKEND/# export GDK_BACKEND/g' /usr/local/bin/hyprstart
+sudo sed -i 's/export SDL_VIDEODRIVER/# export SDL_VIDEODRIVER/g' /usr/local/bin/hyprstart
+sudo sed -i 's/export CLUTTER_BACKEND/# export CLUTTER_BACKEND/g' /usr/local/bin/hyprstart
+
+# We'll use qt5ct:qt6ct so let's comment it to avoid any "fun" stuff
+sudo sed -i 's/export QT_QPA_PLATFORM/# export QT_QPA_PLATFORM/g' /usr/local/bin/hyprstart
+
+
 sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
 sudo sed -i "s/GRUB_THEME.*/GRUB_THEME=\"\/boot\/grub\/themes\/CRT-Amber-GRUB-Theme\/theme.txt\"/g" /etc/default/grub
 sudo update-grub

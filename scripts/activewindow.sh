@@ -7,48 +7,30 @@ istrue=y
 
 isWayland=`loginctl show-session "$(loginctl | grep "$(whoami)" | awk '{print $1}')" -p Type`
 
-if [[ $isWayland == *"wayland"* ]]; then
-  while [[ ${istrue,,} = y ]]; do
+while [[ ${istrue,,} = y ]]; do
+  if [[ $isWayland == *"wayland"* ]]; then
     classname=`hyprctl activewindow -j | jq -r ".class"`
     windowname=`hyprctl activewindow -j | jq -r ".title"`
-    echo
-    echo "Detecting active Window"
-    echo
-    echo "--------------------------"
-    echo "|         Active         |"
-    echo "--------------------------"
-    echo
-    printf "Class: $classname"
-    echo
-    echo
-    printf "Window: $windowname"
-    echo
-    echo
-    echo "--------------------------"
-    echo
-    sleep 1s
-  done
-else
-  while [[ ${istrue,,} = y ]]; do
+  else
     classname=`xdotool getactivewindow getwindowclassname`
     windowname=`xdotool getactivewindow getwindowname`
-    echo
-    echo "Detecting active Window"
-    echo
-    echo "--------------------------"
-    echo "|         Active         |"
-    echo "--------------------------"
-    echo
-    printf "Class: $classname"
-    echo
-    echo
-    printf "Window: $windowname"
-    echo
-    echo
-    echo "--------------------------"
-    echo
-    sleep 1s
-  done
-fi
+  fi
+  echo
+  echo "Detecting active Window"
+  echo
+  echo "--------------------------"
+  echo "|         Active         |"
+  echo "--------------------------"
+  echo
+  printf "Class: $classname"
+  echo
+  echo
+  printf "Window: $windowname"
+  echo
+  echo
+  echo "--------------------------"
+  echo
+  sleep 1s
+done
 
 exit 0

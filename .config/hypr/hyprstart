@@ -53,7 +53,6 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export XDG_CONFIG_HOME="$HOME"/.config
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME='qt5ct:qt6ct'
-# export QT_QPA_PLATFORMTHEME=gtk3
 
 export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
