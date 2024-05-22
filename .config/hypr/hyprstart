@@ -7,10 +7,16 @@ export XCURSOR_SIZE=48
 export XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
 export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
 
-export FrameworkPathOverride=/lib/mono/4.8-api
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __GL_GSYNC_ALLOWED=1
 export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+export NVD_BACKEND=direct
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+
+export FrameworkPathOverride=/lib/mono/4.8-api
 export VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d
+
+export EGL_PLATFORM=wayland
 
 # text editor
 export SUDO_EDITOR=nvim
@@ -52,7 +58,11 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 export XDG_CONFIG_HOME="$HOME"/.config
 export QT_STYLE_OVERRIDE=kvantum
-export QT_QPA_PLATFORMTHEME='qt5ct:qt6ct'
+export QT_QPA_PLATFORMTHEME=wayland:xcb
+
+# export GDK_BACKEND=wayland:x11          # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
+# export CLUTTER_BACKEND=wayland          # this can prevent programs from starting. therefore, this should be set per app instead of globally.
+# export SDL_VIDEODRIVER=wayland          # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
 
 export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'

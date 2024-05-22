@@ -1,7 +1,7 @@
 #! /bin/env bash
 
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-  sudo pacman -S hyprland-git --noconfirm --needed
+  yes | sudo pacman -S hyprland-git --needed
 fi
 
 # PACMAN
@@ -21,7 +21,7 @@ for PKG in "${PKGS[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  sudo pacman -S "$PKG" --noconfirm --needed
+  yes | sudo pacman -S "$PKG" --needed
   sleep 1s
 done
 
@@ -51,7 +51,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     echo
     echo "INSTALLING: ${PKG}"
     echo
-    sudo pacman -S "$PKG" --noconfirm --needed
+    yes | sudo pacman -S "$PKG" --needed
     sleep 1s
   done
 
@@ -92,7 +92,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
 
   GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
   sleep 1s
-  GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1'"
+  GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1\""
   sleep 1s
   sudo sed -ie "s|^GRUB_CMDLINE_LINUX_DEFAULT.*|${GRUB}|g" /etc/default/grub
 

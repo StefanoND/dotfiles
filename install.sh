@@ -8,10 +8,6 @@ if ! [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-lsblk
-ROOTDEV=sdd3
-HOMEDEV=nvme0n1p1
-
 cd "$HOME"/dotfiles
 
 if ! [ -d "$HOME"/.apps ]; then
@@ -21,6 +17,19 @@ fi
 
 if ! [ -d "$HOME"/Pictures/Grim ]; then
   mkdir -p "$HOME"/Pictures/Grim
+  sync
+fi
+
+if ! [ -d "$HOME"/dotfiles/backup/.config ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.config
+  sync
+fi
+if ! [ -d "$HOME"/dotfiles/backup/.firedragon ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.firedragon
+  sync
+fi
+if ! [ -d "$HOME"/dotfiles/backup/etc/libinput ]; then
+  mkdir -p "$HOME"/dotfiles/backup/etc/libinput
   sync
 fi
 
@@ -205,7 +214,7 @@ if ! [ -d /etc/libinput ]; then
 fi
 
 if [ -f /etc/libinput/local-overrides.quirks ]; then
-  sudo mv /etc/libinput/local-overrides.quirks "$HOME"/dotfiles/backup/etc/libinput
+  sudo mv /etc/libinput/local-overrides.quirks "$HOME"/dotfiles/backup/etc/libinput/
   sync
 fi
 sudo cp "$HOME"/dotfiles/etc/libinput/local-overrides.quirks /etc/libinput/
@@ -214,7 +223,7 @@ sudo ln -sv "$HOME"/.gtkrc-2.0 /etc/gtk-2.0/gtkrc
 sudo ln -sv "$HOME"/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
 
 if [ -d "$HOME"/.config/frogminer ]; then
-  mv "$HOME"/.config/frogminer "$HOME"/dotfiles/backup/
+  mv "$HOME"/.config/frogminer "$HOME"/dotfiles/backup/.config/
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/frogminer "$HOME"/.config/
@@ -384,7 +393,6 @@ PKGS=(
   'libnotify'
   'distrobox'
   'expressvpn'
-  'xdg-desktop-portal-kde'
   'xdg-desktop-portal-gtk'
   'polkit'
   'polkit-kde-agent'
@@ -392,13 +400,14 @@ PKGS=(
   'gnome-themes-extra'
   'modprobed-db'
   'cronie'
+  'xwaylandvideobridge'
 )
 
 for PKG in "${PKGS[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  sudo pacman -S "$PKG" --noconfirm --needed
+  yes | sudo pacman -S "$PKG" --needed
   sync
   sleep 1s
 done
@@ -413,7 +422,7 @@ for PKG in "${PKGPARU[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  paru -S "$PKG" --noconfirm --needed --sudoloop
+  yes | paru -S "$PKG" --noconfirm --needed --sudoloop
   sync
   sleep 1s
 done
@@ -541,6 +550,7 @@ PKGFP=(
   'org.libreoffice.LibreOffice'                           # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
   'md.obsidian.Obsidian'                                  # A knowledge base that works on local Markdown files
   'com.discordapp.Discord'                                # VoIP app
+  'io.github.spacingbat3.webcord'                         # Less-Telemetry Discord
   'com.github.eneshecan.WhatsAppForLinux'                 # Messaging App
   'org.qbittorrent.qBittorrent'                           # Torrent app
   'org.tenacityaudio.Tenacity'                            # Audio Recorder and Editor
@@ -705,9 +715,13 @@ flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.useb
 
 flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
 
+flatpak --user override --socket=wayland
+
 # Workaround for Copy-Paste issues with lutris
-flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
-flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
+flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb net.lutris.Lutris
+flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb com.github.eneshecan.WhatsAppForLinux
+# flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb io.github.spacingbat3.webcord
+# flatpak --user override --socket=system-bus io.github.spacingbat3.webcord
 
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
@@ -753,28 +767,24 @@ echo 'Xcursor.size: 48' | tee -a "$HOME"/.Xresources
 echo 'xset r rate 300 60' | tee -a "$HOME"/.xinitrc
 echo 'xrdb ~/.Xresources' | tee -a "$HOME"/.xinitrc
 
-echo 'XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors' | sudo tee -a /etc/environment
-echo 'XCURSOR_SIZE=48' | sudo tee -a /etc/environment
-echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
-echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
-echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
-echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
+# echo 'XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors' | sudo tee -a /etc/environment
+# echo 'XCURSOR_SIZE=48' | sudo tee -a /etc/environment
+# echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
+# echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
+# echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
+# echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
 echo 'PATH=$PATH:/root/.dotnet/tools' | sudo tee -a /etc/environment
-echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
-echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
-echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
-echo 'XDG_CONFIG_HOME=$HOME/.config' | sudo tee -a /etc/environment
-echo 'XDG_SCREENSHOT_DIR=$HOME/Pictures/Grim' | sudo tee -a /etc/environment
-echo 'XDG_DATA_DIRS=/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS' | sudo tee -a /etc/environment
+# echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
+# echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+# echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+# echo 'XDG_CONFIG_HOME=$HOME/.config' | sudo tee -a /etc/environment
+# echo 'XDG_SCREENSHOT_DIR=$HOME/Pictures/Grim' | sudo tee -a /etc/environment
+# echo 'XDG_DATA_DIRS=/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS' | sudo tee -a /etc/environment
 
-sudo sed -i 's/QT_QPA_PLATFORMTHEME/# QT_QPA_PLATFORMTHEME/g' /etc/environment
-sudo sed -i 's/GTK_THEME.*/GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark/g' /etc/environment
-
-echo 'QT_QPA_PLATFORMTHEME=qt5ct:qt6ct' | sudo tee -a /etc/environment
-# exec = gsettings set org.gnome.desktop.interface gtk-theme 'Catppuccin-Mocha-Standard-Mauve-Dark'
-# exec = gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
-# exec = gsettings set org.gnome.desktop.interface font-name 'FiraCode Nerd Font Mono'
-# exec = gsettings set org.gnome.desktop.interface cursor-theme 'Catppuccin-Mocha-Mauve-Cursors'
+# sudo sed -i 's/QT_QPA_PLATFORMTHEME/# QT_QPA_PLATFORMTHEME/g' /etc/environment
+# sudo sed -i 's/GTK_THEME.*/GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark/g' /etc/environment
+#
+# echo 'QT_QPA_PLATFORMTHEME=qt5ct:qt6ct' | sudo tee -a /etc/environment
 
 sync
 sleep 1s
@@ -865,15 +875,6 @@ echo
 sudo sed -i "s|\#MAKEFLAGS=.*|MAKEFLAGS=\"-j$(expr "$(nproc)" \+ 1)\"|g" /etc/makepkg.conf
 sync
 sudo sed -i "s|COMPRESSXZ=.*|COMPRESSXZ=(xz -c -T $(expr "$(nproc)" \+ 1) -z -)|g" /etc/makepkg.conf
-sync
-sleep 1s
-
-echo
-echo "Enabling btrfs's automatic balance at 10% threshold"
-echo
-sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/"$ROOTDEV")/allocation/data/bg_reclaim_threshold"
-sync
-sudo bash -c "echo 10 > /sys/fs/btrfs/$(sudo blkid -s UUID -o value /dev/"$HOMEDEV")/allocation/data/bg_reclaim_threshold"
 sync
 sleep 1s
 
@@ -1028,26 +1029,29 @@ sync
 sleep 1s
 
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-    if ! grep -iq "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" /etc/environment; then
-        echo
-        echo "Assigning \"VK_ICD_FILENAMES\" to \"nvidia_icd.json\""
-        echo
-        echo "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" | sudo tee -a /etc/environment
-    sleep 1s
-    fi
+    # Using this at hyprland.conf
+    # if ! grep -iq "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" /etc/environment; then
+    #     echo
+    #     echo "Assigning \"VK_ICD_FILENAMES\" to \"nvidia_icd.json\""
+    #     echo
+    #     echo "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" | sudo tee -a /etc/environment
+    # sleep 1s
+    # fi
     echo
     echo "Removing vulkan for non-NVidia GPUs to avoid conflicts"
     echo
     sudo pacman -Rsn lib32-vulkan-radeon vulkan-radeon lib32-vulkan-intel vulkan-amdgpu-pro amf-amdgpu-pro --noconfirm
     sleep 1s
 fi
-if ! grep -iq "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" /etc/environment; then
-    echo
-    echo "Assigning \"VK_LAYER_PATH\" to \"explicit_layer.d\""
-    echo
-    echo "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" | sudo tee -a /etc/environment
-    sleep 1s
-fi
+
+# Using this at hyprland.conf
+# if ! grep -iq "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" /etc/environment; then
+#     echo
+#     echo "Assigning \"VK_LAYER_PATH\" to \"explicit_layer.d\""
+#     echo
+#     echo "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" | sudo tee -a /etc/environment
+#     sleep 1s
+# fi
 
 make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
 
@@ -1065,7 +1069,7 @@ sudo sed -i 's/export SDL_VIDEODRIVER/# export SDL_VIDEODRIVER/g' /usr/local/bin
 sudo sed -i 's/export CLUTTER_BACKEND/# export CLUTTER_BACKEND/g' /usr/local/bin/hyprstart
 
 # We'll use qt5ct:qt6ct so let's comment it to avoid any "fun" stuff
-sudo sed -i 's/export QT_QPA_PLATFORM/# export QT_QPA_PLATFORM/g' /usr/local/bin/hyprstart
+# sudo sed -i 's/export QT_QPA_PLATFORMTHEME/# export QT_QPA_PLATFORMTHEME/g' /usr/local/bin/hyprstart
 
 
 sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
