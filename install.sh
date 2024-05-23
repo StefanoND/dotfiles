@@ -299,6 +299,10 @@ PKGS=(
   'libvirt'
   'virt-manager'
   'edk2-ovmf'
+  'dmidecode'
+  'dnsmasq'
+  'ebtables'
+  'iptables-nft'
 
   # Neovim "Dependencies"
   'ripgrep'
@@ -686,7 +690,6 @@ fi
 sudo usermod -aG docker "$(logname)"
 sudo usermod -aG gamemode "$(logname)"
 sudo usermod -aG input "$(logname)"
-nohup newgrp docker &
 
 sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index.theme
 
@@ -762,6 +765,92 @@ echo
 sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
 sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
 sync
+
+echo
+echo "usermod -aG video qemu"
+echo
+sudo usermod -aG video qemu
+sleep 1s
+
+echo
+echo "usermod -aG kvm,libvirt,video \"$(logname)\""
+echo
+sudo usermod -aG kvm,libvirt,video "$(logname)"
+sleep 1s
+
+echo
+echo "Enabling libvirtd"
+echo
+sudo systemctl enable --now libvirtd
+sleep 1s
+
+echo
+echo "gpasswd -M $(logname) kvm"
+echo
+sudo gpasswd -M "$(logname)" kvm
+sleep 1s
+echo
+echo "gpasswd -M $(logname) libvirt"
+echo
+sudo gpasswd -M "$(logname)" libvirt
+sleep 1s
+
+echo
+echo "Enabling VIRSH internal network automatically at boot"
+echo
+sudo virsh net-autostart default
+sleep 1s
+
+cpath=$PWD
+
+echo
+echo "Backing up \"/etc/libvirt/libvirtd.conf\" to \"/etc/libvirt/libvirtd.conf.old\""
+echo
+sudo mv /etc/libvirt/libvirtd.conf /etc/libvirt/libvirtd.conf.old
+sleep 1s
+echo
+echo "Copying \"""$cpath/SGPUPT/config/libvirtd.conf\" to \"/etc/libvirt\""
+echo
+sudo cp "$cpath"/SGPUPT/config/libvirtd.conf /etc/libvirt
+sleep 1s
+echo
+echo "Backing up \"/etc/libvirt/qemu.conf\" to \"/etc/libvirt/qemu.conf.old\""
+echo
+sudo mv /etc/libvirt/qemu.conf /etc/libvirt/qemu.conf.old
+sleep 1s
+echo
+echo "Copying \"""$cpath/SGPUPT/config/qemu.conf\" to \"/etc/libvirt\""
+echo
+sudo cp "$cpath"/SGPUPT/config/qemu.conf /etc/libvirt
+sleep 1s
+
+if grep -qF "user=\"USERNAME\"" /etc/libvirt/qemu.conf; then
+    echo
+    echo "Adding \"$(logname)\" to qemu.conf's user"
+    echo
+    sudo sed -i "s|user=\"USERNAME\".*|user=\"$(logname)\"|g" /etc/libvirt/qemu.conf
+    sleep 1s
+fi
+
+# grubgpu=""
+if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
+  echo 'options nouveau modeset=0' | sudo tee /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  echo 'blacklist nouveau' | sudo tee -a /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  echo 'blacklist lbm-nouveau' | sudo tee -a /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  echo 'alias nouveau off' | sudo tee -a /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  echo 'alias lbm-nouveau off' | sudo tee -a /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+  echo 'options nouveau modeset=0' | sudo tee /etc/modprobe.d/nouveau-kms.conf
+
+    sudo sed -i 's/\#    "\/dev\/nvidiactl", "\/dev\/nvidia0", "\/dev\/nvidia-modeset",/\    "\/dev\/nvidiactl", "\/dev\/nvidia0", "\/dev\/nvidia-modeset",/g' /etc/libvirt/qemu.conf
+
+    # grubgpu="nouveau.modeset=0 nvidia-drm.modeset=1"
+    sleep 1s
+# elif lspci -nn | egrep -i "3d|display|vga" | grep -iq 'amd'; then
+#     grubgpu="amdgpu.aspm=0"
+#     sleep 1s
+fi
+
+sudo mkdir -p /etc/libvirt/hooks
 
 echo 'Xcursor.theme: Catppuccin-Mocha-Mauve-Cursors' | tee -a "$HOME"/.Xresources
 echo 'Xcursor.size: 48' | tee -a "$HOME"/.Xresources
@@ -1055,6 +1144,82 @@ sudo sed -i 's/#UserspaceHID=.*/UserspaceHID=true/g' /etc/bluetooth/input.conf
 
 sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
 sudo sed -i "s/GRUB_THEME.*/GRUB_THEME=\"\/boot\/grub\/themes\/CRT-Amber-GRUB-Theme\/theme.txt\"/g" /etc/default/grub
+
+GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
+
+# if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
+#     GRUB+=" amd_iommu=on iommu=pt kvm_amd.npt=1 kvm_amd.avic=1 kvm_amd.nested=1 kvm_amd.sev=1 kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 video=vesafb:off,efifb:off,simplefb:off$grubgpu systemd.unified_cgroup_hierarchy=0\""
+#     sleep 1s
+# elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
+#     GRUB+=" intel_iommu=on iommu=pt kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 video=vesafb:off,efifb:off,simplefb:off$grubgpu systemd.unified_cgroup_hierarchy=0\""
+#     sleep 1s
+# fi
+
+if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
+    GRUB+=" iommu=pt $grubgpu\""
+    sleep 1s
+elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
+    GRUB+=" intel_iommu=on iommu=pt $grubgpu\""
+    sleep 1s
+fi
+
+sudo sed -ie "s|^GRUB_CMDLINE_LINUX_DEFAULT.*|${GRUB}|g" /etc/default/grub
+sleep 1s
+
+echo
+echo "Enabling nested kvm"
+echo
+
+if ! [[ -d /etc/modprobe.d ]]; then
+    echo
+    echo "Creating \"/etc/modprobe.d\" folder"
+    echo
+    sudo mkdir -p /etc/modprobe.d
+    sleep 1s
+fi
+
+if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
+    if ! [[ -f /etc/modprobe.d/kvm.conf ]]; then
+        sudo touch /etc/modprobe.d/kvm.conf
+        sleep 1s
+    fi
+
+    printf "options kvm_amd nested=1\noptions kvm ignore_msrs=1\noptions kvm report_ignored_msrs=0\n" | sudo tee /etc/modprobe.d/kvm.conf
+    sudo modprobe -r kvm-amd
+    sudo modprobe kvm-amd
+    sleep 1s
+elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
+    if ! [[ -f /etc/modprobe.d/kvm.conf ]]; then
+        sudo touch /etc/modprobe.d/kvm.conf
+        sleep 1s
+    fi
+
+    printf "options kvm-intel nested=1\noptions kvm ignore_msrs=1\noptions kvm report_ignored_msrs=0\noptions kvm-intel enable_shadow_vmcs=1\noptions kvm-intel enable_apicv=1\noptions kvm-intel ept=1\n" | sudo tee /etc/modprobe.d/kvm.conf
+    sudo modprobe -r kvm-intel
+    sudo modprobe kvm-intel
+    sleep 1s
+fi
+
+if ! [[ -f /etc/dracut.conf.d/10-vfio.conf ]]; then
+  sudo touch /etc/dracut.conf.d/10-vfio.conf
+  sleep 1s
+fi
+echo 'force_drivers+=" vfio vfio_pci vfio_iommu_type1 "' | sudo tee /etc/dracut.conf.d/10-vfio.conf
+
+sudo dracut-rebuild
+
+sudo modprobe vfio-pci
+sudo modprobe vfio
+sudo modprobe vfio-iommu-type1
+# sudo modprobe vfio-virqfd
+# sudo modprobe iommu_v2
+# sudo modprobe iommufd
+sleep 1s
+
+echo 'blacklist iTCO_wdt' | sudo tee /etc/modprobe.d/nowatchdog.conf
+echo 'net.ipv4.conf.all.arp_filter = 1' | sudo tee /etc/sysctl.d/30-arpflux.conf
+sleep 1s
+
 sudo update-grub
 
 echo

@@ -76,9 +76,10 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
   if ! [[ -f /etc/modprobe.d/nvidia.conf ]]; then
     sudo touch /etc/modprobe.d/nvidia.conf
     sync
-    printf "options nouveau modeset=0\n" | sudo tee /etc/modprobe.d/nvidia.conf
-    printf "options nvidia-drm modeset=1\n" | sudo tee -a /etc/modprobe.d/nvidia.conf
-    printf "options nvidia NVreg_RegistryDwords=\"PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3\"\n" | sudo tee -a /etc/modprobe.d/nvidia.conf
+    echo 'options nvidia_drm modeset=1' | sudo tee /etc/modprobe.d/nvidia.conf
+    echo 'options nvidia_drm fbdev=1' | sudo tee -a /etc/modprobe.d/nvidia.conf
+    echo 'options nvidia NVreg_PreserveVideoMemoryAllocations=1' | sudo tee -a /etc/modprobe.d/nvidia.conf
+    echo 'options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"' | sudo tee -a /etc/modprobe.d/nvidia.conf
   fi
 
   if ! [[ -f /etc/dracut.conf.d/nvidia.conf ]]; then
@@ -90,14 +91,14 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
   sudo dracut-rebuild
   sync
 
-  GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
-  sleep 1s
-  GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1\""
-  sleep 1s
-  sudo sed -ie "s|^GRUB_CMDLINE_LINUX_DEFAULT.*|${GRUB}|g" /etc/default/grub
-
-  sudo update-grub
-  sync
+  # GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
+  # sleep 1s
+  # GRUB+=" nouveau.modeset=0 nvidia_drm.modeset=1 nvidia_drm.fbdev=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1\""
+  # sleep 1s
+  # sudo sed -ie "s|^GRUB_CMDLINE_LINUX_DEFAULT.*|${GRUB}|g" /etc/default/grub
+  #
+  # sudo update-grub
+  # sync
 
   sudo systemctl enable nvidia-suspend.service
   sudo systemctl enable nvidia-hibernate.service
