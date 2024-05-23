@@ -16,7 +16,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 export FrameworkPathOverride=/lib/mono/4.8-api
 export VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d
 
-export EGL_PLATFORM=wayland
+export EGL_PLATFORM=wayland:x11
 
 # text editor
 export SUDO_EDITOR=nvim
@@ -58,7 +58,8 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 export XDG_CONFIG_HOME="$HOME"/.config
 export QT_STYLE_OVERRIDE=kvantum
-export QT_QPA_PLATFORMTHEME=wayland:xcb
+# export QT_QPA_PLATFORMTHEME=wayland:xcb
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
 
 # export GDK_BACKEND=wayland:x11          # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
 # export CLUTTER_BACKEND=wayland          # this can prevent programs from starting. therefore, this should be set per app instead of globally.

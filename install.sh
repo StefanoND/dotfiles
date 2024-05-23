@@ -24,10 +24,12 @@ if ! [ -d "$HOME"/dotfiles/backup/.config ]; then
   mkdir -p "$HOME"/dotfiles/backup/.config
   sync
 fi
+
 if ! [ -d "$HOME"/dotfiles/backup/.firedragon ]; then
   mkdir -p "$HOME"/dotfiles/backup/.firedragon
   sync
 fi
+
 if ! [ -d "$HOME"/dotfiles/backup/etc/libinput ]; then
   mkdir -p "$HOME"/dotfiles/backup/etc/libinput
   sync
@@ -540,7 +542,7 @@ done
 echo
 echo "Adding flathub"
 echo
-flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 sync
 
 # Flatpak
@@ -550,7 +552,6 @@ PKGFP=(
   'org.libreoffice.LibreOffice'                           # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
   'md.obsidian.Obsidian'                                  # A knowledge base that works on local Markdown files
   'com.discordapp.Discord'                                # VoIP app
-  'io.github.spacingbat3.webcord'                         # Less-Telemetry Discord
   'com.github.eneshecan.WhatsAppForLinux'                 # Messaging App
   'org.qbittorrent.qBittorrent'                           # Torrent app
   'org.tenacityaudio.Tenacity'                            # Audio Recorder and Editor
@@ -657,11 +658,10 @@ for PKG in "${PKGFP[@]}"; do
     echo
     echo "INSTALLING: ${PKG}"
     echo
-    flatpak install --user flathub "$PKG" -y --or-update
+    flatpak --user install flathub "$PKG" -y --or-update
     echo
     sync
 done
-
 
 echo
 echo "Fixing cursor and themes with flatpak apps"
@@ -693,6 +693,7 @@ sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index
 cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
 cp -ur /usr/share/themes "$HOME"/.themes
+
 flatpak --user override --filesystem="$HOME"/.fonts/:ro
 flatpak --user override --filesystem="$HOME"/.icons/:ro
 flatpak --user override --filesystem="$HOME"/.themes/:ro
@@ -713,7 +714,7 @@ flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam net.lutr
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.heroicgameslauncher.hgl
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.usebottles.bottles
 
-flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
+flatpak --user override --env=MANGOHUD=1 com.valvesoftware.Steam
 
 flatpak --user override --socket=wayland
 
@@ -728,6 +729,7 @@ flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.What
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
 
 flatpak --user override --allow=bluetooth org.ryujinx.Ryujinx
+flatpak --user override --allow=bluetooth org.yuzu_emu.yuzu
 
 sync
 sleep 1s
@@ -914,53 +916,30 @@ echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-wat
 sync
 sleep 1s
 
-printf "fs.inotify.max_user_instances\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.inotify.max_user_watches=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "vm.max_map_count=524288\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.tcp_fin_timeout=5\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.sched_cfs_bandwidth_slice_us=3000\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.core.rmem_max=5242880\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.core.wmem_max=5242880\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.inotify.max_user_instances=8192' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.inotify.max_user_watches=524288' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'vm.max_map_count=524288' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.core.rmem_max=5242880' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.core.wmem_max=5242880' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.sched_cfs_bandwidth_slice_us=3000' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.core_pipe_limit=16\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.suid_dumpable=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.sysrq=16\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.core_uses_pid=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.default.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.docker0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.enp34s0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.lo.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.tun0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.vboxnet0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.virbr0.rp_filter=2\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.default.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.docker0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.enp34s0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.lo.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.tun0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.vboxnet0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.virbr0.accept_source_route=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.default.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.docker0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.enp34s0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.lo.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.tun0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.vboxnet0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.conf.virbr0.promote_secondaries=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.ipv4.ping_group_range=0 2147483647\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "net.core.default_qdisc=fq_codel\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.protected_hardlinks=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.protected_symlinks=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.protected_regular=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.protected_fifos=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.pid_max=4194304\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "fs.aio-max-nr=1048576\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "vm.unprivileged_userfaultfd=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "vm.swappiness=133\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.nmi_watchdog=0\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.unprivileged_userns_clone=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.printk=3 3 3 3\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-printf "kernel.sysrq=1\n" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.core_pipe_limit=16' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.suid_dumpable=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.sysrq=16' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.core_uses_pid=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.core.default_qdisc=fq_codel' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.protected_hardlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.protected_symlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.protected_regular=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.protected_fifos=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.pid_max=4194304' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'fs.aio-max-nr=1048576' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'vm.unprivileged_userfaultfd=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'vm.swappiness=133' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.nmi_watchdog=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.unprivileged_userns_clone=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.printk=3 3 3 3' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'kernel.sysrq=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 sync
 sudo sysctl --system
 sleep 1s
@@ -1013,6 +992,7 @@ curl https://raw.githubusercontent.com/AntiMicroX/antimicrox/master/other/60-ant
 sleep 1s
 
 # Enable services
+systemctl --user enable pipewire-pulse.service
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
@@ -1071,6 +1051,7 @@ sudo sed -i 's/export CLUTTER_BACKEND/# export CLUTTER_BACKEND/g' /usr/local/bin
 # We'll use qt5ct:qt6ct so let's comment it to avoid any "fun" stuff
 # sudo sed -i 's/export QT_QPA_PLATFORMTHEME/# export QT_QPA_PLATFORMTHEME/g' /usr/local/bin/hyprstart
 
+sudo sed -i 's/#UserspaceHID=.*/UserspaceHID=true/g' /etc/bluetooth/input.conf
 
 sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
 sudo sed -i "s/GRUB_THEME.*/GRUB_THEME=\"\/boot\/grub\/themes\/CRT-Amber-GRUB-Theme\/theme.txt\"/g" /etc/default/grub
