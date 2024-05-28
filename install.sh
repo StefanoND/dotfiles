@@ -35,6 +35,16 @@ if ! [ -d "$HOME"/dotfiles/backup/etc/libinput ]; then
   sync
 fi
 
+if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.config/menus
+  sync
+fi
+
+if ! [ -d "$HOME"/.config/menus ]; then
+  mkdir -p "$HOME"/.config/menus
+  sync
+fi
+
 if [ -f "$HOME"/.bash_aliases ]; then
   mv "$HOME"/.bash_aliases "$HOME"/dotfiles/backup/
   sync
@@ -77,6 +87,12 @@ ln -svf "$HOME"/dotfiles/.gitconfig "$HOME"/
 #   sync
 # fi
 # ln -svf $HOME/dotfiles/.wezterm.lua $HOME/
+
+if [ -d "$HOME"/.tmux ]; then
+  mv "$HOME"/.tmux "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.tmux "$HOME"/
 
 if [ -f "$HOME"/.config/starship.toml ]; then
   mv "$HOME"/.config/starship.toml "$HOME"/dotfiles/backup/.config/
@@ -126,6 +142,12 @@ if [ -d "$HOME"/.config/mako ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/mako "$HOME"/.config/
+
+if [ -f "$HOME"/.config/menus/applications.menu ]; then
+  mv "$HOME"/.config/menus/applications.menu "$HOME"/dotfiles/backup/.config/menus/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/menus/applications.menu "$HOME"/.config/menus/
 
 if [ -d "$HOME"/.config/nvim ]; then
   mv "$HOME"/.config/nvim "$HOME"/dotfiles/backup/.config/
@@ -240,6 +262,8 @@ export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
+sudo pacman -Rsn thunar --noconfirm --unneeded
+
 # PACMAN
 PKGS=(
   # Tools
@@ -338,9 +362,19 @@ PKGS=(
   'lua-language-server'
   'bash-language-server'
   'rust-analyzer'
+
   # C Sharp
   'dotnet-sdk-6.0'
   'dotnet-sdk-7.0'
+  'aspnet-runtime'
+  'aspnet-runtime-6.0'
+  'aspnet-runtime-7.0'
+  'dotnet-targeting-pack'
+  'dotnet-targeting-pack-6.0'
+  'dotnet-targeting-pack-7.0'
+  'aspnet-targeting-pack'
+  'aspnet-targeting-pack-6.0'
+  'aspnet-targeting-pack-7.0'
   'mono'
   'mono-msbuild'
   'libuv'
@@ -377,8 +411,19 @@ PKGS=(
   'tumbler'                     # D-Bus thumbnailing service
   'papirus-icon-theme'          # Theme
   'ark'                         # (KDE) (Un)packer software
+
   'dolphin'                     # (KDE) File manager
   'dolphin-plugins'             # (KDE) Plugins for Dolphin
+  'kdegraphics-thumbnailers'
+  'kimageformats'
+  'libheif'
+  'qt6-imageformats'
+  'resvg'
+  'kdesdk-thumbnailers'
+  'ffmpegthumbs'
+  'taglib'
+  'kio-extras'
+
   'gwenview'                    # (KDE) Image viewer
   'kate'                        # (KDE) Text Editor
   'kleopatra'                   # (KDE) Certificate Manager
@@ -407,6 +452,7 @@ PKGS=(
   'modprobed-db'
   'cronie'
   'xwaylandvideobridge'
+  'godot-mono'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -417,6 +463,16 @@ for PKG in "${PKGS[@]}"; do
   sync
   sleep 1s
 done
+
+tmux source "$HOME"/.config/tmux/tmux.conf
+
+if ! xdg-mime query default inode/directory | grep -iq "dolphin"; then
+  xdg-mime default org.kde.dolphin.desktop inode/directory
+fi
+
+sudo sed -i 's/inode\/directory=.*/inode\/directory=org.kde.dolphin.desktop;/g' /usr/share/applications/mimeinfo.cache
+
+kbuildsycoca6
 
 # PARU
 PKGPARU=(
@@ -608,8 +664,10 @@ PKGFP=(
   'io.gdevs.GDLauncher'                                   # Minecraft Launcher
   'net.davidotek.pupgui2'                                 # ProtonUp-Qt
   'io.github.antimicrox.antimicrox'                       # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
-  'io.github.lime3ds.Lime3DS'                             # Citra Fork (3DS emulator)
   'org.ryujinx.Ryujinx'                                   # Switch Emulator
+  'org.yuzu_emu.yuzu'                                     # Switch Emulator
+  'org.citra_emu.citra'                                   # 3DS Emulator
+  'io.github.lime3ds.Lime3DS'                             # Citra Fork
   'info.cemu.Cemu'                                        # Wii U Emulator
   'io.github.dosbox-staging'                              # DOS/x86 Emulator
   'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
@@ -617,7 +675,6 @@ PKGFP=(
   'com.steamgriddb.SGDBoop'
   'com.valvesoftware.Steam'                               # Steam
   'com.valvesoftware.Steam.CompatibilityTool.Boxtron'
-  'com.valvesoftware.Steam.Utility.protontricks'
   'com.valvesoftware.SteamLink'
   'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'
   'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08'
@@ -707,6 +764,7 @@ flatpak --user override --env=XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
 flatpak --user override --env=GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
 flatpak --user override --env=ICON_THEME=Papirus-Dark
 flatpak --user override --env=QT_STYLE_OVERRIDE=kvantum
+flatpak --user override --env=QT_QPA_PLATFORMTHEME=qt5ct,qt6ct
 
 flatpak --user override --filesystem=~/.var/app/org.winehq.Wine net.lutris.Lutris
 flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.mono net.lutris.Lutris
@@ -722,16 +780,19 @@ flatpak --user override --env=MANGOHUD=1 com.valvesoftware.Steam
 flatpak --user override --socket=wayland
 
 # Workaround for Copy-Paste issues with lutris
-flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb net.lutris.Lutris
-flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb com.github.eneshecan.WhatsAppForLinux
-# flatpak --user override --env=QT_QPA_PLATFORMTHEME=xcb io.github.spacingbat3.webcord
+flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
+flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
+# flatpak --user override --env=QT_QPA_PLATFORM=xcb io.github.spacingbat3.webcord
 # flatpak --user override --socket=system-bus io.github.spacingbat3.webcord
 
+flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
 
 flatpak --user override --allow=bluetooth org.ryujinx.Ryujinx
+flatpak --user override --allow=bluetooth org.citra_emu.citra
+flatpak --user override --allow=bluetooth io.github.lime3ds.Lime3DS
 flatpak --user override --allow=bluetooth org.yuzu_emu.yuzu
 
 sync
@@ -862,10 +923,10 @@ echo 'xrdb ~/.Xresources' | tee -a "$HOME"/.xinitrc
 # echo 'XCURSOR_SIZE=48' | sudo tee -a /etc/environment
 # echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
 # echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
-# echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
-# echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
-echo 'PATH=$PATH:/root/.dotnet/tools' | sudo tee -a /etc/environment
-# echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
+echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
+echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
+echo 'PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' | sudo tee -a /etc/environment
+echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
 # echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
 # echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
 # echo 'XDG_CONFIG_HOME=$HOME/.config' | sudo tee -a /etc/environment
@@ -876,6 +937,8 @@ echo 'PATH=$PATH:/root/.dotnet/tools' | sudo tee -a /etc/environment
 # sudo sed -i 's/GTK_THEME.*/GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark/g' /etc/environment
 #
 # echo 'QT_QPA_PLATFORMTHEME=qt5ct:qt6ct' | sudo tee -a /etc/environment
+
+sudo sed -i 's/vboxpci//g' /usr/lib/modules-load.d/virtualbox.conf
 
 sync
 sleep 1s

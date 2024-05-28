@@ -507,7 +507,8 @@ fi
 export CARGO_INSTALL_ROOT=$HOME/.cargo
 export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.dotnet/tools"
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export PATH="$PATH:/usr/local"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
