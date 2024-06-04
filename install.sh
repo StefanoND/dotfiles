@@ -45,6 +45,11 @@ if ! [ -d "$HOME"/.config/menus ]; then
   sync
 fi
 
+if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.config/menus
+  sync
+fi
+
 if [ -f "$HOME"/.bash_aliases ]; then
   mv "$HOME"/.bash_aliases "$HOME"/dotfiles/backup/
   sync
@@ -80,13 +85,6 @@ if [ -f "$HOME"/.gitconfig ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.gitconfig "$HOME"/
-
-# Wezterm config
-# if [ -f $HOME/.wezterm.lua ]; then
-#   mv $HOME/.wezterm.lua $HOME/dotfiles/backup/
-#   sync
-# fi
-# ln -svf $HOME/dotfiles/.wezterm.lua $HOME/
 
 if [ -d "$HOME"/.tmux ]; then
   mv "$HOME"/.tmux "$HOME"/dotfiles/backup/
@@ -124,13 +122,6 @@ if [ -d "$HOME"/.config/hypr ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/hypr "$HOME"/.config/
 
-# i3
-# if [ -d $HOME/.config/i3 ]; then
-#   mv $HOME/.config/i3 $HOME/dotfiles/backup/.config/
-#   sync
-# fi
-# ln -svf $HOME/dotfiles/.config/i3 $HOME/.config/
-
 if [ -d "$HOME"/.config/kitty ]; then
   mv "$HOME"/.config/kitty "$HOME"/dotfiles/backup/.config/
   sync
@@ -155,12 +146,6 @@ if [ -d "$HOME"/.config/nvim ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/nvim "$HOME"/.config/
 
-# if [ -d $HOME/.config/picom ]; then
-#   mv $HOME/.config/picom $HOME/dotfiles/backup/.config/
-#   sync
-# fi
-# ln -svf $HOME/dotfiles/.config/picom $HOME/.config/
-
 if [ -d "$HOME"/.config/PrusaSlicer ]; then
   mv "$HOME"/.config/PrusaSlicer "$HOME"/dotfiles/backup/.config/
   sync
@@ -178,12 +163,6 @@ if [ -d "$HOME"/.config/tmux ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/tmux "$HOME"/.config/
-
-# if [ -d $HOME/.config/VSCodium ]; then
-#   mv $HOME/.config/VSCodium $HOME/dotfiles/backup/.config/
-#   sync
-# fi
-# ln -svf $HOME/dotfiles/.config/VSCodium $HOME/.config/
 
 if [ -d "$HOME"/.config/waybar ]; then
   mv "$HOME"/.config/waybar "$HOME"/dotfiles/backup/.config/
@@ -245,12 +224,6 @@ sudo cp "$HOME"/dotfiles/etc/libinput/local-overrides.quirks /etc/libinput/
 
 sudo ln -sv "$HOME"/.gtkrc-2.0 /etc/gtk-2.0/gtkrc
 sudo ln -sv "$HOME"/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
-
-if [ -d "$HOME"/.config/frogminer ]; then
-  mv "$HOME"/.config/frogminer "$HOME"/dotfiles/backup/.config/
-  sync
-fi
-ln -svf "$HOME"/dotfiles/.config/frogminer "$HOME"/.config/
 
 sudo cp "$HOME"/dotfiles/apps/steam-devices/60-steam-vr.rules /etc/udev/rules.d/
 sudo cp "$HOME"/dotfiles/apps/steam-devices/60-steam-input.rules /etc/udev/rules.d/
@@ -350,9 +323,8 @@ PKGS=(
   'dotnet-runtime-7.0'
   'babeltrace2'
   'icu'
-  'libicu'
   'lttng-ust'
-  'ncursers5-compat-libs'
+  'ncurses5-compat-libs'
   'vulkan-validation-layers'
 
   # LSP
@@ -449,10 +421,10 @@ PKGS=(
   'polkit-kde-agent'
   'polkit-gnome'
   'gnome-themes-extra'
-  'modprobed-db'
-  'cronie'
   'xwaylandvideobridge'
   'godot-mono'
+  'linux-steam-integration'
+  'vulkan-tools'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -622,7 +594,6 @@ PKGFP=(
   'org.blender.Blender'                                   # 3D Modelling Software
   'fr.handbrake.ghb'                                      # Transcoder
   'io.github.shiftey.Desktop'                             # Github Desktop app
-  'com.visualstudio.code'                                 # VSCode, required for *some* game engines generate project files properly
   'com.unity.UnityHub'                                    # Game Engine
 
   # GIMP
@@ -664,11 +635,15 @@ PKGFP=(
   'io.gdevs.GDLauncher'                                   # Minecraft Launcher
   'net.davidotek.pupgui2'                                 # ProtonUp-Qt
   'io.github.antimicrox.antimicrox'                       # Graphical program used to map gamepad keys to keyboard, mouse, scripts and macros
+  'net.pcsx2.PCSX2'                                       # PS2 Emulator
+  'net.rpcs3.RPCS3'                                       # PS3 Emulator
   'org.ryujinx.Ryujinx'                                   # Switch Emulator
   'org.yuzu_emu.yuzu'                                     # Switch Emulator
   'org.citra_emu.citra'                                   # 3DS Emulator
   'io.github.lime3ds.Lime3DS'                             # Citra Fork
   'info.cemu.Cemu'                                        # Wii U Emulator
+  'org.DolphinEmu.dolphin-emu'                            # Gamecube + Wii emulator
+  'com.github.Rosalie241.RMG'                             # N64 Emulator
   'io.github.dosbox-staging'                              # DOS/x86 Emulator
   'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
   'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
@@ -1149,6 +1124,7 @@ sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
 sudo systemctl enable btrfs-scrub@home.timer
+sudo systemctl enable docker
 sudo systemctl daemon-reload
 sleep 1s
 
@@ -1188,12 +1164,6 @@ fi
 make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
 
 rm -rf nohup.out
-
-modprobed-db
-
-sed -i 's/IGNORE/# IGNORE/g' "$HOME"/.config/modprobed-db.conf
-
-modprobed-db store
 
 # These can prevent some programs from starting. Let's comment them
 sudo sed -i 's/export GDK_BACKEND/# export GDK_BACKEND/g' /usr/local/bin/hyprstart
@@ -1289,9 +1259,6 @@ echo
 echo "You must run both qt5ct and qt6ct and adjust their themes, icons, etc accordingly"
 echo
 echo "Run otd-gui to configure your non-wacom Tablet"
-echo
-echo "Run crontab -e and place the following in there:"
-echo '0 */1 * * *   /usr/bin/modprobed-db store &> /dev/null'
 echo
 echo "Configure SGDBoop, go to the following site and follow instructions"
 echo 'https://www.steamgriddb.com/boop'

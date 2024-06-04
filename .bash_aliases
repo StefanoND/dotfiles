@@ -65,6 +65,9 @@ alias vimgd="nvim --listen ./godothost"
 # Monero
 # alias monero='monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'
 
+alias unrealengine='SDL_VIDEODRIVER=x11 ~/UnrealEditor'
+alias UnrealEditor='SDL_VIDEODRIVER=x11 ~/UnrealEditor'
+
 # Flatpaks
 alias flatseal='cd ~/ && nohup flatpak run com.github.tchx84.Flatseal &'
 alias libreoffice='cd ~/ && nohup flatpak run org.libreoffice.LibreOffice &'
@@ -123,7 +126,6 @@ alias monero='cd ~/ && nohup flatpak run org.getmonero.Monero &'
 alias eclipse='cd ~/ && nohup flatpak run org.eclipse.Java &'
 alias dosbox-staging='cd ~/ && nohup flatpak run io.github.dosbox-staging &'
 alias dosbox='cd ~/ && nohup flatpak run io.github.dosbox-staging &'
-alias retroarch='cd ~/ && nohup flatpak run org.libretro.RetroArch &'
 alias lime3ds='cd ~/ && nohup flatpak run io.github.lime3ds.Lime3DS &'
 alias ryujinx='cd ~/ && nohup flatpak run org.ryujinx.Ryujinx &'
 alias yuzu='cd ~/ && nohup flatpak run org.yuzu_emu.yuzu &'
@@ -132,5 +134,11 @@ alias stremio='cd ~/ && nohup flatpak run com.stremio.Stremio &'
 alias cemu='cd ~/ && nohup flatpak run info.cemu.Cemu &'
 alias brave='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
 alias bravebrowser='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
+alias duckstation='cd ~/ && nohup gamemoderun gamescope -- flatpak run org.duckstation.DuckStation &'
+alias retroarch='cd ~/ && nohup gamemoderun gamescope -- flatpak run org.libretro.RetroArch &'
+alias n64emu='cd ~/ && nohup gamemoderun gamescope -- flatpak run com.github.Rosalie241.RMG &'
+alias project64='cd ~/ && nohup gamemoderun gamescope -- flatpak run com.github.Rosalie241.RMG &'
+alias dolphin-emu='cd ~/ && nohup gamemoderun gamescope -- flatpak run org.DolphinEmu.dolphin-emu &'
+alias dolphin-emulator='cd ~/ && nohup gamemoderun gamescope -- flatpak run org.DolphinEmu.dolphin-emu &'
 
 # alias ='cd ~/ && nohup flatpak run  &'

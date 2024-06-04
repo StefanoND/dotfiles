@@ -2,7 +2,9 @@
 [[ $- != *i* ]] && return
 
 # Advanced command-not-found hook
-source /usr/share/doc/find-the-command/ftc.bash
+if [ -f /usr/share/doc/find-the-command/ftc.bash ]; then
+  source /usr/share/doc/find-the-command/ftc.bash
+fi
 
 ## Useful aliases
 
@@ -64,7 +66,10 @@ alias jctl="journalctl -p 3 -xb"
 
 # Recent installed packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
-fastfetch -l garuda
+
+if [ -f /usr/bin/fastfetch ]; then
+  fastfetch -l garuda
+fi
 
 #######################################################
 # PERSONAL CONFIGS
@@ -240,26 +245,31 @@ ftext() {
 
 # Copy files or directories/folders with a progress bar
 cprs() {
-        # -a Copies recurse into directories, copies symlinks as symlinks, preserves permissions,
-        #    preserves modification times, preserves group and owner, preserves special files
-        #
-        # -v Verbose
-        # -u Overwrite if newer
-        #
-        # --progress Shows progress during transfer
-        if [ -d "${1}" ]; then
-                #        rsync -rlptDvu --progress "${1}"/ "${2}"
-                rsync -avu --progress "${1}" "${2}"
-        else
-                #        rsync -lptDvu --progress "${1}" "${2}"
-                rsync -avu --progress "${1}" "${2}"
-        fi
-        sync
+  # -a Copies recurse into directories, copies symlinks as symlinks, preserves permissions,
+  #    preserves modification times, preserves group and owner, preserves special files
+  #
+  # -v Verbose
+  # -u Overwrite if newer
+  #
+  # --progress Shows progress during transfer
+  if [ -d "${1}" ]; then
+    #        rsync -rlptDvu --progress "${1}"/ "${2}"
+    rsync -avu --progress "${1}" "${2}"
+  else
+    #        rsync -lptDvu --progress "${1}" "${2}"
+    rsync -avu --progress "${1}" "${2}"
+  fi
+  sync
 }
 
 # Copy files or directories/folder with a progress bar as sudo
 scprs() {
-  sudo bash -c "cprs ${1} ${2}"
+  if [ -d "${1}" ]; then
+    sudo -E rsync -avu --progress "${1}" "${2}"
+  else
+    sudo -E rsync -avu --progress "${1}" "${2}"
+  fi
+  sync
 }
 
 # Copy and go to the directory
@@ -530,12 +540,20 @@ export PATH="$HOME/.nimble/bin":$PATH
 export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
 export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
 
-eval "$(register-python-argcomplete pipx)"
+export PATH="$PATH:$HOME/dotfiles/scripts/CodiumUE"
+
+if [ -f "$HOME"/.local/bin/register-python-argcomplete ]; then
+  if [ -f /usr/bin/python ]; then
+    eval "$(register-python-argcomplete pipx)"
+  fi
+fi
 
 export GPG_TTY=$(tty)
 
 # Setup fzf keybindings and fuzzy completion
-eval "$(fzf --bash)"
+if [ -f /usr/bin/fzf ]; then
+  eval "$(fzf --bash)"
+fi
 
 # fzf theme
 export FZF_DEFAULT_OPTS=" \
@@ -581,11 +599,15 @@ _fzf_comprun() {
 export BAT_THEME='Catppuccin Mocha'
 
 # TheFuck alias
-eval "$(thefuck --alias)"
-eval "$(thefuck --alias fk)"
+if [ -f /usr/bin/thefuck ]; then
+  eval "$(thefuck --alias)"
+  eval "$(thefuck --alias fk)"
+fi
 
 # Zoxide (better cd)
-eval "$(zoxide init bash)"
+if [ -f /usr/bin/zoxide ]; then
+  eval "$(zoxide init bash)"
+fi
 
 . "$HOME"/dotfiles/apps/z/z.sh
 
@@ -593,3 +615,20 @@ export LSP_USE_PLISTS=true
 
 export DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
 export STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
+
+# Unreal Engine stuff
+UEGenClang()
+{
+  # 1 = Path to .uproject. Ex: /path/to/project/projectname.uproject
+  # 2 = Project name. Ex: projectname
+  ~/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Build/BatchFiles/Linux/Build.sh -mode=GenerateClangDatabase -project "$1"/"$2".uproject -game -engine "$2"Editor Linux Development
+  sync
+  sleep 1s
+  cp ~/UNREAL/Editors/UnrealEngine_5.4.1/compile_commands.json "$1"/
+}
+
+UEBuildProject()
+{
+  ~/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Build/BatchFiles/Linux/Build.sh "$1"/"$2".uproject -game -engine "$2"Editor Target Development Linux
+  sync
+}
