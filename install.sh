@@ -40,8 +40,18 @@ if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
   sync
 fi
 
+if ! [ -d "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/ ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/
+  sync
+fi
+
 if ! [ -d "$HOME"/.config/menus ]; then
   mkdir -p "$HOME"/.config/menus
+  sync
+fi
+
+if ! [ -d "$HOME"/.config/'Code - OSS'/User ]; then
+  mkdir -p "$HOME"/.config/'Code - OSS'/User
   sync
 fi
 
@@ -103,6 +113,13 @@ if [ -d "$HOME"/.config/bat ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/bat "$HOME"/.config/
+
+
+if [ -d "$HOME"/.config/'Code - OSS'/User/settings.json ]; then
+  mv "$HOME"/.config/'Code - OSS'/User/settings.json "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/'Code - OSS'/User/settings.json "$HOME"/dotfiles/.config/'Code - OSS'/User/
 
 if [ -d "$HOME"/.config/cura ]; then
   mv "$HOME"/.config/cura "$HOME"/dotfiles/backup/.config/
@@ -271,6 +288,7 @@ PKGS=(
   'thefuck'                 # Auto correct past mistakes in terminal
   'syncthing'               #
   'nextcloud-client'        #
+  'code'
 
   # Fonts
   'noto-fonts'       # Additional variants of noto fonts
@@ -646,9 +664,9 @@ PKGFP=(
   'com.github.Rosalie241.RMG'                             # N64 Emulator
   'io.github.dosbox-staging'                              # DOS/x86 Emulator
   'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
+  'com.valvesoftware.Steam'                               # Steam
   'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
   'com.steamgriddb.SGDBoop'
-  'com.valvesoftware.Steam'                               # Steam
   'com.valvesoftware.Steam.CompatibilityTool.Boxtron'
   'com.valvesoftware.SteamLink'
   'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'
@@ -729,6 +747,8 @@ cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
 cp -ur /usr/share/themes "$HOME"/.themes
 
+flatpak --user override --socket=wayland
+
 flatpak --user override --filesystem="$HOME"/.fonts/:ro
 flatpak --user override --filesystem="$HOME"/.icons/:ro
 flatpak --user override --filesystem="$HOME"/.themes/:ro
@@ -756,19 +776,11 @@ flatpak --user override --socket=wayland
 
 # Workaround for Copy-Paste issues with lutris
 flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
-flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
-# flatpak --user override --env=QT_QPA_PLATFORM=xcb io.github.spacingbat3.webcord
-# flatpak --user override --socket=system-bus io.github.spacingbat3.webcord
 
 flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
-
-flatpak --user override --allow=bluetooth org.ryujinx.Ryujinx
-flatpak --user override --allow=bluetooth org.citra_emu.citra
-flatpak --user override --allow=bluetooth io.github.lime3ds.Lime3DS
-flatpak --user override --allow=bluetooth org.yuzu_emu.yuzu
 
 sync
 sleep 1s
@@ -915,6 +927,15 @@ echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
 
 sudo sed -i 's/vboxpci//g' /usr/lib/modules-load.d/virtualbox.conf
 
+echo
+echo "Fixing issues with bluetooth and BLE"
+echo
+sudo sed -i 's/.*MinConnectionInterval=.*/MinConnectionInterval=7/g' /etc/bluetooth/main.conf
+sudo sed -i 's/.*MaxConnectionInterval=.*/MaxConnectionInterval=9/g' /etc/bluetooth/main.conf
+sudo sed -i 's/.*ConnectionLatency=.*/ConnectionLatency=0/g' /etc/bluetooth/main.conf
+
+sudo sed -i 's/vboxpci//g' /usr/lib/modules-load.d/virtualbox.conf
+
 sync
 sleep 1s
 
@@ -929,6 +950,13 @@ sudo killall -9 emacs
 sleep 5s
 "$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom sync
 sleep 1s
+
+echo
+echo "Installing UE Cli"
+echo
+cd "$HOME"/dotfiles/apps/ue4cli
+pip3 install ue4cli --break-system-packages
+sync
 
 echo
 echo 'Installing HeadsetControl'
@@ -1120,6 +1148,7 @@ sleep 1s
 
 # Enable services
 systemctl --user enable pipewire-pulse.service
+systemctl --user enable gamemoded.service
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable btrfs-scrub@-.timer
@@ -1257,6 +1286,8 @@ sudo update-grub
 
 echo
 echo "You must run both qt5ct and qt6ct and adjust their themes, icons, etc accordingly"
+echo
+echo "For uecli to work you must run 'ue4 setroot /path/to/UnrealEngine-5.4.1'"
 echo
 echo "Run otd-gui to configure your non-wacom Tablet"
 echo

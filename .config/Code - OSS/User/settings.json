@@ -1,0 +1,5 @@
+{
+  "telemetry.telemetryLevel": "off",
+  "omnisharp.useGlobalMono": "always",
+  "omnisharp.useModernNet": false
+}

@@ -2,9 +2,7 @@
 [[ $- != *i* ]] && return
 
 # Advanced command-not-found hook
-if [ -f /usr/share/doc/find-the-command/ftc.bash ]; then
-  source /usr/share/doc/find-the-command/ftc.bash
-fi
+source /usr/share/doc/find-the-command/ftc.bash
 
 ## Useful aliases
 
@@ -67,9 +65,7 @@ alias jctl="journalctl -p 3 -xb"
 # Recent installed packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
-if [ -f /usr/bin/fastfetch ]; then
-  fastfetch -l garuda
-fi
+fastfetch -l garuda
 
 #######################################################
 # PERSONAL CONFIGS
@@ -519,14 +515,8 @@ export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export PATH="$PATH:/usr/local"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
-
-# The name is in "$HOME"/dotfiles/emacs/.emacs-profiles.el
-setdefaultemacsprofile() {
-        echo "$1" > "$HOME"/dotfiles/emacs/.emacs-profile
-}
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
@@ -536,24 +526,12 @@ export XDG_SCREENSHOT_DIR="$HOME"/Pictures/Grim/
 export QT_STYLE_OVERRIDE=kvantum
 # export QT_QPA_PLATFORMTHEME='qt5ct:qt6ct'
 
-export PATH="$HOME/.nimble/bin":$PATH
-export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
-export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
-
-export PATH="$PATH:$HOME/dotfiles/scripts/CodiumUE"
-
-if [ -f "$HOME"/.local/bin/register-python-argcomplete ]; then
-  if [ -f /usr/bin/python ]; then
-    eval "$(register-python-argcomplete pipx)"
-  fi
-fi
+eval "$(register-python-argcomplete pipx)"
 
 export GPG_TTY=$(tty)
 
 # Setup fzf keybindings and fuzzy completion
-if [ -f /usr/bin/fzf ]; then
-  eval "$(fzf --bash)"
-fi
+eval "$(fzf --bash)"
 
 # fzf theme
 export FZF_DEFAULT_OPTS=" \
@@ -599,36 +577,16 @@ _fzf_comprun() {
 export BAT_THEME='Catppuccin Mocha'
 
 # TheFuck alias
-if [ -f /usr/bin/thefuck ]; then
-  eval "$(thefuck --alias)"
-  eval "$(thefuck --alias fk)"
-fi
+eval "$(thefuck --alias)"
+eval "$(thefuck --alias fk)"
 
 # Zoxide (better cd)
-if [ -f /usr/bin/zoxide ]; then
-  eval "$(zoxide init bash)"
-fi
+eval "$(zoxide init bash)"
 
 . "$HOME"/dotfiles/apps/z/z.sh
 
 export LSP_USE_PLISTS=true
 
-export DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
-export STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
-
-# Unreal Engine stuff
-UEGenClang()
-{
-  # 1 = Path to .uproject. Ex: /path/to/project/projectname.uproject
-  # 2 = Project name. Ex: projectname
-  ~/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Build/BatchFiles/Linux/Build.sh -mode=GenerateClangDatabase -project "$1"/"$2".uproject -game -engine "$2"Editor Linux Development
-  sync
-  sleep 1s
-  cp ~/UNREAL/Editors/UnrealEngine_5.4.1/compile_commands.json "$1"/
-}
-
-UEBuildProject()
-{
-  ~/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Build/BatchFiles/Linux/Build.sh "$1"/"$2".uproject -game -engine "$2"Editor Target Development Linux
-  sync
-}
+if [ -f "$HOME"/.bashrc.local ]; then
+  source "$HOME"/.bashrc.local
+fi

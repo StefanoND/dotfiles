@@ -46,3 +46,6 @@
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
+[submodule "apps/ue4cli"]
+	path = apps/ue4cli
+	url = https://github.com/adamrehn/ue4cli.git
