@@ -486,6 +486,7 @@ PKGT=(
   'gdtoolkit'
   'argcomplete'
   'grip'
+  'pynvim'
 )
 
 for PKG in "${PKGT[@]}"; do
@@ -906,24 +907,14 @@ echo 'Xcursor.size: 48' | tee -a "$HOME"/.Xresources
 echo 'xset r rate 300 60' | tee -a "$HOME"/.xinitrc
 echo 'xrdb ~/.Xresources' | tee -a "$HOME"/.xinitrc
 
-# echo 'XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors' | sudo tee -a /etc/environment
-# echo 'XCURSOR_SIZE=48' | sudo tee -a /etc/environment
-# echo 'QT_STYLE_OVERRIDE=kvantum' | sudo tee -a /etc/environment
+# This messes up some programs, if goning to use it anyway, make sure to make it =0 to the program
+# that has a program with it
 # echo 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1' | sudo tee -a /etc/environment
+
 echo 'DOTNET_CLI_TELEMETRY_OPTOUT=1' | sudo tee -a /etc/environment
 echo 'DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/environment
 echo 'PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' | sudo tee -a /etc/environment
 echo 'FrameworkPathOverride=/lib/mono/4.8-api' | sudo tee -a /etc/environment
-# echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
-# echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
-# echo 'XDG_CONFIG_HOME=$HOME/.config' | sudo tee -a /etc/environment
-# echo 'XDG_SCREENSHOT_DIR=$HOME/Pictures/Grim' | sudo tee -a /etc/environment
-# echo 'XDG_DATA_DIRS=/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS' | sudo tee -a /etc/environment
-
-# sudo sed -i 's/QT_QPA_PLATFORMTHEME/# QT_QPA_PLATFORMTHEME/g' /etc/environment
-# sudo sed -i 's/GTK_THEME.*/GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark/g' /etc/environment
-#
-# echo 'QT_QPA_PLATFORMTHEME=qt5ct:qt6ct' | sudo tee -a /etc/environment
 
 sudo sed -i 's/vboxpci//g' /usr/lib/modules-load.d/virtualbox.conf
 
@@ -1082,6 +1073,29 @@ echo 'kernel.core_pipe_limit=16' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'fs.suid_dumpable=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'kernel.sysrq=16' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'kernel.core_uses_pid=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.tcp_fin_timeout=5' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.default.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.docker0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.enp34s0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.lo.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.tun0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.vboxnet0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.virbr0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.default.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.docker0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.enp34s0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.lo.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.tun0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.vboxnet0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.virbr0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.default.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.docker0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.enp34s0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.lo.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.tun0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.vboxnet0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.virbr0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.ping_group_range=0 2147483647' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'net.core.default_qdisc=fq_codel' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'fs.protected_hardlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'fs.protected_symlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
@@ -1157,6 +1171,11 @@ sudo systemctl enable docker
 sudo systemctl daemon-reload
 sleep 1s
 
+sudo setcap 'CAP_SYS_NICE=eip' /usr/bin/gamescope
+
+# To remove the CAP_SYS_NICE above, run the command below
+# sudo setcap 'CAP_SYS_NICE-eip' /usr/bin/gamescope
+
 cd "$HOME"/dotfiles/apps/hdrop
 sudo make install
 sync
@@ -1166,29 +1185,26 @@ sync
 sleep 1s
 
 if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-    # Using this at hyprland.conf
-    # if ! grep -iq "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" /etc/environment; then
-    #     echo
-    #     echo "Assigning \"VK_ICD_FILENAMES\" to \"nvidia_icd.json\""
-    #     echo
-    #     echo "VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json" | sudo tee -a /etc/environment
-    # sleep 1s
-    # fi
     echo
     echo "Removing vulkan for non-NVidia GPUs to avoid conflicts"
     echo
-    sudo pacman -Rsn lib32-vulkan-radeon vulkan-radeon lib32-vulkan-intel vulkan-amdgpu-pro amf-amdgpu-pro --noconfirm
-    sleep 1s
-fi
+    PKGSRM=(
+      'lib32-vulkan-radeon'
+      'vulkan-radeon'
+      'lib32-vulkan-intel'
+      'vulkan-amdgpu-pro'
+      'amf-amdgpu-pro'
+    )
 
-# Using this at hyprland.conf
-# if ! grep -iq "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" /etc/environment; then
-#     echo
-#     echo "Assigning \"VK_LAYER_PATH\" to \"explicit_layer.d\""
-#     echo
-#     echo "VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d" | sudo tee -a /etc/environment
-#     sleep 1s
-# fi
+    for PKG in "${PKGSRM[@]}"; do
+      echo
+      echo "INSTALLING: ${PKG}"
+      echo
+      yes | sudo pacman -Rdd "$PKG" --unneeded
+      sync
+      sleep 1s
+    done
+fi
 
 make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
 
@@ -1199,15 +1215,12 @@ sudo sed -i 's/export GDK_BACKEND/# export GDK_BACKEND/g' /usr/local/bin/hyprsta
 sudo sed -i 's/export SDL_VIDEODRIVER/# export SDL_VIDEODRIVER/g' /usr/local/bin/hyprstart
 sudo sed -i 's/export CLUTTER_BACKEND/# export CLUTTER_BACKEND/g' /usr/local/bin/hyprstart
 
-# We'll use qt5ct:qt6ct so let's comment it to avoid any "fun" stuff
-# sudo sed -i 's/export QT_QPA_PLATFORMTHEME/# export QT_QPA_PLATFORMTHEME/g' /usr/local/bin/hyprstart
-
 sudo sed -i 's/#UserspaceHID=.*/UserspaceHID=true/g' /etc/bluetooth/input.conf
 
 sudo cp -r "$HOME"/dotfiles/apps/CRT-Amber-GRUB-Theme /boot/grub/themes/
 sudo sed -i "s/GRUB_THEME.*/GRUB_THEME=\"\/boot\/grub\/themes\/CRT-Amber-GRUB-Theme\/theme.txt\"/g" /etc/default/grub
 
-GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
+GRUB="$(cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev)"
 
 # if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
 #     GRUB+=" amd_iommu=on iommu=pt kvm_amd.npt=1 kvm_amd.avic=1 kvm_amd.nested=1 kvm_amd.sev=1 kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 video=vesafb:off,efifb:off,simplefb:off$grubgpu systemd.unified_cgroup_hierarchy=0\""
@@ -1273,9 +1286,6 @@ sudo dracut-rebuild
 sudo modprobe vfio-pci
 sudo modprobe vfio
 sudo modprobe vfio-iommu-type1
-# sudo modprobe vfio-virqfd
-# sudo modprobe iommu_v2
-# sudo modprobe iommufd
 sleep 1s
 
 echo 'blacklist iTCO_wdt' | sudo tee /etc/modprobe.d/nowatchdog.conf

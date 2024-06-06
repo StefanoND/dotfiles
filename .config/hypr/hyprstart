@@ -9,12 +9,12 @@ export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
 
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export __GL_GSYNC_ALLOWED=1
-export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+# export VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json
 export NVD_BACKEND=direct
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 export FrameworkPathOverride=/lib/mono/4.8-api
-export VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d
+# export VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d
 
 export EGL_PLATFORM=wayland:x11
 

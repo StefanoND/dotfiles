@@ -132,10 +132,11 @@ alias eclipse='cd ~/ && nohup flatpak run org.eclipse.Java &'
 alias stremio='cd ~/ && nohup flatpak run com.stremio.Stremio &'
 alias brave='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
 alias bravebrowser='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
+
 alias dosbox-staging='cd ~/ && nohup gamemoderun flatpak run io.github.dosbox-staging &'
 alias dosbox='cd ~/ && nohup gamemoderun flatpak run io.github.dosbox-staging &'
 alias lime3ds='cd ~/ && nohup gamemoderun flatpak run io.github.lime3ds.Lime3DS &'
-alias ryujinx='cd ~/ && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 DOTNET_EnableAlternateStackCheck=1 nohup gamemoderun flatpak run org.ryujinx.Ryujinx &'
+alias ryujinx='cd ~/ && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 nohup gamemoderun flatpak run org.ryujinx.Ryujinx &'
 alias yuzu='cd ~/ && nohup gamemoderun flatpak run org.yuzu_emu.yuzu &'
 alias citra='cd ~/ && nohup gamemoderun flatpak run org.citra_emu.citra &'
 alias cemu='cd ~/ && nohup gamemoderun flatpak run info.cemu.Cemu &'
@@ -146,11 +147,10 @@ alias project64='cd ~/ && nohup gamemoderun flatpak run com.github.Rosalie241.RM
 alias dolphin-emu='cd ~/ && nohup gamemoderun flatpak run org.DolphinEmu.dolphin-emu &'
 alias dolphin-emulator='cd ~/ && nohup gamemoderun flatpak run org.DolphinEmu.dolphin-emu &'
 
-
 # alias dosbox-staging='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run io.github.dosbox-staging &'
 # alias dosbox='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run io.github.dosbox-staging &'
 # alias lime3ds='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run io.github.lime3ds.Lime3DS &'
-# alias ryujinx='cd ~/ && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 DOTNET_EnableAlternateStackCheck=1 nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.ryujinx.Ryujinx &'
+# alias ryujinx='cd ~/ && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.ryujinx.Ryujinx &'
 # alias yuzu='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.yuzu_emu.yuzu &'
 # alias citra='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.citra_emu.citra &'
 # alias cemu='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run info.cemu.Cemu &'
@@ -160,5 +160,7 @@ alias dolphin-emulator='cd ~/ && nohup gamemoderun flatpak run org.DolphinEmu.do
 # alias project64='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run com.github.Rosalie241.RMG &'
 # alias dolphin-emu='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.DolphinEmu.dolphin-emu &'
 # alias dolphin-emulator='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run org.DolphinEmu.dolphin-emu &'
+
+# flatpak run --command=gamescope --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/GameScope/lib --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/GameScope/bin --socket=wayland org.duckstation.DuckStation -w 1920 -h 1080 -- DuckStation
 
 # alias ='cd ~/ && nohup flatpak run  &'

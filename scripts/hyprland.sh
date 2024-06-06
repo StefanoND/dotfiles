@@ -60,10 +60,10 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
   else
     sudo sed -i 's/__GLX_VENDOR_LIBRARY_NAME.*/__GLX_VENDOR_LIBRARY_NAME=nvidia/g' /etc/environment
   fi
-  if ! [[ grep -qi 'VK_ICD_FILENAMES' ]]; then
-    echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+  if ! [[ grep -qi 'VK_DRIVER_FILES' ]]; then
+    echo 'VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
   else
-    sudo sed -i 's/VK_ICD_FILENAMES.*/VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json/g' /etc/environment
+    sudo sed -i 's/VK_DRIVER_FILES.*/VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json/g' /etc/environment
   fi
   if ! [[ grep -qi 'VK_LAYER_PATH' ]]; then
     echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
