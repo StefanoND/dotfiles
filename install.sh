@@ -435,6 +435,7 @@ PKGS=(
   'distrobox'
   'expressvpn'
   'xdg-desktop-portal-gtk'
+  'archlinux-xdg-menu'
   'polkit'
   'polkit-kde-agent'
   'polkit-gnome'
@@ -462,7 +463,7 @@ fi
 
 sudo sed -i 's/inode\/directory=.*/inode\/directory=org.kde.dolphin.desktop;/g' /usr/share/applications/mimeinfo.cache
 
-kbuildsycoca6
+XDG_MENU_PREFIX=arch- kbuildsycoca6
 
 # PARU
 PKGPARU=(
@@ -770,6 +771,8 @@ flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.DLLs.dxvk net.lu
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam net.lutris.Lutris
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.heroicgameslauncher.hgl
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.usebottles.bottles
+
+flatpak --user override --talk-name=org.mpris.MediaPlayer2.* com.stremio.Stremio
 
 flatpak --user override --env=MANGOHUD=1 com.valvesoftware.Steam
 

@@ -12,7 +12,6 @@ default-timeout=5000
 ignore-timeout=0
 group-by=summary
 icons=1
-on-notify=exec makoctl menu wofi -d -p 'Choose Action: '
 
 [grouped]
 format=<b>%s</b>\n%b

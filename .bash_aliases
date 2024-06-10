@@ -69,8 +69,9 @@ alias vimgd="nvim --listen ./godothost"
 # Monero
 # alias monero='monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'
 
-alias ue4='SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
-alias ue5='SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
+# Using other command in .bashrc.local
+# alias ue4='SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
+# alias ue5='SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
 
 # Flatpaks
 # KDE/QT
@@ -146,6 +147,10 @@ alias n64emu='cd ~/ && nohup gamemoderun flatpak run com.github.Rosalie241.RMG &
 alias project64='cd ~/ && nohup gamemoderun flatpak run com.github.Rosalie241.RMG &'
 alias dolphin-emu='cd ~/ && nohup gamemoderun flatpak run org.DolphinEmu.dolphin-emu &'
 alias dolphin-emulator='cd ~/ && nohup gamemoderun flatpak run org.DolphinEmu.dolphin-emu &'
+alias PCSX2='cd ~/ && nohup gamemoderun flatpak run net.pcsx2.PCSX2 &'
+alias ps2emu='cd ~/ && nohup gamemoderun flatpak run net.pcsx2.PCSX2 &'
+alias RPCS3='cd ~/ && nohup gamemoderun flatpak run net.rpcs3.RPCS3 &'
+alias ps3emu='cd ~/ && nohup gamemoderun flatpak run net.rpcs3.RPCS3 &'
 
 # alias dosbox-staging='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run io.github.dosbox-staging &'
 # alias dosbox='cd ~/ && nohup gamemoderun gamescope -w 1920 -h 1080 -r 144 -f -- flatpak run io.github.dosbox-staging &'
