@@ -252,13 +252,14 @@ export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
-DISTRO=`grep -i /etc/os-release`
+DISTROIDLIKE=`grep -i 'ID_LIKE=' /etc/os-release`
+DISTROID=`grep -i 'ID=' /etc/os-release`
 
-if [[ grep -iq arch "$DISTRO" ]]; then
+if [[ grep -iq arch "$DISTROIDLIKE" ]]; then
   exec "$HOME"/dotfiles/.arch.sh
-elif [[ grep -iq fedora "$DISTRO" ]]; then
+elif [[ grep -iq fedora "$DISTROIDLIKE" ]]; then
   exec "$HOME"/dotfiles/.fedora.sh
-elif [[ grep -iq debian "$DISTRO" ]]; then
+elif [[ grep -iq debian "$DISTROIDLIKE" ]]; then
   exec "$HOME"/dotfiles/.debian.sh
 fi
 
@@ -437,27 +438,8 @@ PKGFP=(
   'org.telegram.desktop'                                  # Messaging App
   'org.telegram.desktop.webview'                          # Webview support
 
-  # OBS Studio
-  'com.obsproject.Studio'                                 # Streaming software
-  'com.obsproject.Studio.Plugin.VerticalCanvas'           # Add a vertical canvas to stream and record in secondary resolution, by Aitum
-  'com.obsproject.Studio.Plugin.TransitionTable'          # Fine-tune your transitions with a transition table
-  'com.obsproject.Studio.Plugin.SceneSwitcher'            # An advanced automated scene switcher for OBS Studio
-  'com.obsproject.Studio.Plugin.ScaleToSound'             # Scale sources according to the sound of an audio source
-  'com.obsproject.Studio.Plugin.RewardsTheater'           # An OBS plugin that lets your viewers redeem videos or sounds on stream via Twitch Channel Points
-  'com.obsproject.Studio.Plugin.Ocr'                      # Extract and detect text in image and video inside OBS
-  'com.obsproject.Studio.Plugin.OBSVkCapture'             # Capture Vulkan and OpenGL applications
-  'com.obsproject.Studio.Plugin.OBSLivesplitOne'          # Add LiveSplit One as a source
-  'com.obsproject.Studio.Plugin.NDI'                      # NewTek NDI integration for OBS Studio
-  'com.obsproject.Studio.Plugin.MoveTransition'           # Moves source to a new position during scene transition
-  'com.obsproject.Studio.Plugin.InputOverlay'             # Show keyboard, gamepad and mouse input on stream
-  'com.obsproject.Studio.Plugin.Gstreamer'                # Encode streams and recordings using GStreamer
-  'com.obsproject.Studio.Plugin.GStreamerVaapi'           # GStreamer-based VA-API encoder
-  'com.obsproject.Studio.Plugin.DroidCam'                 # Use your phone as a camera source with the DroidCam app
-  'com.obsproject.Studio.Plugin.BackgroundRemoval'        # Remove the background from your camera video
-
   # Games/Game Related
   'com.heroicgameslauncher.hgl'                           # Epic Games and GOG launcher
-  'net.lutris.Lutris'                                     # Lutris
   'io.github.achetagames.epic_asset_manager'              # Epic Games' Marketplace for Linux
   'io.gdevs.GDLauncher'                                   # Minecraft Launcher
   'net.davidotek.pupgui2'                                 # ProtonUp-Qt
@@ -473,12 +455,6 @@ PKGFP=(
   'com.github.Rosalie241.RMG'                             # N64 Emulator
   'io.github.dosbox-staging'                              # DOS/x86 Emulator
   'org.libretro.RetroArch'                                # Frontend for emulators, game engines and media players
-  'com.valvesoftware.Steam'                               # Steam
-  'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
-  'com.steamgriddb.SGDBoop'
-  'com.valvesoftware.Steam.CompatibilityTool.Boxtron'
-  'com.valvesoftware.SteamLink'
-  'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'
   'org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08'
 
   # Wine
@@ -526,6 +502,55 @@ for PKG in "${PKGFP[@]}"; do
     sync
 done
 
+
+if ! [[ grep -iq nobara "$DISTROID" ]]; then
+  # Flatpak Non-Nobara
+  PKGNN=(
+    'net.lutris.Lutris'                                     # Lutris
+    'com.valvesoftware.Steam'                               # Steam
+    'org.freedesktop.Platform.VulkanLayer.gamescope//23.08' # Gamescope
+    'com.steamgriddb.SGDBoop'
+    'com.valvesoftware.Steam.CompatibilityTool.Boxtron'
+    'com.valvesoftware.SteamLink'
+    'org.freedesktop.Platform.VulkanLayer.MangoHud//23.08'
+
+    # OBS Studio
+    'com.obsproject.Studio'                                 # Streaming software
+    'com.obsproject.Studio.Plugin.VerticalCanvas'           # Add a vertical canvas to stream and record in secondary resolution, by Aitum
+    'com.obsproject.Studio.Plugin.TransitionTable'          # Fine-tune your transitions with a transition table
+    'com.obsproject.Studio.Plugin.SceneSwitcher'            # An advanced automated scene switcher for OBS Studio
+    'com.obsproject.Studio.Plugin.ScaleToSound'             # Scale sources according to the sound of an audio source
+    'com.obsproject.Studio.Plugin.RewardsTheater'           # An OBS plugin that lets your viewers redeem videos or sounds on stream via Twitch Channel Points
+    'com.obsproject.Studio.Plugin.Ocr'                      # Extract and detect text in image and video inside OBS
+    'com.obsproject.Studio.Plugin.OBSVkCapture'             # Capture Vulkan and OpenGL applications
+    'com.obsproject.Studio.Plugin.OBSLivesplitOne'          # Add LiveSplit One as a source
+    'com.obsproject.Studio.Plugin.NDI'                      # NewTek NDI integration for OBS Studio
+    'com.obsproject.Studio.Plugin.MoveTransition'           # Moves source to a new position during scene transition
+    'com.obsproject.Studio.Plugin.InputOverlay'             # Show keyboard, gamepad and mouse input on stream
+    'com.obsproject.Studio.Plugin.Gstreamer'                # Encode streams and recordings using GStreamer
+    'com.obsproject.Studio.Plugin.GStreamerVaapi'           # GStreamer-based VA-API encoder
+    'com.obsproject.Studio.Plugin.DroidCam'                 # Use your phone as a camera source with the DroidCam app
+    'com.obsproject.Studio.Plugin.BackgroundRemoval'        # Remove the background from your camera video
+  )
+
+  for PKG in "${PKGNN[@]}"; do
+    echo
+    echo "INSTALLING: ${PKG}"
+    echo
+    flatpak --user install flathub "$PKG" -y --or-update
+    echo
+    sync
+  done
+
+  flatpak --user override --filesystem=~/.var/app/org.winehq.Wine net.lutris.Lutris
+  flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.mono net.lutris.Lutris
+  flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.gecko net.lutris.Lutris
+  flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.DLLs.dxvk net.lutris.Lutris
+  flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam net.lutris.Lutris
+  flatpak --user override --env=MANGOHUD=1 com.valvesoftware.Steam
+  flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
+fi
+
 echo
 echo "Fixing cursor and themes with flatpak apps"
 echo
@@ -570,23 +595,12 @@ flatpak --user override --env=ICON_THEME=Papirus-Dark
 flatpak --user override --env=QT_STYLE_OVERRIDE=kvantum
 flatpak --user override --env=QT_QPA_PLATFORMTHEME=qt5ct,qt6ct
 
-flatpak --user override --filesystem=~/.var/app/org.winehq.Wine net.lutris.Lutris
-flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.mono net.lutris.Lutris
-flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.gecko net.lutris.Lutris
-flatpak --user override --filesystem=~/.var/app/org.winehq.Wine.DLLs.dxvk net.lutris.Lutris
-
-flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam net.lutris.Lutris
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.heroicgameslauncher.hgl
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.usebottles.bottles
 
 flatpak --user override --talk-name=org.mpris.MediaPlayer2.* com.stremio.Stremio
 
-flatpak --user override --env=MANGOHUD=1 com.valvesoftware.Steam
-
 flatpak --user override --socket=wayland
-
-# Workaround for Copy-Paste issues with lutris
-flatpak --user override --env=QT_QPA_PLATFORM=xcb net.lutris.Lutris
 
 flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
@@ -597,10 +611,6 @@ sync
 sleep 1s
 
 sed -i "s/font-family.*/font-family: FiraCode Nerd Font Mono\;/g" "$HOME"/.config/waybar/style.css
-
-# Change pacman.conf
-sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 20/g" /etc/pacman.conf
-sync
 
 # Enabling btrfs defrag
 if ! [[ grep -q autodefrag /etc/fstab ]]; then

@@ -10,6 +10,11 @@ printf "[valveaur]\n" | sudo tee -a /etc/pacman.conf
 sync
 printf "Server = http://repo.steampowered.com/arch/valveaur\n" | sudo tee -a /etc/pacman.conf
 sync
+
+# Change pacman.conf
+sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 20/g" /etc/pacman.conf
+sync
+
 sudo pacman -Syy
 
 sudo pacman -Rsn thunar --noconfirm --unneeded
