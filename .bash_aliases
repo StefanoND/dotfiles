@@ -133,6 +133,7 @@ alias eclipse='cd ~/ && nohup flatpak run org.eclipse.Java &'
 alias stremio='cd ~/ && nohup flatpak run com.stremio.Stremio &'
 alias brave='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
 alias bravebrowser='cd ~/ && nohup flatpak run com.brave.Browser --enable-features=UseOzonePlatform --ozone-platform=wayland &'
+alias thunderbird='cd ~/ && nohup flatpak run org.mozilla.Thunderbird &'
 
 alias dosbox-staging='cd ~/ && nohup gamemoderun flatpak run io.github.dosbox-staging &'
 alias dosbox='cd ~/ && nohup gamemoderun flatpak run io.github.dosbox-staging &'

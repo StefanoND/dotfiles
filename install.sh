@@ -114,6 +114,12 @@ if [ -d "$HOME"/.config/bat ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/bat "$HOME"/.config/
 
+if [ -d "$HOME"/.config/electron-flags.conf ]; then
+  mv "$HOME"/.config/electron-flags.conf "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/electron-flags.conf "$HOME"/.config/
+
 
 if [ -d "$HOME"/.config/'Code - OSS'/User/settings.json ]; then
   mv "$HOME"/.config/'Code - OSS'/User/settings.json "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/
@@ -248,7 +254,7 @@ sudo udevadm control --reload-rules
 
 sync
 
-export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+# export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
@@ -423,20 +429,8 @@ PKGFP=(
   'fr.handbrake.ghb'                                      # Transcoder
   'io.github.shiftey.Desktop'                             # Github Desktop app
   'com.unity.UnityHub'                                    # Game Engine
-
-  # GIMP
   'org.gimp.GIMP'                                         # GNU Image Manipulator
-  'org.gimp.GIMP.Plugin.Resynthesizer//2-40'              # Set of GIMP plug-ins that heal (in-paint), synthesize texture, theme an image, and more
-  'org.gimp.GIMP.Plugin.LiquidRescale//2-40'              # LiquidRescale plugin to resize pictures non uniformly while preserving their features, i.e. avoiding distortion of the important parts.
-  'org.gimp.GIMP.Plugin.Lensfun//2-40'                    # GimpLensfun is a Gimp plugin to correct lens distortion using the lensfun library and database.
-  'org.gimp.GIMP.Plugin.GMic//2-40'                       # GREYC's Magic for Image Computing
-  'org.gimp.GIMP.Plugin.Fourier//2-40'                    # A simple GIMP plug-in to do fourier transform on your image.
-  'org.gimp.GIMP.Plugin.FocusBlur//2-40'                  # Focus Blur plug-in crete a blurring effect similar to Depth of Field.
-  'org.gimp.GIMP.Plugin.BIMP//2-40'                       # Batch Image Manipulation Program, a GIMP plugin to apply a set of manipulations to an entire group of images!
-
-  # Telegram
   'org.telegram.desktop'                                  # Messaging App
-  'org.telegram.desktop.webview'                          # Webview support
 
   # Games/Game Related
   'com.heroicgameslauncher.hgl'                           # Epic Games and GOG launcher

@@ -6,7 +6,8 @@ fi
 
 # PACMAN
 PKGS=(
-  'linux-headers'
+  'linux-zen'
+  'linux-zen-headers'
   'libvdpau'
   'libxnvctrl'
   'mesa'
@@ -14,7 +15,10 @@ PKGS=(
   'libva-mesa-driver'
   'mesa-vdpau'
   'opencl-clover-mesa'
-  'xorg-xwayland-git'
+  'xorg-xwayland'
+  'vulkan-headers'
+  'vulkan-validation-layers'
+  'vulkan-tools'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -36,8 +40,8 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
   echo
 
   PKGNV=(
-    'libva-nvidia-driver'
     'nvidia-dkms'
+    'libva-nvidia-driver'
     'nvidia-utils'
     'lib32-nvidia-utils'
     'opencl-nvidia'
@@ -47,6 +51,8 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     'nvidia-settings'
   )
 
+ # yes | sudo pacman -S linux-zen linux-zen-headers nvidia-dkms libva-nvidia-driver nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia libglvnd lib32-libglvnd nvidia-settings libvdpau libxnvctrl mesa lib32-mesa libva-mesa-driver mesa-vdpau opencl-clover-mesa xorg-xwayland vulkan-headers vulkan-validation-layers vulkan-tools tpm2-tss
+
   for PKG in "${PKGNV[@]}"; do
     echo
     echo "INSTALLING: ${PKG}"
@@ -55,21 +61,21 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     sleep 1s
   done
 
-  if ! [[ grep -qi '__GLX_VENDOR_LIBRARY_NAME' ]]; then
-    echo '__GLX_VENDOR_LIBRARY_NAME=nvidia' | sudo tee -a /etc/environment
-  else
-    sudo sed -i 's/__GLX_VENDOR_LIBRARY_NAME.*/__GLX_VENDOR_LIBRARY_NAME=nvidia/g' /etc/environment
-  fi
-  if ! [[ grep -qi 'VK_DRIVER_FILES' ]]; then
-    echo 'VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
-  else
-    sudo sed -i 's/VK_DRIVER_FILES.*/VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json/g' /etc/environment
-  fi
-  if ! [[ grep -qi 'VK_LAYER_PATH' ]]; then
-    echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
-  else
-    sudo sed -i 's/VK_LAYER_PATH.*/VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d/g' /etc/environment
-  fi
+  # if ! [[ grep -qi '__GLX_VENDOR_LIBRARY_NAME' ]]; then
+  #   echo '__GLX_VENDOR_LIBRARY_NAME=nvidia' | sudo tee -a /etc/environment
+  # else
+  #   sudo sed -i 's/__GLX_VENDOR_LIBRARY_NAME.*/__GLX_VENDOR_LIBRARY_NAME=nvidia/g' /etc/environment
+  # fi
+  # if ! [[ grep -qi 'VK_DRIVER_FILES' ]]; then
+  #   echo 'VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json' | sudo tee -a /etc/environment
+  # else
+  #   sudo sed -i 's/VK_DRIVER_FILES.*/VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json/g' /etc/environment
+  # fi
+  # if ! [[ grep -qi 'VK_LAYER_PATH' ]]; then
+  #   echo 'VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d' | sudo tee -a /etc/environment
+  # else
+  #   sudo sed -i 's/VK_LAYER_PATH.*/VK_LAYER_PATH=/usr/share/vulkan/explicit_layer.d/g' /etc/environment
+  # fi
 
   sleep 1s
 

@@ -227,9 +227,19 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     PKGSRM=(
       'lib32-vulkan-radeon'
       'vulkan-radeon'
-      'lib32-vulkan-intel'
+      'lib32-amdvlk'
+      'amdvlk'
+      'lib32-vulkan-amdgpu-pro'
       'vulkan-amdgpu-pro'
       'amf-amdgpu-pro'
+      'lib32-vulkan-intel'
+      'vulkan-intel'
+      'lib32-vulkan-nouveau'
+      'vulkan-nouveau'
+      'lib32-vulkan-swrast'
+      'vulkan-swrast'
+      'swiftshader-git'
+      'swiftshader'
     )
 
     for PKG in "${PKGSRM[@]}"; do

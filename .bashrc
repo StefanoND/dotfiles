@@ -179,10 +179,17 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
-# Set the default editor
+# text editor
 export SUDO_EDITOR=nvim
 export EDITOR=nvim
 export VISUAL=nvim
+
+#browser
+export BROWSER=firedragon
+#terminal
+export TERM=kitty
+#mail
+export MAIL='flatpak run org.mozilla.Thunderbird'
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -510,21 +517,25 @@ fi
 # Makes new panels open $HOME instead of folder you're currently in
 # wezterm set-working-directory "$HOME"
 
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+# export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
 export CARGO_INSTALL_ROOT=$HOME/.cargo
 export PATH="$PATH:$CARGO_INSTALL_ROOT/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 export PATH="$PATH:/usr/local"
+export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-# export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+export PATH="$HOME/.nimble/bin":$PATH
+export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
+export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
 
-export XDG_CONFIG_HOME="$HOME"/.config
-export XDG_SCREENSHOT_DIR="$HOME"/Pictures/Grim/
-export QT_STYLE_OVERRIDE=kvantum
-# export QT_QPA_PLATFORMTHEME='qt5ct:qt6ct'
+export DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
+export STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
+
 
 eval "$(register-python-argcomplete pipx)"
 
