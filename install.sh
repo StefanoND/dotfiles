@@ -601,6 +601,46 @@ flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.Whats
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
 
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.duckstation.DuckStation
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.duckstation.DuckStation
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin com.heroicgameslauncher.hgl
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib com.heroicgameslauncher.hgl
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin io.gdevs.GDLauncher
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib io.gdevs.GDLauncher
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin net.pcsx2.PCSX2
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib net.pcsx2.PCSX2
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin net.rpcs3.RPCS3
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib net.rpcs3.RPCS3
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.ryujinx.Ryujinx
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.ryujinx.Ryujinx
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.yuzu_emu.yuzu
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.yuzu_emu.yuzu
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.citra_emu.citra
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.citra_emu.citra
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin io.github.lime3ds.Lime3DS
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib io.github.lime3ds.Lime3DS
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin info.cemu.Cemu
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib info.cemu.Cemu
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.DolphinEmu.dolphin-emu
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.DolphinEmu.dolphin-emu
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin com.github.Rosalie241.RMG
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib com.github.Rosalie241.RMG
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin io.github.dosbox-staging
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib io.github.dosbox-staging
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.libretro.RetroArch
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.libretro.RetroArch
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.winehq.Wine
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.winehq.Wine
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.winehq.Wine.mono
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.winehq.Wine.mono
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.winehq.Wine.gecko
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.winehq.Wine.gecko
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.phoenicis.playonlinux
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.phoenicis.playonlinux
+flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.gnome.Boxes
+flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.gnome.Boxes
+flatpak --user override --env=LD_LIBRARY_PATH=/app/lib:/app/lib32:/usr/lib/extensions/vulkan/gamescope/lib com.usebottles.bottles
+
 sync
 sleep 1s
 
@@ -976,9 +1016,15 @@ sudo systemctl daemon-reload
 sleep 1s
 
 sudo setcap 'CAP_SYS_NICE=eip' /usr/bin/gamescope
+sudo setcap 'CAP_SYS_NICE=eip' /usr/bin/flatpak
+sudo setcap 'CAP_SYS_NICE=eip' /usr/bin/gamemoded
+sudo setcap 'CAP_SYS_NICE=eip' /usr/bin/gamemoderun
 
 # To remove the CAP_SYS_NICE above, run the command below
 # sudo setcap 'CAP_SYS_NICE-eip' /usr/bin/gamescope
+# sudo setcap 'CAP_SYS_NICE-eip' /usr/bin/flatpak
+# sudo setcap 'CAP_SYS_NICE-eip' /usr/bin/gamemoded
+# sudo setcap 'CAP_SYS_NICE-eip' /usr/bin/gamemoderun
 
 cd "$HOME"/dotfiles/apps/hdrop
 sudo make install

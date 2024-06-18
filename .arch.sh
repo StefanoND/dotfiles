@@ -19,6 +19,8 @@ sudo pacman -Syy
 
 sudo pacman -Rsn thunar --noconfirm --unneeded
 
+yes | sudo pacman -S wayland-protocols xdg-desktop-portal-hyprland wlr-randr
+
 # PACMAN
 PKGS=(
   # Tools
