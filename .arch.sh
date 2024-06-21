@@ -17,7 +17,7 @@ sync
 
 sudo pacman -Syy
 
-sudo pacman -Rsn thunar --noconfirm --unneeded
+sudo pacman -Rsn thunar ttf-ms-fonts --noconfirm --unneeded
 
 yes | sudo pacman -S wayland-protocols xdg-desktop-portal-hyprland wlr-randr
 
@@ -56,15 +56,19 @@ PKGS=(
   'syncthing'               #
   'nextcloud-client'        #
   'code'
+  'swaync'                  # Notification
 
   # Fonts
-  'noto-fonts'       # Additional variants of noto fonts
-  'noto-fonts-extra'       # Additional variants of noto fonts
-  'noto-fonts-cjk'         # Chinese Japanese Korean (CJK) characters support
-  'noto-fonts-emoji'       # Support for emojis
+  'inter-font'              # Daily "Industry-Standard" font SIL Open Font License v1.0
+  'ttf-jetbrains-mono'      # Dev "Industry-Standard" font SIL Open Font License v1.0
+  'ttf-jetbrains-mono-nerd' # Wizard "Industry-Standard" font SIL Open Font License v1.0
+  'noto-fonts'              # Additional variants of noto fonts
+  # 'noto-fonts-extra'        # Additional variants of noto fonts
+  # 'noto-fonts-cjk'          # Chinese Japanese Korean (CJK) characters support
+  'noto-fonts-emoji'        # Support for emojis
   'ttf-firacode-nerd'       # My personal favorite font for programming
   'powerline-fonts'         # Patched fonts for powerline
-  'ttf-ms-fonts'         # Patched fonts for powerline
+  # 'ttf-ms-fonts'            # Patched fonts for powerline
 
   # Themes
   'catppuccin-gtk-theme-mocha'
@@ -253,3 +257,30 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
       sleep 1s
     done
 fi
+
+# PARU
+PKGPARU=(
+  'libicu53'                    # Required for Unreal Engine
+  'opentabletdriver'            # Tablet Driver ("-git" version not working)
+  'ttf-ms-win11-auto'           # Windows 11 fonts
+  'wttrbar'                     # Weather for Waybar
+)
+
+for PKG in "${PKGPARU[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  paru -S "$PKG" --noconfirm --needed --sudoloop
+  sync
+  sleep 1s
+done
+
+echo
+echo "Setting vifm as paru's File Manager"
+echo
+sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
+sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
+sync
+
+fc-cache --force
+fc-cache-32 --force

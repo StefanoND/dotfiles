@@ -11,8 +11,8 @@ alias firedragon='cd ~/ && nohup firedragon -P &'
 alias thunar='cd ~/ && nohup thunar &'
 
 # QT's apps
-alias dolphin='cd ~/ && QT_QPA_PLATFORM=xcb QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nohup /usr/bin/dolphin &'
-alias kate='cd ~/ && QT_QPA_PLATFORM=xcb QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nohup /usr/bin/kate &'
+alias dolphin='cd ~/ && QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nohup /usr/bin/dolphin &'
+alias kate='cd ~/ && QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nohup /usr/bin/kate &'
 
 alias virt-manager='cd ~/ && nohup virt-manager &'
 alias virtualbox='cd ~/ && nohup virtualbox &'
@@ -36,6 +36,7 @@ alias headset-charge-indicator='cd ~/ && nohup python3 ~/dotfiles/apps/headset-c
 alias headsetchargeindicator='cd ~/ && nohup python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py &'
 
 alias waybar='cd ~/ && nohup waybar &'
+alias restartwaybar='killall -9 waybar && sleep 1s && cd ~/ && nohup waybar &'
 
 # Neverwinter Nights: Enhanced Edition
 alias tlkedit='cd ~/ && nohup gtk-launch tlkedit &'

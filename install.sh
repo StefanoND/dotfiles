@@ -279,21 +279,6 @@ sudo sed -i 's/inode\/directory=.*/inode\/directory=org.kde.dolphin.desktop;/g' 
 
 XDG_MENU_PREFIX=arch- kbuildsycoca6
 
-# PARU
-PKGPARU=(
-  'libicu53'                    # Required for Unreal Engine
-  'opentabletdriver'            # Tablet Driver ("-git" version not working)
-)
-
-for PKG in "${PKGPARU[@]}"; do
-  echo
-  echo "INSTALLING: ${PKG}"
-  echo
-  yes | paru -S "$PKG" --noconfirm --needed --sudoloop
-  sync
-  sleep 1s
-done
-
 # PIP
 PKGT=(
   # LSP
@@ -651,13 +636,6 @@ if ! [[ grep -q autodefrag /etc/fstab ]]; then
   sudo sed -i 's/compress=zstd/compress=zstd,autodefrag/g' /etc/fstab
   sync
 fi
-
-echo
-echo "Setting vifm as paru's File Manager"
-echo
-sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
-sudo sed -i "s|#FileManager|FileManager|g" /etc/paru.conf
-sync
 
 echo
 echo "usermod -aG video qemu"

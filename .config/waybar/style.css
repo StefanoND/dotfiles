@@ -1,185 +1,227 @@
-/* =============================================================================
- *
- * Waybar configuration
- *
- * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
- *
- * =========================================================================== */
- 
-/* -----------------------------------------------------------------------------
- * Keyframes
- * -------------------------------------------------------------------------- */
-
-
-/*
-Polar Night
-nord0  #2e3440
-nord1  #3b4252
-nord2  #434c5e
-nord3  #4c566a
-Snow Storm
-nord4  #d8dee9
-nord5  #e5e9f0
-nord6  #eceff4
-Frost
-nord7  #8fbcbb
-nord8  #88c0d0
-nord9  #81a1c1
-nord10 #5e81ac
-Aurora
-nord11 #bf616a
-nord12 #d08770
-nord13 #ebcb8b
-nord14 #a3be8c
-nord15 #b48ead
-*/
-
-/* -----------------------------------------------------------------------------
- * Base styles
- * -------------------------------------------------------------------------- */
- 
-/* Reset all styles */
+@import "mocha.css";
 
 * {
-    color: #eceff4;
-    border: 0;
-    border-radius: 0;
-    padding: 0 0;
-    font-family: FiraCode Nerd Font Mono;
-    font-size: 15px;
-    margin-right: 5px;
-    margin-left: 5px;
-    padding-bottom:2px;
-   }
-
-window#waybar {
-    background:rgba (0, 0, 0, 0.5);
-    border-radius: 20px 20px 20px 20px; 
+  padding: 0;
+  margin: 0;
+  font-family: "Overpass", "JetBrains Mono Nerd Font";
+  font-size: 12px;
 }
 
-#workspaces button {
-    padding: 2px 0px;
-    border-bottom: 2px;
-    color: #eceff4;
-    border-color: #d8dee9;
-    border-style: solid;
-    margin-top:2px;
+/* ------ Set a Uniform Border Radius ------ */
+.modules-left,
+.modules-center,
+.modules-right,
+#cpu,
+#memory,
+#temperature,
+#pulseaudio,
+#backlight,
+#custom-spotify,
+#custom-icon,
+#custom-updates,
+#network,
+#battery,
+#tray,
+#idle_inhibitor,
+#custom-power,
+#custom-notification {
+  border-radius: 18px;
 }
 
-#workspaces button.active {
-    border-color: #81a1c1;
+/* ------ Modules Left ------ */
+.modules-left {
+  background-color: @base;
+  padding-right: 5px;
+  padding-left: 13px;
 }
 
-#clock, #battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #tray, #window,#custom-launcher,#custom-power,#custom-updates ,#custom-network_traffic,#custom-weather{
-    padding: 0 3px;
-    border-bottom: 2px;
-    border-style: solid;
-}
- 
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
-
- 
-#clock {
- color:#a3be8c;
+/* ------ Modules Center ------ */
+.modules-center {
+  background-color: @base;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
-#backlight {
-    color: #ebcb8b;
+/* ------ Modules Right ------ */
+.modules-right {
+  background-color: @base;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
-#battery {
-    color: #d8dee9;
-}
-
-#battery.charging {
-    color: #81a1c1;
-}
-
-@keyframes blink {
-    to {
-        color: #4c566a;
-        background-color: #eceff4;
-    }
-}
-
-#battery.critical:not(.charging) {
-    background: #bf616a;
-    color: #eceff4;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+/* ------ Cpu Usage, Temperature, and Memory ------ */
+#cpu,
+#temperature,
+#memory {
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
 }
 
 #cpu {
-    color:#a3be8c ;
+  color: @peach;
 }
-
 #memory {
-    color: #d3869b;
+  color: @mauve;
 }
-
-#network.disabled {
-    color:#bf616a;
-}
-
-#network{
-    color:#a3be8c;
-}
-
-#network.disconnected {
-    color: #bf616a;
-}
-
-#pulseaudio {
-    color: #b48ead;
-}
-
-#pulseaudio.muted {
-    color: #3b4252;
-}
-
 #temperature {
-    color: #8fbcbb;
+  color: @mauve;
+}
+#temperature.critical {
+  color: @maroon;
 }
 
-#temperature.critical {
-    color: #bf616a;
+/* ------ Window Title ------ */
+#window {
+  color: @text;
+  padding-right: 4px;
+}
+
+window#waybar {
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom: 0px solid #ffffff;
+  /* color: #FFFFFF; */
+  background: transparent;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+/* -----------------------------------------------------
+ * Workspaces
+ * ----------------------------------------------------- */
+
+#workspaces button.empty {
+  color: @surface2;
+  font-family: JetBrainsMono Nerd Font;
+}
+
+#workspaces {
+  margin: 0px 1px 0px 1px;
+  padding: 0px 1px;
+  font-family: JetBrainsMono Nerd Font;
+}
+
+#workspaces button {
+  padding: 0px 2px;
+  margin: 4px 2px;
+  color: @yellow;
+  font-family: JetBrainsMono Nerd Font;
+}
+
+#workspaces button:hover {
+  opacity: 0.5;
+}
+
+/* ------ Pulseaudio ------ */
+#pulseaudio {
+  color: @peach;
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
+}
+
+/* ------ Backlight ------ */
+#backlight {
+  color: @sky;
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
+}
+
+/* ------ Network ------ */
+#network {
+  color: @mauve;
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
+}
+
+/* ------ Battery ------ */
+#battery {
+  color: @maroon;
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
+}
+
+/* ------ Clock ------ */
+#clock {
+  padding-left: 10px;
+  color: @text;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+/* ------ System Tray ------ */
+#tray {
+  background-color: @surface1;
+  padding: 2px 5px;
+  margin: 4px 2px;
+}
+
+/* ------ Custom Modules ------ */
+#custom-icon {
+  font-size: 18px;
+  color: @blue;
+  padding-right: 5px;
+}
+
+#custom-separator-arrow {
+  font-size: 14px;
+  color: @text;
+}
+
+#custom-separator-dot {
+  font-size: 15px;
+  color: @text;
+}
+
+#custom-spotify {
+  color: @mauve;
+  background-color: @surface1;
+  padding: 2px 9px;
+  margin: 4px 2px;
+}
+#custom-power {
+  color: @red;
+  background-color: @surface1;
+  padding: 2px 9px;
+  margin: 4px 2px;
+  font-size: 15px;
 }
 
 #idle_inhibitor {
-   color: #ebcb8b;
+  color: @green;
+  background-color: @surface1;
+  padding: 2px 9px;
+  margin: 4px 2px;
+  font-size: 15px;
 }
 
-#tray {
+#custom-updates {
+  padding: 2px 7px;
+  margin: 4px 2px;
+  background-color: @surface1;
+}
+#custom-updates.green {
+  color: @text;
+}
+#custom-updates.yellow {
+  color: @peach;
+}
+#custom-updates.red {
+  color: @red;
 }
 
-#custom-launcher{
-        font-size: 20px;
-        background-image: url('/home/archuser/.config/waybar/launcher.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        border-style: hidden;
+#custom-notification {
+  color: @teal;
+  background-color: @surface1;
+  padding: 2px 9px;
+  margin: 4px 2px;
+  font-size: 15px;
 }
 
-#custom-power{
-    border-style: hidden;
-    margin-top:2px;    
+tooltip {
+  background: @base;
+  border: 1px solid @blue;
 }
-
-#window{
-    border-style: hidden;
-    margin-top:1px;  
-}    
-#custom-keyboard-layout{
-   color:#d08770;
-}   
-#custom-network_traffic{
-   color:#d08770;
-}
-
-
