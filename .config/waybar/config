@@ -80,7 +80,7 @@
 
   "hyprland/window": {
     "format": "{}",
-    "max-length": 50,
+    "max-length": 32,
     "icon":true,
     "icon-size" : 20,
     "rewrite": {
@@ -91,21 +91,19 @@
       "(.*) Spotify": "󰓇 Spotify",
       " ~": " l6174@Radon",
       "(.*) - Obsidian(.*)": "󱓧 Obsidian"
-    }
+    },
+    //"separate-outputs": true
   },
 
   "custom/spotify": {
+    "exec": "/usr/bin/python3 $HOME/.config/waybar/scripts/mediaplayer.py --player spotify --verbose",
     "format": "{} ",
-    "max-length": 60,
-    "interval": "once",
     "return-type": "json",
-    "exec": "spotifyctl",
-    "on-click": "playerctl --player=spotify play-pause && pkill -RTMIN+30 waybar",
-    "on-click-right": "playerctl --player=spotify loop track",
-    "on-scroll-down": "playerctl --player=spotify previous && pkill -RTMIN+30 waybar",
-    "on-scroll-up": "playerctl --player=spotify next && pkill -RTMIN+30 waybar",
-    "on-click-middle": "pkill --signal TERM spotify",
-    "signal": 30,
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "on-click-middle": "killall -9 spotify",
+    "max-length": 40,
     "smooth-scrolling-threshold": 1.0
   },
 

@@ -49,3 +49,6 @@
 [submodule "apps/ue4cli"]
 	path = apps/ue4cli
 	url = https://github.com/adamrehn/ue4cli.git
+[submodule "apps/spotifyctl"]
+	path = apps/spotifyctl
+	url = https://github.com/borisfaure/spotifyctl.git

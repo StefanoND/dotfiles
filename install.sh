@@ -181,6 +181,12 @@ if [ -d "$HOME"/.config/SuperSlicer ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/SuperSlicer "$HOME"/.config/
 
+if [ -d "$HOME"/.config/swaync ]; then
+  mv "$HOME"/.config/swaync "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/swaync "$HOME"/.config/
+
 if [ -d "$HOME"/.config/tmux ]; then
   mv "$HOME"/.config/tmux "$HOME"/dotfiles/backup/.config/
   sync
@@ -800,6 +806,14 @@ sudo chmod +x /usr/local/bin/headsetcontrol-notificationd
 sudo systemctl daemon-reload
 systemctl --user enable --now headsetcontrol-notificationd
 sleep 1s
+
+echo
+echo 'Installing Spotifyctl'
+echo
+cd "$HOME"/dotfiles/apps/spotifyctl
+cargo install --path .
+sync
+cd "$HOME"/dotfiles
 
 echo
 echo "Enabling tuned"
