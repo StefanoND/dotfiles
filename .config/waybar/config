@@ -1,11 +1,11 @@
 {
   "layer": "top",
   "position": "top",
-  "spacing": 4,
-  "margin-top": 5,
+  "spacing": 1,
+  "margin-top": 3,
   "margin-bottom": 0,
-  "margin-left": 5,
-  "margin-right": 5,
+  "margin-left": 3,
+  "margin-right": 3,
 
   // Choose order of the modules
 
@@ -17,6 +17,7 @@
   ],
 
   "modules-center": [
+    "custom/keyboard-layout",
     "custom/updates",
     "clock",
     "custom/weather"
@@ -24,7 +25,6 @@
 
   "modules-right": [
     "backlight",
-    "custom/keyboard-layout",
     "temperature",
     "cpu",
     "memory",
@@ -80,6 +80,7 @@
 
   "hyprland/window": {
     "format": "{}",
+    "max-length": 50,
     "icon":true,
     "icon-size" : 20,
     "rewrite": {
@@ -98,7 +99,7 @@
     "max-length": 60,
     "interval": "once",
     "return-type": "json",
-    "exec": "~/.local/bin/spotifyctl",
+    "exec": "spotifyctl",
     "on-click": "playerctl --player=spotify play-pause && pkill -RTMIN+30 waybar",
     "on-click-right": "playerctl --player=spotify loop track",
     "on-scroll-down": "playerctl --player=spotify previous && pkill -RTMIN+30 waybar",
@@ -152,6 +153,7 @@
 
   "temperature": {
     // "thermal-zone": 7,  // Check with: # cat /sys/class/hwmon/hwmon*/temp1_input
+    "interval": 5,
     "hwmon-path": [
       "/sys/class/hwmon/hwmon0/temp1_input",
     "/sys/class/hwmon/hwmon1/temp1_input"
@@ -203,6 +205,8 @@
   },
 
   "network": {
+    "min-length": 22,
+    "max-length": 24,
     "exec": "~/.config/waybar/scripts/network_traffic.sh",
     "return-type": "json",
     "interval": 1,
