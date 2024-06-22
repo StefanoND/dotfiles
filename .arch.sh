@@ -215,6 +215,11 @@ PKGS=(
   'godot-mono'
   'linux-steam-integration'
   'vulkan-tools'
+  'texlive-bin'
+  'texlive-xetex'
+  'texlive-luatex'
+  'dvisvgm'
+  'zotero-bin'
 )
 
 for PKG in "${PKGS[@]}"; do

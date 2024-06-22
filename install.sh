@@ -96,6 +96,12 @@ if [ -f "$HOME"/.gitconfig ]; then
 fi
 ln -svf "$HOME"/dotfiles/.gitconfig "$HOME"/
 
+if [ -d "$HOME"/.lots ]; then
+  mv "$HOME"/.lots "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.lots "$HOME"/
+
 if [ -d "$HOME"/.tmux ]; then
   mv "$HOME"/.tmux "$HOME"/dotfiles/backup/
   sync
@@ -475,6 +481,9 @@ PKGFP=(
   'org.freedesktop.Platform//23.08'                       #
   'org.freedesktop.Sdk//23.08'                            #
   'io.github.dvlv.boxbuddyrs'                             # GUI fo Distrobox
+  'org.freedesktop.Sdk.Extension.openjdk//23.08'          # JRE and JDK v21
+  'org.zotero.Zotero'
+  'org.jabref.jabref'
 #    ''         #
 )
 
@@ -634,8 +643,6 @@ flatpak --user override --env=LD_LIBRARY_PATH=/app/lib:/app/lib32:/usr/lib/exten
 
 sync
 sleep 1s
-
-sed -i "s/font-family.*/font-family: FiraCode Nerd Font Mono\;/g" "$HOME"/.config/waybar/style.css
 
 # Enabling btrfs defrag
 if ! [[ grep -q autodefrag /etc/fstab ]]; then
