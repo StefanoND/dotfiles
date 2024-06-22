@@ -1,102 +1,0 @@
-Script started on 2024-06-05 16:54:31+01:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="235" LINES="12"]
-[1m[31m                   .%;888:8898898:    
-                 x;XxXB%89b8:b8%b88:    
-              .8Xxd                8X:.    
-            .8Xx;                    8x:.    
-          .tt8x          .d            x88;    
-       .@8x8;          .db:              xx@;    
-     ,tSXX°          .bbbbbbbbbbbbbbbbbbbB8x@;    
-   .SXxx            bBBBBBBBBBBBBBBBBBBBbSBX8;    
- ,888S                                     pd!    
-8X88/                                       q    
-8X88/    
-GBB.    
- x%88        d888@8@X@X@X88X@@XX@@X@8@X.    
-   dxXd    dB8b8b8B8B08bB88b998888b88x.    
-    dxx8o                      .@@;.    
-      dx88                   .t@x.    
-        d:SS@8ba89aa67a853Sxxad.    
-          .d988999889889899dd.[m[1G[17A[m[50C[m[1m[31marchuser[m@[1m[31marchuser-ms7b79[m
-[50C------------------------
-[50C[m[1m[31mOS[m: [mGaruda Linux BirdOfPrey Soaring x86_64
-[50C[m[1m[31mHost[m: [mMS-7B79 (2.0)
-[50C[m[1m[31mKernel[m: [mLinux 6.9.3-zen1-1-zen
-[50C[m[1m[31mUptime[m: [m56 mins
-[50C[m[1m[31mPackages[m: [m2042 (pacman)[stable], 6 (flatpak-system), 137 (flatpak-user)
-[50C[m[1m[31mShell[m: [mbash 5.2.26
-[50C[m[1m[31mDisplay (G2490W1G4)[m: [m1920x1080 @ 144Hz
-[50C[m[1m[31mDisplay (ASUS VS247)[m: [m1920x1080 @ 60Hz
-[50C[m[1m[31mDisplay (LG FULL HD)[m: [m1920x1080 @ 60Hz [External]
-[50C[m[1m[31mWM[m: [mHyprland (Wayland)
-[50C[m[1m[31mTheme[m: [mCatppuccin-Mocha-Standard-Mauve-Dark [GTK2/3], Sweet-Dark [GTK4]
-[50C[m[1m[31mIcons[m: [mPapirus-Dark [GTK2/3], BeautyLine [GTK4]
-[50C[m[1m[31mFont[m: [mJetBrainsMono Nerd Font Mono (10pt) [GTK2/3], Fira Sans (10pt) [GTK4]
-[50C[m[1m[31mCursor[m: [mSweet (24px)
-[50C[m[1m[31mTerminal[m: [mscript
-[50C[m[1m[31mCPU[m: [mAMD Ryzen 7 2700X (16) @ 3,70 GHz
-[50C[m[1m[31mGPU[m: [mNVIDIA GeForce GTX 1070 Ti [Discrete]
-[50C[m[1m[31mMemory[m: [m7,02 GiB / 31,27 GiB ([32m22%[m)
-[50C[m[1m[31mSwap[m: [m0 B / 65,27 GiB ([32m0%[m)
-[50C[m[1m[31mDisk (]8;;file:///\/]8;;\)[m: [m27,90 GiB / 187,54 GiB ([32m15%[m) - btrfs
-[50C[m[1m[31mDisk (]8;;file:///home\/home]8;;\)[m: [m539,52 GiB / 931,49 GiB ([93m58%[m) - btrfs
-[50C[m[1m[31mDisk (]8;;file:///mnt/HDD_COMMON\/mnt/HDD_COMMON]8;;\)[m: [m282,54 GiB / 515,55 GiB ([93m55%[m) - fuseblk
-[50C[m[1m[31mDisk (]8;;file:///mnt/HDD_LINUX\/mnt/HDD_LINUX]8;;\)[m: [m7,79 GiB / 260,32 GiB ([32m3%[m) - ext4
-[50C[m[1m[31mDisk (]8;;file:///mnt/HDD_VM_BU\/mnt/HDD_VM_BU]8;;\)[m: [m2,02 MiB / 802,45 GiB ([32m0%[m) - ext4
-[50C[m[1m[31mDisk (]8;;file:///mnt/SSD_1TB_GAMES\/mnt/SSD_1TB_GAMES]8;;\)[m: [m670,71 GiB / 894,25 GiB ([93m75%[m) - btrfs
-[50C[m[1m[31mDisk (]8;;file:///mnt/SSD_1TB_WORK\/mnt/SSD_1TB_WORK]8;;\)[m: [m150,02 GiB / 894,25 GiB ([32m17%[m) - btrfs
-[50C[m[1m[31mLocal IP (enp34s0)[m: [m192.168.1.60/24 *
-[50C[m[1m[31mLocale[m: [men_US.UTF-8
-[50C
-[50C[m[30m███[31m███[32m███[33m███[34m███[35m███[36m███[37m███[m
-[50C[1;90m███[1;91m███[1;92m███[1;93m███[1;94m███[1;95m███[1;96m███[1;97m███[m
-]0;archuser@archuser-ms7b79:~/dotfiles7[K[▽][6n[K[▶][6n[K[龼][6n[K[鿄][6n[K[ㆸ][6n[K[ힰ][6n[K[゙][6n[K[鿍][6n[K[🤻][6n[K[ㄮ][6n[K[ㄯ][6n[K[𖿢][6n[K[㋿][6n[K[ㆻ][6n[K[鿽][6n[K[𛄲][6n[K[⿼][6n[K8[?2004h[?25h[?25l(B[m
-
-(B[m[1A[2L[2K(B[m[1A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m601ms(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l7[1;2r[2;1H[1B[6n[;r[2;1H[1B[6n[r8[>c(B[m[2A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m601ms(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[>4;1m[>4;2m[m(B[m[2A
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m601ms(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mc(B[m[K[?25h[?25l(B[m[1D[0;38;5;92m[0;38;5;92mc[0;38;5;238;48;5;254md ~(B[m[K(B[m[3D[?25h[?25l[0;38;5;92md[?25h[?25l(B[m[2D[0;38;5;92m[0;38;5;92mcd[0m (B[m[K[?25h[?25l(B[m[3D[0;38;5;92m[0;38;5;92mcd[0m [0;38;5;238;48;5;254m~(B[m[K(B[m[1D[?25h[?25l(B[m[3D[0;38;5;92m[0;38;5;92mcd[0m s(B[m[K[?25h[?25l(B[m[1D[0;4;38;5;26m[0;4;38;5;26ms[0;38;5;238;48;5;254mcripts/(B[m[K(B[m[7D[?25h[?25l[0;4;38;5;26mc[?25h[?25l(B[m[2D[0mscrt(B[m[K[?25h[?25l(B[m[4D[0;4;38;5;26m[0;4;38;5;26mscripts/(B[m[K[?25h[?25l(B[m[8D[0;4;38;5;26m[0;4;38;5;26mscripts/[0;38;5;238;48;5;254mfzf-git.sh(B[m[K(B[m[10D[?25h[?25l(B[m[8D[0;4;38;5;26m[0;4;38;5;26mscripts/(B[m[K(B[m
-[?25h[?25l[?2004l[>4;1m[m[?25h[34md[1;33mr[31mw[32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m    [1;90m-[0m [1;33marchuser[0m [34m19 mai 15:52[0m [1;90m--[0m [34m fzf-git.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m  [32m840[0m [1;33marchuser[0m [34m21 mai 12:32[0m [1;90m--[0m [32m [1mactivewindow.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m [1;32m7,7k[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1mappify.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m   [32m87[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1mgodotrc.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m [1;32m3,6k[0m [1;33marchuser[0m [34m30 mai 10:08[0m [1;90m--[0m [32m [1mhyprland.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m  [32m205[0m [1;33marchuser[0m [34m22 mai 07:32[0m [1;90m--[0m [32m [1mhyprlandportal.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m [1;32m3,7k[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1mKDE_copy_taskbar.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m   [32m64[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1mstart_kitty_with_vim.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m  [32m353[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1mswitchto.sh[0m
-.[1;33mr[31mw[90m-[0m[33mr[1;90m--[0m[33mr[1;90m--[0m [1;32m1,1k[0m [1;33marchuser[0m [34m 4 jun 10:13[0m [1;90m--[0m  tkg.sh
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m  [32m336[0m [1;33marchuser[0m [34m 5 jun 16:54[0m [1;90m-[0m[32mN[0m [32m [1munrealeditor.sh[0m
-.[1;33mr[31mw[4;32mx[0m[33mr[1;90m-[0m[32mx[33mr[1;90m-[0m[32mx[0m  [32m782[0m [1;33marchuser[0m [34m19 mai 15:51[0m [1;90m--[0m [32m [1munrealengine.sh[0m
-(B[m7[0;94m[ble: EOF](B[m(B[m8[233C  [K[?2004h[>4;1m[>4;2m[m[?25h]0;archuser@archuser-ms7b79:~/dotfiles/scripts[?25l(B[m
-
-(B[m[1A[2L[2K(B[m[1A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles/scripts(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m173ms(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[0;1;91m[0;1;91m.(B[m[K[?25h[?25l(B[m[1D[0;38;5;26m[0;38;5;26m.[0;38;5;238;48;5;254m/hyprlandportal.sh (B[m[K(B[m[19D[?25h[?25l(B[m[1D[0;38;5;231;48;5;203m[0;38;5;231;48;5;203m./(B[m[K[?25h[?25l(B[m[2D[0;38;5;26m[0;38;5;26m./[0;38;5;238;48;5;254mhyprlandportal.sh (B[m[K(B[m[18D[?25h[?25l(B[m[2D[0;38;5;26m[0;38;5;26m./[0;38;5;231;48;5;203mu(B[m[K[?25h[?25l(B[m[3D[0;38;5;26m[0;38;5;26m./[0;32mu[0;38;5;238;48;5;254mnrealeditor.sh(B[m[K(B[m[14D[?25h[?25l[0;32mn[?25h[?25l[0;32mr[?25h[?25l[0;32me[?25h[?25l[0;32ma[?25h[?25l(B[m
-(B[m[1L[2K(B[m[2K[0;1;32munreale[0;32mditor.sh(B[m [0;1;32munreale[0;32mngine.sh(B[m[?25h[?25l(B[m[1A[21D[?25h[?25l(B[m[7D[0;1;38;5;26m[0;1;38;5;26m.[0;1;38;5;26m/[0;1;38;5;231;48;5;203mu[0;1;38;5;231;48;5;203mn[0;1;38;5;231;48;5;203mr[0;1;38;5;231;48;5;203me[0;1;38;5;231;48;5;203ma[0;1;38;5;231;48;5;203ml[0;1;38;5;231;48;5;203me(B[m[K[?25h[?25l(B[m[9D[0;1;38;5;26m[0;1;38;5;26m.[0;1;38;5;26m/[0;1;32mu[0;1;32mn[0;1;32mr[0;1;32me[0;1;32ma[0;1;32ml[0;1;32me[0;38;5;238;48;5;254mditor.sh(B[m[K(B[m[8D[?25h[?25l(B[m[9D[0;38;5;26m[0;38;5;26m./[0;32munrealeditor.sh[0m (B[m[K(B[m[1B[2K[1M(B[m[1A[21C[?25h[?25l(B[m
-[?25h[?25l[?2004l[>4;1m[m[?25h[0;31;49mDisconnected.[0m
-nohup: appending output to 'nohup.out'
-nohup: failed to run command './$/HOME/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Binaries/Linux/UnrealEditor': No such file or directory
-(B[m7[0;94m[ble: EOF](B[m(B[m8[233C  [K[?2004h[>4;1m[>4;2m[m[?25h]0;archuser@archuser-ms7b79:~/dotfiles/scripts[?25l(B[m
-
-(B[m[1A[2L[2K(B[m[1A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles/scripts(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m1s(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[0;38;5;26m[0;38;5;26m./[0;32munrealeditor.sh[0m (B[m[K[?25h[?25l(B[m
-[?25h[?25l[?2004l[>4;1m[m[?25h[0;31;49mDisconnected.[0m
-nohup: appending output to 'nohup.out'
-nohup: failed to run command './/home/archuser/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Binaries/Linux/UnrealEditor': No such file or directory
-(B[m7[0;94m[ble: EOF](B[m(B[m8[233C  [K[?2004h[>4;1m[>4;2m[m[?25h]0;archuser@archuser-ms7b79:~/dotfiles/scripts[?25l(B[m
-
-(B[m[1A[2L[2K(B[m[1A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles/scripts(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m1s(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[0;38;5;26m[0;38;5;26m./[0;32munrealeditor.sh[0m (B[m[K[?25h[?25l(B[m
-[?25h[?25l[?2004l[>4;1m[m[?25h[0;31;49mDisconnected.[0m
-nohup: appending output to 'nohup.out'
-nohup: failed to run command './home/archuser/UNREAL/Editors/UnrealEngine_5.4.1/Engine/Binaries/Linux/UnrealEditor': No such file or directory
-(B[m7[0;94m[ble: EOF](B[m(B[m8[233C  [K[?2004h[>4;1m[>4;2m[m[?25h]0;archuser@archuser-ms7b79:~/dotfiles/scripts[?25l(B[m
-
-(B[m[1A[2L[2K(B[m[1A[2K[3M[3L[2K
- [0;1;38;2;166;227;161marchuser[0;1;38;2;137;180;250m@[0;1;38;2;243;139;168marchuser(B[m in [0;1;38;2;180;190;254mrepo: dotfiles/scripts(B[m on [0;1;35m trunk(B[m [0;37m[!?](B[m took [0;1;38;2;249;226;175m1s(B[m
- [0;1;38;2;137;180;250mλ(B[m [?25h[?25l[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mk(B[m[K[?25h[?25l(B[m[1D[0;32m[0;32mk[0;38;5;238;48;5;254millall -9 flatseal(B[m[K(B[m[18D[?25h[?25l(B[m[1D[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mkk(B[m[K[?25h[?25l(B[m[2D[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mkkk(B[m[K[?25h[?25l(B[m[3D[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mkk(B[m[K[?25h[?25l(B[m[2D[0;38;5;231;48;5;203m[0;38;5;231;48;5;203mk(B[m[K[?25h[?25l(B
