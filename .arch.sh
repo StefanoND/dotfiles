@@ -17,7 +17,7 @@ sync
 
 sudo pacman -Syy
 
-sudo pacman -Rsn thunar ttf-ms-fonts --noconfirm --unneeded
+sudo pacman -Rsn thunar ttf-ms-fonts unrar --noconfirm --unneeded
 
 yes | sudo pacman -S wayland-protocols xdg-desktop-portal-hyprland wlr-randr
 
@@ -220,6 +220,9 @@ PKGS=(
   'texlive-luatex'
   'dvisvgm'
   'zotero-bin'
+  'ncompress'
+  'nextcloud'
+  'nextcloud-client'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -269,6 +272,8 @@ PKGPARU=(
   'opentabletdriver'            # Tablet Driver ("-git" version not working)
   'ttf-ms-win11-auto'           # Windows 11 fonts
   'wttrbar'                     # Weather for Waybar
+  'rar'                         # Rar AND Unrar
+  'gamescope-plus'
 )
 
 for PKG in "${PKGPARU[@]}"; do

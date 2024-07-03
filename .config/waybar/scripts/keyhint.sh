@@ -1,10 +1,10 @@
 #!/bin/sh
 # "Change keyboard layout in" "~/.config/hypr/hyprland.conf" " " \
 
-yad --width=530 --height=620 \
+yad --width=592 --height=620 \
 --center \
 --fixed \
---title="Garuda Hyprland Keybindings" \
+--title="Keybindings" \
 --no-buttons \
 --list \
 --column=Key: \
@@ -12,25 +12,25 @@ yad --width=530 --height=620 \
 --column=Command: \
 --timeout=60 \
 --timeout-indicator=right \
-"ESC" "close this app" "" "=" "modkey" "(set mod Mod4)" \
-"+Shift+g" "G-hyprland" "implement G-Hyprland" \
-"+enter/+t" "Terminal" "(foot)" \
+"ESC" "close this app" "" \
+"=" "modkey" "(set mod Mod4)" \
+"+Shift+g" "Godot" "(flatpak run Godot)" \
+"+enter" "Terminal" "(kitty)" \
 "+d" "Application Menu" "(wofi)" \
-"+Shift+d" "Full Launcher" "(nwggrid)" \
-"+o" "" "Open Broswer" \
-"+n" "" "Open Files" \
+"" "Full Launcher" "(nwg-drawer)" \
+"+Shift+f" "Open Browser" "(Firedragon)" \
+"+t" "Open Files" "(Dolphin)" \
 "+q" "close focused app" "(kill)" \
 "+v" "clipboard manager" "(cliphist)" \
 "+r" "Resize windows" "(resize)" \
 "Print" "screenshot" "(grimblast)" \
-"Shift+Print" "screenshot region" "(grimblast)" \
-"+Print" "screenshot window" "(grimblast)" \
-"+Shift+e" "power-menu" "(wofi)" \
+"+Shift+s" "screenshot" "(grimblast)" \
+"+0" "power-menu" "(nwgbar)" \
 "+Shift+c" "Change wallpaper" "(wpaperd)" \
 "+f" "Fullscreen" "Toggles to full screen" \
-"+Shift+f" "Fake fullscreen" "Behave full screen without full screen" \
-"+Shift+Spacebar" "Float" "Toggle windows to float" \
+"+Alt+f" "Fake fullscreen" "Behave full screen without full screen" \
+"+Spacebar" "Tile/Float" "Toggle windows to tile/float" \
 "+p" "Dwindle effect" "pseudo" \
 "+Shift+p" "Dwindle effect" "toggle split" \
 "+i" "Calamares" "Install Garuda Hyprland" \
-"" "" "     Window closed in 60 sec."\
+"" "" "Window closes in 60 sec."\

@@ -6,13 +6,6 @@ source /usr/share/doc/find-the-command/ftc.bash
 
 ## Useful aliases
 
-# Replace ls with exa
-alias ls='eza -al --color=always --group-directories-first --icons --git'     # preferred listing
-alias la='eza -a --color=always --group-directories-first --icons --git'      # all files and dirs
-alias ll='eza -l --color=always --group-directories-first --icons --git'      # long format
-alias lt='eza -aT --color=always --group-directories-first --icons --git'     # tree listing
-alias l.='eza -ald --color=always --group-directories-first --icons --git .*' # show only dotfiles
-
 # Replace some more things with better alternatives
 alias cat='bat --style header --style snip --style changes --style header'
 [ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
@@ -27,11 +20,7 @@ alias rmpkg="sudo pacman -Rdd"
 alias psmem='ps auxf | sort -nr -k 4'
 alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 alias upd='/usr/bin/garuda-update'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
+
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='ugrep --color=auto'
@@ -82,32 +71,32 @@ shopt -s histappend
 
 # Changed from 'ex' to 'extract', added '.tar.xz', added recursion support
 extract() {
-        for archive in "${@}"; do
-                if [ -f "$archive" ]; then
-                        case $archive in
-                        *.tar.xz) tar xvJf "$archive" ;;
-                        *.tar.bz2) tar xvjf "$archive" ;;
-                        *.tar.gz) tar xvzf "$archive" ;;
-                        *.bz2) bunzip2 "$archive" ;;
-                        *.rar) unrar x "$archive" ;;
-                        *.gz) gunzip "$archive" ;;
-                        *.tar) tar xvf "$archive" ;;
-                        *.tbz2) tar xvjf "$archive" ;;
-                        *.tgz) tar xvzf "$archive" ;;
-                        *.zip) unzip "$archive" ;;
-                        *.Z) uncompress "$archive" ;;
-                        *.7z) 7z x "$archive" ;;
-                        *) echo "don't know how to extract '$archive'..." ;;
-                        esac
-                else
-                        echo "'$archive' is not a valid file!"
-                fi
-        done
+  for archive in "${@}"; do
+    if [ -f "$archive" ]; then
+      case $archive in
+        *.tar.xz) tar xvJf "$archive" ;;
+        *.tar.bz2) tar xvjf "$archive" ;;
+        *.tar.gz) tar xvzf "$archive" ;;
+        *.bz2) bunzip2 "$archive" ;;
+        *.rar) unrar x "$archive" ;;
+        *.gz) gunzip "$archive" ;;
+        *.tar) tar xvf "$archive" ;;
+        *.tbz2) tar xvjf "$archive" ;;
+        *.tgz) tar xvzf "$archive" ;;
+        *.zip) unzip "$archive" ;;
+        *.Z) uncompress "$archive" ;;
+        *.7z) 7z x "$archive" ;;
+        *) echo "don't know how to extract '$archive'..." ;;
+      esac
+    else
+      echo "'$archive' is not a valid file!"
+    fi
+  done
 }
 
 # Calls extract
 ex() {
-        extract "${@}"
+  extract "${@}"
 }
 
 iatest=$(expr index "$-" i)
@@ -130,6 +119,10 @@ fi
 
 if [ -f "$HOME"/.bash_aliases ]; then
         source "$HOME"/.bash_aliases
+fi
+
+if [ -f "$HOME"/.bash_aliases.local ]; then
+        source "$HOME"/.bash_aliases.local
 fi
 
 if [ -f "$HOME"/.local/share/blesh/ble.sh ]; then
@@ -529,10 +522,6 @@ export PATH="$PATH:/usr/local"
 export PATH="$PATH:$HOME/dotfiles/emacs/doom/doomemacs/bin"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
-export PATH="$HOME/.nimble/bin":$PATH
-export NWN_ROOT='/mnt/SSD_1TB_GAMES/SteamLibrary/steamapps/common/Neverwinter Nights'
-export NWN_HOME='/mnt/SSD_1TB_WORK/WoSEE/Documents'
-
 export DOOMDIR="$HOME/dotfiles/emacs/doom/.doom.d"
 export STEMACSDIR="$HOME/dotfiles/emacs/stemacs/.stemacs.d"
 
@@ -597,6 +586,52 @@ eval "$(zoxide init bash)"
 . "$HOME"/dotfiles/apps/z/z.sh
 
 export LSP_USE_PLISTS=true
+
+# Expand ue4cli
+# Modified from here https://neunerdhausen.de/posts/unreal-engine-5-with-vim
+ue() {
+	ue4cli=$HOME/.local/bin/ue4
+	engine_path=$("$ue4cli" root)
+
+  # cd to ue location
+	if [[ "$1" == "engine" ]]; then
+		cd "$engine_path"
+  # combine clean and build in one command
+	elif [[ "$1" == "rebuild" ]]; then
+		SDL_VIDEODRIVER=x11 "$ue4cli" clean
+		SDL_VIDEODRIVER=x11 "$ue4cli" build
+		if [[ "$2" == "run" ]]; then
+			SDL_VIDEODRIVER=x11 "$ue4cli" run
+		fi
+  # build and optionally run while respecting build flags
+	elif [[ "$1" == "build" ]]; then
+		if [[ "${@: -1}" == "run" ]]; then
+			length="$(($# - 2))" # Get length without last param because of 'run'
+			SDL_VIDEODRIVER=x11 "$ue4cli" build "${@:2:$length}"
+			SDL_VIDEODRIVER=x11 "$ue4cli" run
+		else
+			shift 1
+			SDL_VIDEODRIVER=x11 "$ue4cli" build "$@"
+		fi
+  # Run project files generation, create a symlink for the compile database and fix-up the compile database
+	elif [[ "$1" == "gen" ]]; then
+		SDL_VIDEODRIVER=x11 "$ue4cli" gen
+		project=${PWD##*/}
+		cat ".vscode/compileCommands_${project}.json" | python -c 'import json,sys
+j = json.load(sys.stdin)
+for o in j:
+  file = o["file"]
+  arg = o["arguments"][1]
+  o["arguments"] = ["clang++ -std=c++20 -ferror-limit=0 -Wall -Wextra -Wpedantic -Wshadow-all -Wno-unused-parameter " + file + " " + arg]
+print(json.dumps(j, indent=2))' > compile_commands.json
+  # Pass through all other commands to ue4
+	else
+		SDL_VIDEODRIVER=x11 "$ue4cli" "$@"
+	fi
+}
+
+alias ue4='echo Please use ue instead.'
+alias ue5='echo Please use ue instead.'
 
 if [ -f "$HOME"/.bashrc.local ]; then
   source "$HOME"/.bashrc.local

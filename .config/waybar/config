@@ -28,14 +28,14 @@
     "temperature",
     "cpu",
     "memory",
-    "battery",
-    "pulseaudio",
     "network",
     "battery",
+    "pulseaudio",
+    "battery",
     "tray",
-    "idle_inhibitor",
-    "custom/notification",
-    "custom/power"
+    // "idle_inhibitor",
+    "custom/notification"
+    // "custom/power"
   ],
 
 // Modules Configuration
@@ -77,6 +77,21 @@
       "9": []
     }
   },
+
+//  "hyprland/workspaces" : {
+//    "format": "{icon}",
+//    "on-click": "activate",
+//    "active-only": false,
+//    "all-outputs": true,
+//    "format-icons": {
+//      "default": "",
+//      "active": "",
+//      "urgent": "",
+//    },
+//    "persistent-workspaces": {
+//      "*": 0
+//    }
+//  },
 
   "hyprland/window": {
     "format": "{}",
@@ -121,7 +136,7 @@
   },
 
   "clock": {
-    "format": "<b>󰥔  {:%H:%M:%S   󰃭  %a %d/%b/%Y}</b> ",
+    "format": "<b>{:%H:%M:%S | %a %d/%b/%Y}</b> ",
     "interval": 1,
     "tooltip-format": "<big>{:%A, %d %B %Y }</big>\n<tt><small>{calendar}</small></tt>",
     "on-click": "~/.config/waybar/scripts/OCV"
@@ -145,8 +160,9 @@
   },
 
   "custom/keyboard-layout": {
-    "format": "   Cheat", // Icon: keyboard
-    "on-click": "~/.config/waybar/scripts/keyhint.sh"
+    "format": " {icon} Cheat ", // Icon: keyboard
+    "format-icons": "", // Icon: keyboard
+    "on-click": "~/.config/waybar/scripts/keyhint.sh",
   },
 
   "temperature": {
@@ -163,11 +179,12 @@
 
   "cpu": {
     "format": " {usage}%",
-    "on-click": "kitty htop"
+    "on-click": "kitty htop",
+    "interval": 1
   },
 
   "memory": {
-    "interval": 30,
+    "interval": 1,
     "format": " {used}GiB",
     "format-alt": " {used:0.1f}G"
   },
