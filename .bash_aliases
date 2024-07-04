@@ -76,7 +76,7 @@ alias cls='clear'
 alias vi='nvim'
 alias vim='nvim'
 alias svi='sudo vi'
-alias sudo='sudo -v; sudo '
+# alias sudo='sudo -v; sudo '
 
 # Replace ls with eza
 alias la='eza -a --color=always --group-directories-first --icons --git'      # all files and dirs

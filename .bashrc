@@ -636,3 +636,11 @@ alias ue5='echo Please use ue instead.'
 if [ -f "$HOME"/.bashrc.local ]; then
   source "$HOME"/.bashrc.local
 fi
+
+makeqrcode() {
+  qrencode -t ansiutf8 < "$1"
+}
+
+qrcode() {
+  makeqrcode "$1"
+}

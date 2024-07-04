@@ -40,6 +40,11 @@ if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
   sync
 fi
 
+if ! [ -d "$HOME"/dotfiles/backup/Pictures ]; then
+  mkdir -p "$HOME"/dotfiles/backup/Pictures
+  sync
+fi
+
 if ! [ -d "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/ ]; then
   mkdir -p "$HOME"/dotfiles/backup/.config/'Code - OSS'/User/
   sync
@@ -59,6 +64,12 @@ if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
   mkdir -p "$HOME"/dotfiles/backup/.config/menus
   sync
 fi
+
+if [ -f "$HOME"/Pictures/Wallpapers ]; then
+  mv "$HOME"/Pictures/Wallpapers "$HOME"/dotfiles/backup/Pictures/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/Pictures/Wallpapers "$HOME"/Pictures/
 
 if [ -f "$HOME"/.bash_aliases ]; then
   mv "$HOME"/.bash_aliases "$HOME"/dotfiles/backup/
@@ -222,6 +233,12 @@ if [ -d "$HOME"/.config/waybar ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/waybar "$HOME"/.config/
+
+if [ -d "$HOME"/.config/wpaperd ]; then
+  mv "$HOME"/.config/wpaperd "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/wpaperd "$HOME"/.config/
 
 if [ -f "$HOME"/.firedragon/firedragon.overrides.cfg ]; then
   mv "$HOME"/.firedragon/firedragon.overrides.cfg "$HOME"/dotfiles/backup/.firedragon/
