@@ -240,6 +240,12 @@ if [ -d "$HOME"/.config/wpaperd ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/wpaperd "$HOME"/.config/
 
+if [ -d "$HOME"/.config/xdg-desktop-portal ]; then
+  mv "$HOME"/.config/xdg-desktop-portal "$HOME"/dotfiles/backup/.config/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/xdg-desktop-portal "$HOME"/.config/
+
 if [ -f "$HOME"/.firedragon/firedragon.overrides.cfg ]; then
   mv "$HOME"/.firedragon/firedragon.overrides.cfg "$HOME"/dotfiles/backup/.firedragon/
   sync
@@ -315,6 +321,310 @@ elif [[ grep -iq fedora "$DISTROIDLIKE" ]]; then
 elif [[ grep -iq debian "$DISTROIDLIKE" ]]; then
   exec "$HOME"/dotfiles/.debian.sh
 fi
+
+echo
+echo "Adding Valve aur repo to the mirror list"
+echo
+sleep 1s
+printf "[valveaur]\n" | sudo tee -a /etc/pacman.conf
+sync
+printf "Server = http://repo.steampowered.com/arch/valveaur\n" | sudo tee -a /etc/pacman.conf
+sync
+
+# Change pacman.conf
+sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 20/g" /etc/pacman.conf
+sync
+
+sudo pacman -Syy
+
+sudo pacman -Rsn thunar ttf-ms-fonts unrar --noconfirm --unneeded
+
+yes | sudo pacman -S wayland-protocols xdg-desktop-portal-hyprland wlr-randr
+
+# PACMAN
+PKGS=(
+  # Tools
+  'rustup'                  # Rust
+  'meson'                   # High productivity build system
+  'mingw-w64'               # MinGW Cross-compiler pack (binutils, crt, gcc, headers and winpthreads)
+  'libconfig'               # C/C++ Configuration file library
+  'gdb'                     # GNU Debugger
+  'lldb'                    # High performance debugger
+  'bear'                    # C++ compilation database generator
+  'cmake'
+  'extra-cmake-modules'
+
+
+
+  'flatpak'                 # Mostly Sandboxed Package Manager
+  'flatpak-xdg-utils'       # Tools for Flatpak
+  'flatpak-builder'                 # Mostly Sandboxed Package Manager
+  'neovim'                  # Good Text Editor
+  'emacs-wayland'           # OS with bad text editor
+  'nano'
+  'eza'
+  'bat'
+  'gparted'
+  'brightnessctl'
+  'bluez'
+  'bluez-utils'
+  'grim'                    # Grimshot dependency
+  'slurp'                   # Grimshot dependency
+  'grimshot'                # Screenshot App
+  'cups'
+  'hplip'                   # Driver for HP Deskjet (All-in-One) printers
+  'filelight'               # Show disk usage analyzer
+  'partitionmanager'        # Partitions Manager
+  'skanlite'                # Image Scanning App (If you have a scanner or aio printer/scanner)
+  'tmux'                    # Terminal Multiplexer
+  # 'vifm'                    # Vim-like file manager
+  'yazi'                    # Terminal file manager
+  'tuned'                   #
+  'zoxide'                  #
+  'fzf'                     # Fuzzy finder
+  'git-delta'               #
+  'thefuck'                 # Auto correct past mistakes in terminal
+  'syncthing'               #
+  'nextcloud-client'        #
+  'code'
+  'swaync'                  # Notification
+
+  # Fonts
+  'inter-font'              # Daily "Industry-Standard" font SIL Open Font License v1.0
+  'ttf-jetbrains-mono'      # Dev "Industry-Standard" font SIL Open Font License v1.0
+  'ttf-jetbrains-mono-nerd' # Wizard "Industry-Standard" font SIL Open Font License v1.0
+  'noto-fonts'              # Additional variants of noto fonts
+  # 'noto-fonts-extra'        # Additional variants of noto fonts
+  # 'noto-fonts-cjk'          # Chinese Japanese Korean (CJK) characters support
+  'noto-fonts-emoji'        # Support for emojis
+  'ttf-firacode-nerd'       # My personal favorite font for programming
+  'powerline-fonts'         # Patched fonts for powerline
+  # 'ttf-ms-fonts'            # Patched fonts for powerline
+
+  # Themes
+  'catppuccin-gtk-theme-mocha'
+  'catppuccin-cursors-mocha'
+  'papirus-icon-theme-git'
+
+  # Shell/Terminal
+  'starship'                # Terminal customizable prompt for shells
+  'qalculate-qt'            # Terminal Calculator
+  'autojump'                #
+
+  # VM
+  'qemu-full'
+  'libvirt'
+  'virt-manager'
+  'edk2-ovmf'
+  'dmidecode'
+  'dnsmasq'
+  'ebtables'
+  'iptables-nft'
+
+  # Neovim "Dependencies"
+  'ripgrep'
+  'fd'
+  'shfmt'
+  'shellcheck'
+  'lazygit'
+  'omnisharp-roslyn'
+  'vscode-json-languageserver'
+  'lua-language-server'
+  'rust-analyzer'
+  'yaml-language-server'
+  'bash-language-server'
+  'go'
+
+  # Unreal Engine dependencies
+  'dotnet-host'
+  'dotnet-sdk'
+  'dotnet-runtime'
+  'dotnet-runtime-6.0'
+  'dotnet-runtime-7.0'
+  'babeltrace2'
+  'icu'
+  'lttng-ust'
+  'ncurses5-compat-libs'
+  'vulkan-validation-layers'
+
+  # LSP
+  'python-pip' # Required to install some LSP servers
+  'npm'        # Required to install some LSP servers
+  'yarn'       # Required to install some LSP servers
+  'lua-language-server'
+  'bash-language-server'
+  'rust-analyzer'
+
+  # C Sharp
+  'dotnet-sdk-6.0'
+  'dotnet-sdk-7.0'
+  'aspnet-runtime'
+  'aspnet-runtime-6.0'
+  'aspnet-runtime-7.0'
+  'dotnet-targeting-pack'
+  'dotnet-targeting-pack-6.0'
+  'dotnet-targeting-pack-7.0'
+  'aspnet-targeting-pack'
+  'aspnet-targeting-pack-6.0'
+  'aspnet-targeting-pack-7.0'
+  'mono'
+  'mono-msbuild'
+  'libuv'
+
+  # Emacs "dependencies"
+  'aspell'
+  'enchant'
+  'hunspell'
+  'gnuplot'
+  'maim'
+  'hydra'
+  'ispell'
+  'aspell-en'
+  'aspell-pt'
+  'hunspell-en_us'
+  'hunspell-en_gb'
+  'hunspell-pt-br'
+  'direnv'
+  'docker'
+  'docker-buildx'
+  'docker-compose'
+  'docker-machine'
+  'zig'
+  'zls'
+  'nim'
+  'nimble'
+  'sqlite'
+  'sqlitebrowser'
+  'graphviz'
+
+  # Misc
+  'figlet'                      # Make large letters out of text
+  'freerdp'                     # RDP Software
+  'tumbler'                     # D-Bus thumbnailing service
+  'papirus-icon-theme'          # Theme
+  'ark'                         # (KDE) (Un)packer software
+
+  'dolphin'                     # (KDE) File manager
+  'dolphin-plugins'             # (KDE) Plugins for Dolphin
+  'kdegraphics-thumbnailers'
+  'kimageformats'
+  'libheif'
+  'qt6-imageformats'
+  'resvg'
+  'kdesdk-thumbnailers'
+  'ffmpegthumbs'
+  'taglib'
+  'kio-extras'
+
+  'gwenview'                    # (KDE) Image viewer
+  'kate'                        # (KDE) Text Editor
+  'kleopatra'                   # (KDE) Certificate Manager
+  'okular'                      # (KDE) Document Viewer
+  'gwenview'                    # (KDE) Image Viewer
+  'qalculate-qt'                # Calculator
+  'btop'
+  'jre21-openjdk'
+  'jdk21-openjdk'
+  'gio'
+  'xboxdrv'                     # Gamepad driver for Linux (Controller Support)
+  'gamemode'
+  'lib32-gamemode'
+  'libappindicator-gtk3'
+  'gnome-icon-theme'
+  'libayatana-appindicator'
+  'php'
+  'libnotify'
+  'distrobox'
+  'expressvpn'
+  'xdg-desktop-portal-gtk'
+  'archlinux-xdg-menu'
+  'polkit'
+  'polkit-kde-agent'
+  'polkit-gnome'
+  'gnome-themes-extra'
+  'xwaylandvideobridge'
+  'godot-mono'
+  'linux-steam-integration'
+  'vulkan-tools'
+  'texlive-bin'
+  'texlive-xetex'
+  'texlive-luatex'
+  'dvisvgm'
+  'zotero-bin'
+  'ncompress'
+  'nextcloud'
+  'nextcloud-client'
+)
+
+for PKG in "${PKGS[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  yes | sudo pacman -S "$PKG" --needed
+  sync
+  sleep 1s
+done
+
+if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
+    echo
+    echo "Removing vulkan for non-NVidia GPUs to avoid conflicts"
+    echo
+    PKGSRM=(
+      'lib32-vulkan-radeon'
+      'vulkan-radeon'
+      'lib32-amdvlk'
+      'amdvlk'
+      'lib32-vulkan-amdgpu-pro'
+      'vulkan-amdgpu-pro'
+      'amf-amdgpu-pro'
+      'lib32-vulkan-intel'
+      'vulkan-intel'
+      'lib32-vulkan-nouveau'
+      'vulkan-nouveau'
+      'lib32-vulkan-swrast'
+      'vulkan-swrast'
+      'swiftshader-git'
+      'swiftshader'
+    )
+
+    for PKG in "${PKGSRM[@]}"; do
+      echo
+      echo "INSTALLING: ${PKG}"
+      echo
+      yes | sudo pacman -Rdd "$PKG" --unneeded
+      sync
+      sleep 1s
+    done
+fi
+
+# PARU
+PKGPARU=(
+  'libicu53'                    # Required for Unreal Engine
+  'opentabletdriver'            # Tablet Driver ("-git" version not working)
+  'ttf-ms-win11-auto'           # Windows 11 fonts
+  'wttrbar'                     # Weather for Waybar
+  'rar'                         # Rar AND Unrar
+  'gamescope-plus'
+)
+
+for PKG in "${PKGPARU[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  paru -S "$PKG" --noconfirm --needed --sudoloop
+  sync
+  sleep 1s
+done
+
+echo
+echo "Setting yazi as paru's File Manager"
+echo
+sudo sed -i "s|\#\[bin]|[bin]|g" /etc/paru.conf
+sudo sed -i "s|#FileManager.*|FileManager = yazi|g" /etc/paru.conf
+sync
+
+fc-cache --force
+fc-cache-32 --force
 
 tmux source "$HOME"/.config/tmux/tmux.conf
 
@@ -611,12 +921,17 @@ cp -ur /usr/share/icons "$HOME"/.icons
 cp -ur /usr/share/themes "$HOME"/.themes
 
 flatpak --user override --socket=wayland
-flatpak --user override --env=PATH="$PATH":/usr/lib/extensions/vulkan/gamescope/bin
 
 flatpak --user override --filesystem="$HOME"/.fonts/:ro
 flatpak --user override --filesystem="$HOME"/.icons/:ro
 flatpak --user override --filesystem="$HOME"/.themes/:ro
+flatpak --user override --filesystem=xdg-config/qt5ct:ro
+flatpak --user override --filesystem=xdg-config/qt6ct:ro
+flatpak --user override --filesystem=xdg-config/gtk-2.0:ro
 flatpak --user override --filesystem=xdg-config/gtk-3.0:ro
+flatpak --user override --filesystem=xdg-config/gtk-4.0:ro
+flatpak --user override --filesystem=xdg-config/gtkrc:ro
+flatpak --user override --filesystem=xdg-config/gtkrc-2.0:ro
 flatpak --user override --filesystem=xdg-config/Kvantum:ro
 flatpak --user override --env=XCURSOR_PATH="$HOME"/.icons
 flatpak --user override --env=XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
@@ -624,18 +939,20 @@ flatpak --user override --env=GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
 flatpak --user override --env=ICON_THEME=Papirus-Dark
 flatpak --user override --env=QT_STYLE_OVERRIDE=kvantum
 flatpak --user override --env=QT_QPA_PLATFORMTHEME=qt5ct,qt6ct
+flatpak --user override --env=PATH="$PATH":/usr/lib/extensions/vulkan/gamescope/bin
 
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.heroicgameslauncher.hgl
 flatpak --user override --filesystem=~/.var/app/com.valvesoftware.Steam com.usebottles.bottles
 
 flatpak --user override --talk-name=org.mpris.MediaPlayer2.* com.stremio.Stremio
 
-flatpak --user override --socket=wayland
-
 flatpak --user override --env=QT_QPA_PLATFORM=xcb com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Pictures com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Documents com.github.eneshecan.WhatsAppForLinux
 flatpak --user override --filesystem="$HOME"/Downloads com.github.eneshecan.WhatsAppForLinux
+
+flatpak --user override --nofilesystem=host org.qbittorrent.qBittorrent
+flatpak --user override --filesystem="$HOME"/Downloads org.qbittorrent.qBittorrent
 
 # flatpak --user override --env=PATH=/app/bin:/usr/bin:/usr/lib/extensions/vulkan/gamescope/bin org.duckstation.DuckStation
 # flatpak --user override --env=LD_LIBRARY_PATH=/usr/lib/extensions/vulkan/gamescope/lib org.duckstation.DuckStation
@@ -954,27 +1271,27 @@ echo 'kernel.sysrq=16' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'kernel.core_uses_pid=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'net.ipv4.tcp_fin_timeout=5' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'net.ipv4.conf.default.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.docker0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.enp34s0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.lo.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.tun0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.vboxnet0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.virbr0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.default.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.docker0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.enp34s0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.lo.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.tun0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.vboxnet0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.virbr0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.default.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.docker0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.enp34s0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.lo.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.tun0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.vboxnet0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.virbr0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'net.ipv4.ping_group_range=0 2147483647' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.docker0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.enp34s0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.lo.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.tun0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.vboxnet0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.virbr0.rp_filter=2' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.default.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.docker0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.enp34s0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.lo.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.tun0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.vboxnet0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.virbr0.accept_source_route=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.default.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.docker0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.enp34s0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.lo.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.tun0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.vboxnet0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# echo 'net.ipv4.conf.virbr0.promote_secondaries=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'net.core.default_qdisc=fq_codel' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'fs.protected_hardlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 echo 'fs.protected_symlinks=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
@@ -1088,7 +1405,7 @@ GRUB="$(cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c
 # fi
 
 if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
-    GRUB+=" iommu=pt $grubgpu\""
+    GRUB+=" amd_iommu=on iommu=pt $grubgpu\""
     sleep 1s
 elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
     GRUB+=" intel_iommu=on iommu=pt $grubgpu\""

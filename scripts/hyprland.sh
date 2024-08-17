@@ -6,8 +6,8 @@ fi
 
 # PACMAN
 PKGS=(
-  'linux-zen'
-  'linux-zen-headers'
+  'linux-xanmod'
+  'linux-xanmod-headers'
   'libvdpau'
   'libxnvctrl'
   'mesa'
@@ -51,7 +51,7 @@ if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
     'nvidia-settings'
   )
 
- # yes | sudo pacman -S linux-zen linux-zen-headers nvidia-dkms libva-nvidia-driver nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia libglvnd lib32-libglvnd nvidia-settings libvdpau libxnvctrl mesa lib32-mesa libva-mesa-driver mesa-vdpau opencl-clover-mesa xorg-xwayland vulkan-headers vulkan-validation-layers vulkan-tools tpm2-tss
+ # yes | sudo pacman -S linux-xanmod linux-xanmod-headers nvidia-dkms libva-nvidia-driver nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia libglvnd lib32-libglvnd nvidia-settings libvdpau libxnvctrl mesa lib32-mesa libva-mesa-driver mesa-vdpau opencl-clover-mesa xorg-xwayland vulkan-headers vulkan-validation-layers vulkan-tools tpm2-tss
 
   for PKG in "${PKGNV[@]}"; do
     echo

@@ -20,3 +20,6 @@ CMakeUserPresets.json
 
 # hdrop
 hdrop.1
+
+# No hang up
+nohup.out
