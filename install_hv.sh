@@ -631,6 +631,12 @@ echo
 systemctl enable pacman-filesdb-refresh.timer
 
 echo
+echo 'Symlink your backed up .gnupg and .ssh folder as well your *.local files to your home folder'
+echo 'Then run the following commands:'
+echo 'eval "$(ssh-agent -s)"'
+echo 'ssh-add ~/.ssh/id_ed25519'
+echo 'Change id_ed25519 to the actual file'
+echo
 echo "You must run both qt5ct and qt6ct and adjust their themes, icons, etc accordingly"
 echo
 echo "For uecli to work you must run 'ue4 setroot /path/to/UnrealEngine-5.4.1'"
