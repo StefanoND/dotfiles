@@ -311,17 +311,6 @@ sync
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
-DISTROIDLIKE=`grep -i 'ID_LIKE=' /etc/os-release`
-DISTROID=`grep -i 'ID=' /etc/os-release`
-
-if [[ grep -iq arch "$DISTROIDLIKE" ]]; then
-  exec "$HOME"/dotfiles/.arch.sh
-elif [[ grep -iq fedora "$DISTROIDLIKE" ]]; then
-  exec "$HOME"/dotfiles/.fedora.sh
-elif [[ grep -iq debian "$DISTROIDLIKE" ]]; then
-  exec "$HOME"/dotfiles/.debian.sh
-fi
-
 echo
 echo "Adding Valve aur repo to the mirror list"
 echo
@@ -353,8 +342,6 @@ PKGS=(
   'bear'                    # C++ compilation database generator
   'cmake'
   'extra-cmake-modules'
-
-
 
   'flatpak'                 # Mostly Sandboxed Package Manager
   'flatpak-xdg-utils'       # Tools for Flatpak

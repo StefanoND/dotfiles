@@ -60,13 +60,16 @@ fastfetch -l garuda
 # PERSONAL CONFIGS
 #######################################################
 
-# Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
+# Bash won't get SIGWINCH if another process is in the foreground.
+# Enable checkwinsize so that bash will check the terminal size when
+# it regains control.  #65623
+# http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
 shopt -s checkwinsize
 
 # Allow to use aliases through script
 shopt -s expand_aliases
 
-# Causes bash to append to history instead of overwriting it so if you start a new terminal, you have old session history
+# Enable history appending instead of overwriting.  #139609
 shopt -s histappend
 
 # Changed from 'ex' to 'extract', added '.tar.xz', added recursion support
@@ -172,18 +175,6 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
-# text editor
-export SUDO_EDITOR=nvim
-export EDITOR=nvim
-export VISUAL=nvim
-
-#browser
-export BROWSER=firedragon
-#terminal
-export TERM=kitty
-#mail
-export MAIL='flatpak run org.mozilla.Thunderbird'
-
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
 export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
@@ -196,6 +187,42 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+
+# Default config home
+export XDG_CONFIG_HOME=$HOME/.config
+
+# Terminal
+export TERM=xterm-256color
+
+export PATH=".local/bin/bear:$PATH"
+export PIPEWIRE_LATENCY="64/48000"
+
+# Themeing
+export QT_QPA_PLATFORMTHEME=qt6
+export GTK2_RC_FILES=/home/archuser/.gtkrc-2.0
+export XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
+export XCURSOR_SIZE=48
+export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
+
+# text editor
+export SUDO_EDITOR=nvim
+export EDITOR=nvim
+export VISUAL=nvim
+
+#browser
+export BROWSER=brave
+
+#terminal
+export TERM=kitty
+
+#mail
+export MAIL='flatpak run org.mozilla.Thunderbird'
+
+# Dotnet
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_ROOT=$HOME/.dotnet
+
+xhost +local:root > /dev/null 2>&1
 
 #######################################################
 # SPECIAL FUNCTIONS

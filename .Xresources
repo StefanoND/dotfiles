@@ -1,7 +1,10 @@
 Xcursor.theme: Catppuccin-Mocha-Mauve-Cursors
-Xft.antialias: 1
-Xft.hinting: 1
-Xft.rgba: rgb
+Xcursor.size:  48
+Xft.dpi:       96
+Xft.antialias: true
+Xft.hinting:   true
+Xft.rgba:      rgb
+Xft.autohint:  false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 

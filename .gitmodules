@@ -52,3 +52,12 @@
 [submodule "apps/spotifyctl"]
 	path = apps/spotifyctl
 	url = https://github.com/borisfaure/spotifyctl.git
+[submodule "apps/tdrop"]
+	path = apps/tdrop
+	url = https://github.com/noctuid/tdrop.git
+[submodule "apps/paru"]
+	path = apps/paru
+	url = https://aur.archlinux.org/paru.git
+[submodule "apps/find-the-command"]
+	path = apps/find-the-command
+	url = https://github.com/pkasemir/find-the-command.git
