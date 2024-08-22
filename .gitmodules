@@ -58,3 +58,11 @@
 [submodule "apps/find-the-command"]
 	path = apps/find-the-command
 	url = https://github.com/pkasemir/find-the-command.git
+[submodule ".config/nvim_minimum"]
+	path = .config/nvim_minimum
+	url = https://github.com/StefanoND/nvim.git
+	branch = minimum
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = https://github.com/StefanoND/nvim.git
+	branch = trunk
