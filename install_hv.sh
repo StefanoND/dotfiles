@@ -132,11 +132,11 @@ if [ -d "$HOME"/.config/kitty ]; then
 fi
 ln -svf "$HOME"/dotfiles/.config/kitty "$HOME"/.config/
 
-if [ -d "$HOME"/.config/nvim ]; then
-  mv "$HOME"/.config/nvim "$HOME"/dotfiles/backup/.config/
+if [ -d "$HOME"/.config/nvim_minimum ]; then
+  mv "$HOME"/.config/nvim_minimum "$HOME"/dotfiles/backup/.config/
   sync
 fi
-ln -svf "$HOME"/dotfiles/.config/nvim "$HOME"/.config/
+ln -svf "$HOME"/dotfiles/.config/nvim_minimum "$HOME"/.config/nvim
 
 if [ -d "$HOME"/.config/tmux ]; then
   mv "$HOME"/.config/tmux "$HOME"/dotfiles/backup/.config/
