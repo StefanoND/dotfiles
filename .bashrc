@@ -198,11 +198,18 @@ export PATH=".local/bin/bear:$PATH"
 export PIPEWIRE_LATENCY="64/48000"
 
 # Themeing
-export QT_QPA_PLATFORMTHEME=qt6
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
+# export QT_STYLE_OVERRIDE=kvantum
 export GTK2_RC_FILES=/home/archuser/.gtkrc-2.0
-export XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
+export XCURSOR_THEME=catppuccin-mocha-mauve-cursors
 export XCURSOR_SIZE=48
-export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
+export GTK_THEME=Catppuccin-Dark
+export NO_AT_BRIDGE=1
+export GSK_RENDERER=gl
+export GDK_DEBUG=gl-no-fractional
+# export GTK_USE_PORTAL=1
+# export GDK_DEBUG=portals
+# export XDG_DESKTOP_PORTAL=1
 
 # text editor
 export SUDO_EDITOR=nvim
@@ -288,9 +295,9 @@ cprs() {
 # Copy files or directories/folder with a progress bar as sudo
 scprs() {
   if [ -d "${1}" ]; then
-    sudo -E rsync -avu --progress "${1}" "${2}"
+    sudo rsync -avu --progress "${1}" "${2}"
   else
-    sudo -E rsync -avu --progress "${1}" "${2}"
+    sudo rsync -avu --progress "${1}" "${2}"
   fi
   sync
 }
@@ -318,19 +325,36 @@ mvrs() {
         # --progress Shows progress during transfer
         # --remove-source-files deletes files from source
         if [ -d "${1}" ]; then
-                rsync -rlptDvu --progress --remove-source-files "${1}" "${2}"
+                # rsync -rlptDvu --progress --remove-source-files "${1}" "${2}"
+                rsync -avu --progress --remove-source-files "${1}" "${2}"
                 sync
         else
-                rsync -lptDvu --progress --remove-source-files "${1}" "${2}"
+                # rsync -lptDvu --progress --remove-source-files "${1}" "${2}"
+                rsync -avu --progress --remove-source-files "${1}" "${2}"
                 sync
-                #rm "${1}"
         fi
-        rm -rf "${1}"
         sync
 }
 
 smvrs() {
-  sudo bash -c "mvrs ${1} ${2}"
+        # Not trully a move since it copies the files to destination then deletes source files
+        #
+        # -a Copies recurse into directories, copies symlinks as symlinks, preserves permissions,
+        #    preserves modification times, preserves group and owner, preserves special files
+        #
+        # -v Verbose
+        # -u Overwrite if newer
+        #
+        # --progress Shows progress during transfer
+        # --remove-source-files deletes files from source
+        if [ -d "${1}" ]; then
+                # sudo rsync -rlptDvu --progress --remove-source-files "${1}" "${2}"
+                sudo rsync -avu --progress --remove-source-files "${1}" "${2}"
+        else
+                # sudo rsync -lptDvu --progress --remove-source-files "${1}" "${2}"
+                sudo rsync -avu --progress --remove-source-files "${1}" "${2}"
+        fi
+        sync
 }
 
 # Move and go to the directory
@@ -496,6 +520,16 @@ prefixWinecfg() {
 
 prefixWineboot() {
         flatpak run --env="WINEPREFIX=$1" --command=wineboot org.winehq.Wine "${*:2}"
+}
+
+btrfs-scrub()
+{
+  sudo btrfs scrub start "$1" && sync
+}
+
+btrfs-balance()
+{
+  sudo btrfs balance start -musage=50 -dusage=50 "$1" && sync
 }
 
 # alias lookingglass=""$HOME"/looking-glass-B5.0.1/client/build/looking-glass-client -F"

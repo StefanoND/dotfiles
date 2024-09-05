@@ -8,11 +8,18 @@ export PATH=".local/bin/bear:$PATH"
 export PIPEWIRE_LATENCY="64/48000"
 
 # Themeing
-export QT_QPA_PLATFORMTHEME=qt6
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
+# export QT_STYLE_OVERRIDE=kvantum
 export GTK2_RC_FILES=/home/archuser/.gtkrc-2.0
-export XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
+export XCURSOR_THEME=catppuccin-mocha-mauve-cursors
 export XCURSOR_SIZE=48
-export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
+export GTK_THEME=Catppuccin-Dark
+export NO_AT_BRIDGE=1
+export GSK_RENDERER=gl
+export GDK_DEBUG=gl-no-fractional
+# export GTK_USE_PORTAL=1
+# export GDK_DEBUG=portals
+# export XDG_DESKTOP_PORTAL=1
 
 # text editor
 export SUDO_EDITOR=nvim

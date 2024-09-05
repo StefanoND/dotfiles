@@ -30,6 +30,22 @@ if ! [ -d "$HOME"/dotfiles/backup/Pictures ]; then
   sync
 fi
 
+if ! [ -d "$HOME"/dotfiles/backup/.config/menus ]; then
+  mkdir -p "$HOME"/dotfiles/backup/.config/menus
+  sync
+fi
+
+if ! [ -d "$HOME"/.config/menus ]; then
+  mkdir -p "$HOME"/.config/menus
+  sync
+fi
+
+if [ -f "$HOME"/.config/menus/applications.menu ]; then
+  mv "$HOME"/.config/menus/applications.menu "$HOME"/dotfiles/backup/.config/menus/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/menus/applications.menu "$HOME"/.config/menus/
+
 if [ -f "$HOME"/Pictures/Wallpapers ]; then
   mv "$HOME"/Pictures/Wallpapers "$HOME"/dotfiles/backup/Pictures/
   sync
@@ -78,6 +94,12 @@ if [ -f "$HOME"/.editorconfig ]; then
 fi
 ln -svf "$HOME"/dotfiles/.editorconfig "$HOME"/
 
+if [ -f "$HOME"/.gtkrc-2.0.mine ]; then
+  mv "$HOME"/.gtkrc-2.0.mine "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.gtkrc-2.0.mine "$HOME"/
+
 if [ -f "$HOME"/.gitconfig ]; then
   mv "$HOME"/.gitconfig "$HOME"/dotfiles/backup/
   sync
@@ -95,6 +117,24 @@ if [ -f "$HOME"/.config/rofi ]; then
   sync
 fi
 ln -svf "$HOME"/dotfiles/.config/rofi "$HOME"/.config/
+
+if [ -f "$HOME"/.config/bat ]; then
+  mv "$HOME"/.config/bat "$HOME"/dotfiles/backup/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/bat "$HOME"/.config/
+
+if [ -f "$HOME"/.config/gtk-3.0/. ]; then
+  mv "$HOME"/.config/gtk-3.0/settings.ini "$HOME"/dotfiles/backup/.config/gtk-3.0/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/gtk-3.0/settings.ini "$HOME"/.config/gtk-3.0/
+
+if [ -f "$HOME"/.config/gtk-4.0/. ]; then
+  mv "$HOME"/.config/gtk-4.0/settings.ini "$HOME"/dotfiles/backup/.config/gtk-4.0/
+  sync
+fi
+ln -svf "$HOME"/dotfiles/.config/gtk-4.0/settings.ini "$HOME"/.config/gtk-4.0/
 
 if [ -f "$HOME"/.config/picom.conf ]; then
   mv "$HOME"/.config/picom.conf "$HOME"/dotfiles/backup/
@@ -167,23 +207,34 @@ sudo pacman -Syy
 
 # PACMAN
 PKGS=(
+
   # Tools
+  'base-devel'
   'rustup'                  # Rust
   'meson'                   # High productivity build system
   'libconfig'               # C/C++ Configuration file library
   'gdb'                     # GNU Debugger
   'lldb'                    # High performance debugger
+  'gcc'
   'cmake'
   'cmake-extras'
   'extra-cmake-modules'
   'make'
+  'dkms'
+  'linux611'
+  'linux611-headers'
 
+  # Filesystem
   'snapper'
   'snapper-gui'
   'btrfs-assistant'
   'btrfs-progs'
   'grub-btrfs'
   'snap-pac'
+  'zfs-dkms'
+  'zfs-utils'
+  'nfs-utils'
+  'libguestfs'
 
   'neovim'                  # Good Text Editor
   'nano'
@@ -191,6 +242,8 @@ PKGS=(
   'bat'
   'gparted'
   'filelight'               # Show disk usage analyzer
+  'cups'
+  'hplip'                   # Driver for HP Deskjet (All-in-One) printers
   'partitionmanager'        # Partitions Manager
   'skanlite'                # Image Scanning App (If you have a scanner or aio printer/scanner)
   'tmux'                    # Terminal Multiplexer
@@ -203,9 +256,9 @@ PKGS=(
   'inter-font'              # Daily "Industry-Standard" font SIL Open Font License v1.0
   'ttf-jetbrains-mono'      # Dev "Industry-Standard" font SIL Open Font License v1.0
   'ttf-jetbrains-mono-nerd' # Wizard "Industry-Standard" font SIL Open Font License v1.0
-  'noto-fonts'              # Additional variants of noto fonts
-  # 'noto-fonts-extra'        # Additional variants of noto fonts
-  # 'noto-fonts-cjk'          # Chinese Japanese Korean (CJK) characters support
+  'noto-fonts'              # Noto fonts
+  'noto-fonts-extra'        # Additional variants of noto fonts
+  'noto-fonts-cjk'          # Chinese Japanese Korean (CJK) characters support
   'noto-fonts-emoji'        # Support for emojis
   'ttf-firacode-nerd'       # My personal favorite font for programming
   'powerline-fonts'         # Patched fonts for powerline
@@ -220,16 +273,35 @@ PKGS=(
   'kitty-shell-integration'
   'kitty-terminfo'
 
+  # Audio
+  'manjaro-pipewire'
+  'pipewire-jack'
+  'pipewire-zeroconf'
+  'jack-example-tools'
+
+  # Bluetooth
+  'bluez'
+  'bluez-utils'
+  'bluez-libs'
+  'blueman'
+
   # VM
-  'qemu-full'
+  # 'qemu-full'
+  'qemu-desktop'
   'libvirt'
   'virt-manager'
+  # 'virt-viewer'
   'edk2-ovmf'
+  # 'vde2'
   'dmidecode'
   'dnsmasq'
-  'ebtables'
+  'bridge-utils'
+  'openbsd-netcat'
+  # 'ebtables'
   'iptables-nft'
   'swtpm'
+  'power-profiles-daemon'
+  'remmina'
 
   # Neovim "Dependencies"
   'ripgrep'
@@ -248,7 +320,34 @@ PKGS=(
   'lua-language-server'
   'shellharden'
 
+  # Looking Glass Dependencies
+  'libgl'
+  'libegl'
+  'fontconfig'
+  'spice-protocol'
+  'nettle'
+  'pkgconf'
+  'binutils'
+  'libxi'
+  'libxinerama'
+  'libxss'
+  'libxcursor'
+  'libxpresent'
+  'libxkbcommon'
+  'wayland-protocols'
+  'ttf-dejavu'
+  'libsamplerate'
+
   # Misc
+  'downgrade'
+  'xdg-desktop-portal-kde'
+  'xdg-desktop-portal'
+  'sassc'
+  'gtk-engine-murrine'
+  'gnome-themes-extra'
+  'gnome-tweaks'
+  'polkit'
+  'polkit-kde-agent'
   'brave-browser'
   'fastfetch'
   'thefuck'
@@ -265,6 +364,7 @@ PKGS=(
   'pulseaudio'
   'python-dbus'
   'playerctl'
+  'pavucontrol'
   # 'figlet'                      # Make large letters out of text
   'freerdp'                     # RDP Software
   'tumbler'                     # D-Bus thumbnailing service
@@ -273,13 +373,13 @@ PKGS=(
   #
   'dolphin'                     # (KDE) File manager
   'dolphin-plugins'             # (KDE) Plugins for Dolphin
-  # 'kdegraphics-thumbnailers'
+  'kdegraphics-thumbnailers'
   # 'kimageformats'
   # 'libheif'
   # 'qt6-imageformats'
   # 'resvg'
   # 'kdesdk-thumbnailers'
-  # 'ffmpegthumbs'
+  'ffmpegthumbs'
   # 'taglib'
   # 'kio-extras'
   #
@@ -336,16 +436,24 @@ sync
 
 cd "$HOME"/dotfiles
 
+luarocks config local_by_default true
+luarocks install lua-utils
+
+# This key is hit or miss, let's run it just to be sure
+gpg --keyserver hkps://pgp.surf.nl --recv-keys ABAF11C65A2970B130ABE3C479BE3E4300411886
+
 # PARU
 PKGPARU=(
   # Themes
   'catppuccin-gtk-theme-mocha'
   'catppuccin-cursors-mocha'
   'kvantum-theme-catppuccin-git'
-  'papirus-icon-theme-git'
   'papirus-folders-catppuccin-git'
+  'papirus-icon-theme-git'
   'qt5-styleplugins'
   'qt6gtk2'
+  'gtk2-patched-filechooser-icon-view'
+  'gtk3-patched-filechooser-icon-view'
 
   # Shell/Terminal
   'autojump'                # Faster way to navigate filesystem
@@ -358,11 +466,13 @@ PKGPARU=(
   # Xanmod
   'linux-xanmod'
   'linux-xanmod-headers'
+  'looking-glass-dkms-module'
 
   # Misc
   'qalculate-qt'                # Calculator
   'snapper-tools'
   'snapper-support'
+  'pa-applet'
 )
 
 for PKG in "${PKGPARU[@]}"; do
@@ -374,10 +484,45 @@ for PKG in "${PKGPARU[@]}"; do
   sleep 1s
 done
 
+# Create snapper config for root and home partitions
 sudo snapper -c root create-config /
 sudo snapper -c root create --description "initial snapshot"
-sudo chmod a+rx /.snapshots
+sudo snapper -c home create-config /home
+sudo snapper -c home create --description "initial snapshot"
+
+# Give access to root and home
+sudo sed -i "s|ALLOW_USERS=\".*|ALLOW_USERS=\"$(logname)\"|g" /etc/snapper/configs/root
+sudo sed -i "s|ALLOW_USERS=\".*|ALLOW_USERS=\"$(logname)\"|g" /etc/snapper/configs/home
+
+# Timeline cleanup
+sudo sed -i "s|TIMELINE_LIMIT_HOURLY=\".*|TIMELINE_LIMIT_HOURLY=\"12\"|g" /etc/snapper/configs/root
+sudo sed -i "s|TIMELINE_LIMIT_DAILY=\".*|TIMELINE_LIMIT_DAILY=\"5\"|g" /etc/snapper/configs/root
+sudo sed -i "s|TIMELINE_LIMIT_WEEKLY=\".*|TIMELINE_LIMIT_WEEKLY=\"2\"|g" /etc/snapper/configs/root
+sudo sed -i "s|TIMELINE_LIMIT_MONTHLY=\".*|TIMELINE_LIMIT_MONTHLY=\"1\"|g" /etc/snapper/configs/root
+sudo sed -i "s|TIMELINE_LIMIT_QUARTERLY=\".*|TIMELINE_LIMIT_QUARTERLY=\"0\"|g" /etc/snapper/configs/root
+sudo sed -i "s|TIMELINE_LIMIT_YEARLY=\".*|TIMELINE_LIMIT_YEARLY=\"0\"|g" /etc/snapper/configs/root
+
+sudo sed -i "s|TIMELINE_LIMIT_HOURLY=\".*|TIMELINE_LIMIT_HOURLY=\"12\"|g" /etc/snapper/configs/home
+sudo sed -i "s|TIMELINE_LIMIT_DAILY=\".*|TIMELINE_LIMIT_DAILY=\"5\"|g" /etc/snapper/configs/home
+sudo sed -i "s|TIMELINE_LIMIT_WEEKLY=\".*|TIMELINE_LIMIT_WEEKLY=\"2\"|g" /etc/snapper/configs/home
+sudo sed -i "s|TIMELINE_LIMIT_MONTHLY=\".*|TIMELINE_LIMIT_MONTHLY=\"1\"|g" /etc/snapper/configs/home
+sudo sed -i "s|TIMELINE_LIMIT_QUARTERLY=\".*|TIMELINE_LIMIT_QUARTERLY=\"0\"|g" /etc/snapper/configs/home
+sudo sed -i "s|TIMELINE_LIMIT_YEARLY=\".*|TIMELINE_LIMIT_YEARLY=\"0\"|g" /etc/snapper/configs/home
+
+echo
+echo "usermod -aG users $(logname)"
+echo
+sudo usermod -aG users "$(logname)"
+sleep 1s
+
+sudo chmod a+rw /.snapshots
+sudo chmod a+rw /home/.snapshots
 sudo chown :users /.snapshots
+sudo chown :users /home/.snapshots
+
+sudo systemctl enable --now snapper-timeline.timer
+sudo systemctl enable --now snapper-cleanup.timer
+sudo systemctl enable --now grub-btrfs-snapper.path
 
 echo
 echo "Setting yazi as paru's File Manager"
@@ -469,6 +614,22 @@ echo
 cargo install async-cmd
 sync
 
+echo
+echo 'Installing Spotifyctl'
+echo
+cd "$HOME"/dotfiles/apps/spotifyctl
+cargo install --path .
+sync
+cd "$HOME"/dotfiles
+
+echo
+echo "Enabling tuned"
+echo
+sudo systemctl enable --now tuned.service
+sudo tuned-adm profile virtual-host
+sync
+sleep 1s
+
 if [ -d "$HOME"/.fonts ]; then
   mv "$HOME"/.fonts "$HOME"/dotfiles/backup/
   sync
@@ -486,18 +647,69 @@ fi
 
 sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index.theme
 
+sudo cp -ur "$HOME"/dotfiles/themes/GTKTheme/* /usr/share/themes/
+sync
+
 cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
 cp -ur /usr/share/themes "$HOME"/.themes
+cp -ur /usr/share/fonts "$HOME"/.local/share/
+cp -ur /usr/share/icons "$HOME"/.local/share/
+cp -ur /usr/share/themes "$HOME"/.local/share/
+sync
+
+cd "$HOME"/.icons/Papirus/
+curl -LO https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-folders/master/papirus-folders && chmod +x ./papirus-folders
+sudo cp papirus-folders "$HOME"/.local/share/icons/Papirus/
+sudo cp papirus-folders /usr/share/icons/Papirus/
+sync
+
+cd /usr/share/icons/Papirus/
+./papirus-folders -C cat-mocha-mauve --theme Papirus-Dark
+sync
+cd "$HOME"/.icons/Papirus/
+./papirus-folders -C cat-mocha-mauve --theme Papirus-Dark
+sync
+cd "$HOME"/.local/share/icons/Papirus/
+./papirus-folders -C cat-mocha-mauve --theme Papirus-Dark
+sync
+
+ln -svf "$HOME"/.themes/Catppuccin-Dark/gtk-2.0/* "$HOME"/.config/gtk-2.0/
+ln -svf "$HOME"/.themes/Catppuccin-Dark/gtk-3.0/* "$HOME"/.config/gtk-3.0/
+ln -svf "$HOME"/.themes/Catppuccin-Dark/gtk-4.0/* "$HOME"/.config/gtk-4.0/
+sync
+
+sudo mkdir -p /etc/xdg/menus
+sudo rm /etc/xdg/menus/applications.menu
+sudo cp "$HOME"/.config/menus/applications.menu /etc/xdg/menus/
 
 fc-cache --force
 fc-cache-32 --force
 
-# Enabling btrfs defrag
+# btrfs defrag
 if ! [[ grep -q autodefrag /etc/fstab ]]; then
-  sudo sed -i 's/compress=zstd/compress=zstd,autodefrag/g' /etc/fstab
+  sudo sed -i 's/compress=zstd/x-mount.mkdir,compress=zstd:3,space_cache=v2,autodefrag/g' /etc/fstab
   sync
 fi
+
+# Noatime
+if ! [[ grep -q noatime /etc/fstab ]]; then
+  sudo sed -i 's/discard=async/discard=async,noatime/g' /etc/fstab
+  sync
+fi
+
+# Clear cache
+if ! [[ grep -q clear_cache /etc/fstab ]]; then
+  sudo sed -i 's/ssd/ssd,clear_cache/g' /etc/fstab
+  sync
+fi
+
+cd apps/qemu-9.0.1/
+# git apply ../qemu-9.0.1.patch # Already done
+# ./configure # Already done
+sudo make install -j"$(nproc)"
+
+cd "$HOME"/dotfiles
 
 echo
 echo "usermod -aG video qemu"
@@ -506,9 +718,9 @@ sudo usermod -aG video qemu
 sleep 1s
 
 echo
-echo "usermod -aG kvm,libvirt,video \"$(logname)\""
+echo "usermod -aG kvm,libvirt,libvirt-qemu,video \"$(logname)\""
 echo
-sudo usermod -aG kvm,libvirt,video "$(logname)"
+sudo usermod -aG kvm,libvirt,libvirt-qemu,video "$(logname)"
 sleep 1s
 
 echo
@@ -516,6 +728,8 @@ echo "Enabling libvirtd"
 echo
 sudo systemctl enable --now libvirtd
 sleep 1s
+# sudo systemctl enable --now virtqemud.socket
+# sleep 1s
 
 echo
 echo "gpasswd -M $(logname) kvm"
@@ -567,6 +781,10 @@ fi
 
 sudo mkdir -p /etc/libvirt/hooks
 
+
+sudo mkdir -p /etc/libvirt/hooks/qemu.d && sudo wget 'https://asus-linux.org/files/vfio/libvirt_hooks/qemu' -O /etc/libvirt/hooks/qemu && sudo chmod +x /etc/libvirt/hooks/qemu
+sudo systemctl restart libvirt
+
 echo 'Xcursor.theme: Catppuccin-Mocha-Mauve-Cursors' | tee -a "$HOME"/.Xresources
 echo 'Xcursor.size: 48' | tee -a "$HOME"/.Xresources
 
@@ -584,51 +802,156 @@ sleep 1s
 cd "$HOME"/dotfiles
 
 make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
+sync
 
 GRUB="$(cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev)"
 
 if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
     GRUB+=" amd_iommu=on iommu=pt\""
+    sync
     sleep 1s
 elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
     GRUB+=" intel_iommu=on iommu=pt\""
+    sync
     sleep 1s
 fi
 
+GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
+
+GRUB+=" kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 pcie_acs_override=downstream\""
+sync
+
 sudo sed -i "s/GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=menu/g" /etc/default/grub
+sync
 sudo sed -i "s/GRUB_DEFAULT=.*/GRUB_DEFAULT=0/g" /etc/default/grub
+sync
 
 sudo update-grub
 
+echo
+echo "Enabling nested kvm"
+echo
+
+if ! [[ -d /etc/modprobe.d ]]; then
+    echo
+    echo "Creating \"/etc/modprobe.d\" folder"
+    echo
+    sudo mkdir -p /etc/modprobe.d
+    sync
+    sleep 1s
+fi
+
+if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
+    if ! [[ -f /etc/modprobe.d/kvm-amd.conf ]]; then
+        sudo touch /etc/modprobe.d/kvm-amd.conf
+        sync
+        sleep 1s
+    fi
+
+    printf "options kvm_amd nested=1\noptions kvm ignore_msrs=1\noptions kvm report_ignored_msrs=0\n" | sudo tee /etc/modprobe.d/kvm-amd.conf
+    sync
+    sudo modprobe -r kvm-amd
+    sudo modprobe kvm-amd
+    sleep 1s
+elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
+    if ! [[ -f /etc/modprobe.d/kvm-intel.conf ]]; then
+        sudo touch /etc/modprobe.d/kvm-intel.conf
+        sync
+        sleep 1s
+    fi
+
+    printf "options kvm-intel nested=1\noptions kvm ignore_msrs=1\noptions kvm report_ignored_msrs=0\noptions kvm-intel enable_shadow_vmcs=1\noptions kvm-intel enable_apicv=1\noptions kvm-intel ept=1\n" | sudo tee /etc/modprobe.d/kvm-intel.conf
+    sync
+    sudo modprobe -r kvm-intel
+    sudo modprobe kvm-intel
+    sleep 1s
+fi
+
+cd "$HOME"/.apps/
+
+wget https://looking-glass.io/artifact/stable/source -O looking-glass-B6.tar.gz
+sync
+tar xvzf looking-glass-B6.tar.gz
+sync
+
+mkdir client/build && sync && cd client/build
+
+cmake ../
+sync
+make
+sync
+sudo make install
+sync
+
+cd "$HOME"/dotfiles
+
+printf "#KVMFR Looking Glass Module\noptions kvmfr static_size_mb=128\n" | sudo tee /etc/modprobe.d/kvmfr.conf
+
+printf "SUBSYSTEM==\"kvmfr\", OWNER=\"$(logname)\", GROUP=\"kvm\", MODE=\"0660\"\n" | sudo tee /etc/udev/rules.d/99-kvmfr.rules
+
+printf "# Type Path               Mode UID  GID Age Argument\n\n" | sudo tee /etc/tmpfiles.d/10-looking-glass.conf
+printf "f /dev/shm/looking-glass 0660 %s kvm -\n" "$(logname)" | sudo tee -a /etc/tmpfiles.d/10-looking-glass.conf
+
+printf "# KVMFR Looking Glass module\nkvmfr\n" | sudo tee /etc/modules-load.d/kvmfr.conf
+
 MKINITCPIO="$(cat /etc/mkinitcpio.conf | grep "MODULES" | rev | cut -c 2- | rev)"
-MKINITCPIO+=" vfio vfio_pci vfio_iommu_type1)"
+MKINITCPIO+=" vfio vfio_iommu_type1 vfio_pci kvmfr)"
 sleep 1s
 
 sudo mkinitcpio -P
 
+sudo systemctl daemon-reload
+sudo systemctl restart systemd-udevd.service
+sudo systemctl restart libvirtd
+
 sudo modprobe vfio-pci
 sudo modprobe vfio
 sudo modprobe vfio-iommu-type1
+sudo modprobe kvmfr static_size_mb=128
 sleep 1s
 
-export QT_QPA_PLATFORMTHEME=qt6ct
+sudo chown "$(logname)":kvm /dev/kvmfr0
+
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
+# export QT_STYLE_OVERRIDE=kvantum
 export GTK2_RC_FILES=/home/archuser/.gtkrc-2.0
-export XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
+export XCURSOR_THEME=catppuccin-mocha-mauve-cursors
 export XCURSOR_SIZE=48
-export GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
+export GTK_THEME=Catppuccin-Dark
+export GDK_USE_PORTAL=1
+export GDK_DEBUG=portals
+export XDG_DESKTOP_PORTAL=1
+export GSK_RENDERER=gl
+export GDK_DEBUG=gl-no-fractional
+export NO_AT_BRIDGE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
-printf "QT_QPA_PLATFORMTHEME=qt6ct\n" | sudo tee -a /etc/environment
+printf "QT_QPA_PLATFORMTHEME=qt5ct:qt6ct\n" | sudo tee -a /etc/environment
+# printf "QT_STYLE_OVERRIDE=kvantum\n" | sudo tee -a /etc/environment
 printf "GTK2_RC_FILES=/home/archuser/.gtkrc-2.0\n" | sudo tee -a /etc/environment
-printf "XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors\n" | sudo tee -a /etc/environment
+printf "XCURSOR_THEME=catppuccin-mocha-mauve-cursors\n" | sudo tee -a /etc/environment
 printf "XCURSOR_SIZE=48\n" | sudo tee -a /etc/environment
-printf "GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark\n" | sudo tee -a /etc/environment
+printf "GTK_THEME=Catppuccin-Dark\n" | sudo tee -a /etc/environment
+printf "GTK_USE_PORTAL=1\n" | sudo tee -a /etc/environment
+printf "GDK_DEBUG=portals\n" | sudo tee -a /etc/environment
+printf "XDG_DESKTOP_PORTAL=1\n" | sudo tee -a /etc/environment
+printf "GSK_RENDERER=gl\n" | sudo tee -a /etc/environment
+printf "GDK_DEBUG=gl-no-fractional\n" | sudo tee -a /etc/environment
+printf "NO_AT_BRIDGE=1\n" | sudo tee -a /etc/environment
 printf "DOTNET_CLI_TELEMETRY_OPTOUT=1\n" | sudo tee -a /etc/environment
 
 echo
 echo 'Enabling timer for regular files database updates'
 echo
 systemctl enable pacman-filesdb-refresh.timer
+
+sudo systemctl enable fstrim.timer
+sudo systemctl enable sshd.service
+sudo systemctl enable cups.service
+sudo systemctl enable bluetooth.service
+sudo systemctl enable btrfs-scrub@-.timer
+sudo systemctl enable btrfs-scrub@home.timer
+cupsenable
 
 echo
 echo 'Symlink your backed up .gnupg and .ssh folder as well your *.local files to your home folder'

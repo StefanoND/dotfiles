@@ -13,6 +13,7 @@ if ! grep -q 'org.kde.dolphin.desktop' /usr/share/applications/mimeinfo.cache; t
   sudo sed -ie "s|^inode\/directory.*|${DOLPHININODE}|g" /usr/share/applications/mimeinfo.cache
 fi
 
-XDG_MENU_PREFIX=arch- kbuildsycoca6
+# XDG_MENU_PREFIX=arch- kbuildsycoca6
+export XDG_MENU_PREFIX=plasma- && kbuildsycoca6
 
 exit 0

@@ -5,7 +5,10 @@
 set $mod Mod4
 set $alt Mod1
 
-include $HOME/dotfiles/.config/i3/settings/monitor.conf
+# # # # include $HOME/dotfiles/.config/i3/settings/wideworkspaces.conf
+include $HOME/dotfiles/.config/i3/settings/tripleworkspaces.conf
+# # include $HOME/dotfiles/.config/i3/settings/widemonitor.conf
+include $HOME/dotfiles/.config/i3/settings/triplemonitor.conf
 include $HOME/dotfiles/.config/i3/settings/window_gaps.conf
 # include $HOME/dotfiles/.config/i3/settings/status_bar.conf
 include $HOME/dotfiles/.config/i3/settings/eye_protection.conf

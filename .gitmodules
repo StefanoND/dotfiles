@@ -66,3 +66,6 @@
 	path = .config/nvim
 	url = https://github.com/StefanoND/nvim.git
 	branch = trunk
+[submodule "apps/qemu-anti-detection"]
+	path = apps/qemu-anti-detection
+	url = https://github.com/zhaodice/qemu-anti-detection.git
