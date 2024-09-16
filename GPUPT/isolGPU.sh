@@ -57,7 +57,7 @@ if ! grep -iEq 'rd.driver.pre=vfio-pci' /etc/default/grub; then
   echo
   printf "\"rd.driver.pre=vfio-pci\" not found, adding to \"/etc/default/grub\""
   echo
-  sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"/GRUB_CMDLINE_LINUX_DEFAULT=\"rd.driver.pre=vfio-pci/g" /etc/default/grub
+  sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"/GRUB_CMDLINE_LINUX_DEFAULT=\"rd.driver.pre=vfio-pci video=vesafb:off,efifb:off/g" /etc/default/grub
   sync
 else
   echo
@@ -108,6 +108,16 @@ echo 'Updating mkinitcpio'
 echo
 sleep 1s
 sudo mkinitcpio -P
+
+echo
+echo "Make sure youre isolate the second GPU using driverctl aswell"
+echo "Go to qemu and check your GPU's IDs, it should be something like: 0000:01:00.0"
+echo "Usually there's two or more PCI IDs related to the GPU like HD Audio Controller"
+echo "They'll all have the same ID but different endings like: 0000:01.00.1, 0000:01.00.2, etc"
+echo "Once you have them you run the following command, replacing 0000:01.00.0 with your own"
+echo "sudo driverctl set-override 0000:01:00.0 vfio-pci"
+echo
+sleep 1s
 
 echo
 echo "Done..."

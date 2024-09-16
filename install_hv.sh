@@ -235,6 +235,7 @@ PKGS=(
   'zfs-utils'
   'nfs-utils'
   'libguestfs'
+  'guestfs-tools'
 
   'neovim'                  # Good Text Editor
   'nano'
@@ -462,6 +463,7 @@ PKGPARU=(
   'tuned'                   #
   'rar'                     # Rar AND Unrar
   'find-the-command'    # Hook for bash, fish and zsh to find
+  'driverctl'
 
   # Xanmod
   'linux-xanmod'
@@ -509,16 +511,16 @@ sudo sed -i "s|TIMELINE_LIMIT_MONTHLY=\".*|TIMELINE_LIMIT_MONTHLY=\"1\"|g" /etc/
 sudo sed -i "s|TIMELINE_LIMIT_QUARTERLY=\".*|TIMELINE_LIMIT_QUARTERLY=\"0\"|g" /etc/snapper/configs/home
 sudo sed -i "s|TIMELINE_LIMIT_YEARLY=\".*|TIMELINE_LIMIT_YEARLY=\"0\"|g" /etc/snapper/configs/home
 
-echo
-echo "usermod -aG users $(logname)"
-echo
-sudo usermod -aG users "$(logname)"
-sleep 1s
+# echo
+# echo "usermod -aG users $(logname)"
+# echo
+# sudo usermod -aG users "$(logname)"
+# sleep 1s
 
-sudo chmod a+rw /.snapshots
-sudo chmod a+rw /home/.snapshots
-sudo chown :users /.snapshots
-sudo chown :users /home/.snapshots
+# sudo chown :root /.snapshots
+# sudo chmod 750 /.snapshots
+# sudo chown :root /home/.snapshots
+# sudo chmod 755 /home/.snapshots
 
 sudo systemctl enable --now snapper-timeline.timer
 sudo systemctl enable --now snapper-cleanup.timer
@@ -818,7 +820,7 @@ fi
 
 GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
 
-GRUB+=" kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 pcie_acs_override=downstream\""
+GRUB+=" systemd.unified_cgroup_hierarchy=1 kvm.ignore_msrs=1 kvm.report_ignored_msrs=0 pcie_acs_override=downstream,multifunction vfio_iommu_type1.allow_unsafe_interrupts=1\""
 sync
 
 sudo sed -i "s/GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=menu/g" /etc/default/grub
@@ -945,12 +947,46 @@ echo 'Enabling timer for regular files database updates'
 echo
 systemctl enable pacman-filesdb-refresh.timer
 
+printf "keyserver hkps://keys.openpgp.org\n" | tee -a ~/.gnupg/gpg.conf
+printf "keyserver hkps://pgp.surf.nl\n" | tee -a ~/.gnupg/gpg.conf
+printf "keyserver hkps://pgp.mit.edu\n" | tee -a ~/.gnupg/gpg.conf
+printf "keyserver hkps://keyserver.ubuntu.com\n" | tee -a ~/.gnupg/gpg.conf
+printf "keyserver hkp://keys.gnupg.net\n" | tee -a ~/.gnupg/gpg.conf
+printf "keyserver hkp://pgp.rediris.es\n" | tee -a ~/.gnupg/gpg.conf
+
+# Adding DNS0
+printf "DNS=193.110.81.0#dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+printf "DNS=2a0f:fc80::#dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+printf "DNS=185.253.5.0#dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+printf "DNS=2a0f:fc81::#dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+printf "DNSOverTLS=yes" | sudo tee -a /etc/systemd/resolved.conf
+
+sudo sed -i 's/\(firewall_backend *= *\).*/\1iptables/' /etc/libvirt/network.conf
+
+echo 'net.ipv4.ip_forward=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.default.rp_filter=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.all.rp_filter=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.bridge.bridge-nf-call-ip6tables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.bridge.bridge-nf-call-iptables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.bridge.bridge-nf-call-arptables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+
+sudo sysctl --system
+
+# ZERO DNS0 (also blocks newly created domains)
+# printf "DNS=193.110.81.9#zero.dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+# printf "DNS=2a0f:fc80::9#zero.dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+# printf "DNS=185.253.5.9#zero.dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+# printf "DNS=2a0f:fc81::9#zero.dns0.eu\n" | sudo tee -a /etc/systemd/resolved.conf
+# printf "DNSOverTLS=yes" | sudo tee -a /etc/systemd/resolved.conf
+
+sudo systemctl enable systemd-resolved.service
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd.service
 sudo systemctl enable cups.service
 sudo systemctl enable bluetooth.service
 sudo systemctl enable btrfs-scrub@-.timer
 sudo systemctl enable btrfs-scrub@home.timer
+sudo systemctl enable nftables.service
 cupsenable
 
 echo

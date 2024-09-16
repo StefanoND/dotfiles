@@ -95,6 +95,8 @@ sudo cp "$hpath"/libvirt-nosleep@.service /etc/systemd/system/
 sudo cp "$hpath"/qemu /etc/libvirt/hooks/
 sleep 1s
 
+sudo sed -i "s/\/etc\/libvirt\/hooks\/qemu.d\/name\//\/etc\/libvirt\/hooks\/qemu.d\/$vmname\//g" /etc/libvirt/hooks/qemu.d/"$vmname"/prepare/begin/*.sh
+sudo sed -i "s/\/etc\/libvirt\/hooks\/qemu.d\/name\//\/etc\/libvirt\/hooks\/qemu.d\/$vmname\//g" /etc/libvirt/hooks/qemu.d/"$vmname"/release/end/*.sh
 
 sudo cp "$hpath"/dev-hugepages.mount /etc/systemd/system/
 sync

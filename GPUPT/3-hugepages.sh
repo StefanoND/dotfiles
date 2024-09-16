@@ -44,38 +44,41 @@ while [[ ${confirmram,,} = n ]]; do
     read RAMCONF
     if [[ ${RAMCONF,,} = y ]]; then
         confirmram=$RAMCONF
-        ramkib=`expr "$ramcalc" \* 1024 \* 1024`
-        ramgib=`expr "$ramcalc" \* 1024 \* 1024 \/ 2048`
+        # ramkib=`expr "$ramcalc" \* 1024 \* 1024 + "$ramcalc" \* 1024 \* 1024 \\ 100 \* 10`
+        # ramgib=`expr "$ramkib" \/ 2048`
+        preramkib=$((ramcalc * 1024 * 1024))
+        ramkib=$((preramkib  + ((preramkib / 100) * 10)))
+        ramgib=$((ramkib / 2048))
     fi
 done
 
-if ! [[ -d /hugepages ]]; then
-    echo "mkdir -p /hugepages"
-    sudo mkdir -p /hugepages
-    sleep 1s
-fi
-
-echo "mount -t hugetlbfs hugetlbfs /hugepages"
-sudo mount -t hugetlbfs hugetlbfs /hugepages
-sleep 1s
-
-if grep -iq "hugetlbfs" /etc/fstab; then
-    sudo sed -i "s|.*hugetlbfs.*|hugetlbfs    /hugepages    hugetlbfs    defaults    0 0|g" /etc/fstab
-    sleep 1s
-else
-    printf "hugetlbfs    /hugepages    hugetlbfs    defaults    0 0\n" | sudo tee -a /etc/fstab
-    sleep 1s
-fi
-
-if ! grep -i "$(logname)" /etc/security/limits.conf; then
-    printf "\n$(logname)        hard    nofile          $ramkib\n" | sudo tee -a /etc/security/limits.conf
-    sleep 1s
-    printf "\n$(logname)        soft    nofile          $ramkib\n" | sudo tee -a /etc/security/limits.conf
-    sleep 1s
-fi
-
-sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/system.conf
-sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/user.conf
+# if ! [[ -d /hugepages ]]; then
+#     echo "mkdir -p /hugepages"
+#     sudo mkdir -p /hugepages
+#     sleep 1s
+# fi
+#
+# echo "mount -t hugetlbfs hugetlbfs /hugepages"
+# sudo mount -t hugetlbfs hugetlbfs /hugepages
+# sleep 1s
+#
+# if grep -iq "hugetlbfs" /etc/fstab; then
+#     sudo sed -i "s|.*hugetlbfs.*|hugetlbfs    /hugepages    hugetlbfs    defaults    0 0|g" /etc/fstab
+#     sleep 1s
+# else
+#     printf "hugetlbfs    /hugepages    hugetlbfs    defaults    0 0\n" | sudo tee -a /etc/fstab
+#     sleep 1s
+# fi
+#
+# if ! grep -i "$(logname)" /etc/security/limits.conf; then
+#     printf "\n$(logname)        hard    nofile          $ramkib\n" | sudo tee -a /etc/security/limits.conf
+#     sleep 1s
+#     printf "\n$(logname)        soft    nofile          $ramkib\n" | sudo tee -a /etc/security/limits.conf
+#     sleep 1s
+# fi
+#
+# sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/system.conf
+# sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/user.conf
 
 if ! [[ -f /etc/sysctl.d/10-kvm.conf ]]; then
     sudo touch /etc/sysctl.d/10-kvm.conf
@@ -90,13 +93,13 @@ else
     sleep 1s
 fi
 
-if grep -i "vm.hugetlb_shm_group" /etc/sysctl.d/10-kvm.conf; then
-    sudo sed -i "s|.*vm.hugetlb_shm_group.*|vm.hugetlb_shm_group = 48|g" /etc/sysctl.d/10-kvm.conf
-    sleep 1s
-else
-    printf "\nvm.hugetlb_shm_group = 48\n" | sudo tee -a /etc/sysctl.d/10-kvm.conf
-    sleep 1s
-fi
+# if grep -i "vm.hugetlb_shm_group" /etc/sysctl.d/10-kvm.conf; then
+#     sudo sed -i "s|.*vm.hugetlb_shm_group.*|vm.hugetlb_shm_group = 48|g" /etc/sysctl.d/10-kvm.conf
+#     sleep 1s
+# else
+#     printf "\nvm.hugetlb_shm_group = 48\n" | sudo tee -a /etc/sysctl.d/10-kvm.conf
+#     sleep 1s
+# fi
 
 # BOOTENTRY=`cat /boot/loader/entries/linux-xanmod.conf | grep "options root" | rev | cut -c 1- | rev`
 # if ! grep -i "hugepages=" /boot/loader/entries/linux-xanmod.conf; then
@@ -113,24 +116,24 @@ GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2
 GRUB+=" hugepages=$ramgib\""
 sleep 1s
 
-if ! [[ -f /etc/default/qemu-kvm ]]; then
-    sudo touch /etc/default/qemu-kvm
-    sleep 1s
-fi
-
-if grep -i "KVM_HUGEPAGES"; then
-    echo
-    echo "Enabling KVM_HUGEPAGES for qemu-kvm"
-    echo
-    sudo sed -i "s|.*KVM_HUGEPAGES.*|KVM_HUGEPAGES=1|g" /etc/default/qemu-kvm
-    sleep 1s
-else
-    echo 'KVM_HUGEPAGES=1' | sudo tee -a /etc/default/qemu-kvm
-    sleep 1s
-fi
-
-sudo bash -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
-sudo bash -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled"
+# if ! [[ -f /etc/default/qemu-kvm ]]; then
+#     sudo touch /etc/default/qemu-kvm
+#     sleep 1s
+# fi
+#
+# if grep -i "KVM_HUGEPAGES"; then
+#     echo
+#     echo "Enabling KVM_HUGEPAGES for qemu-kvm"
+#     echo
+#     sudo sed -i "s|.*KVM_HUGEPAGES.*|KVM_HUGEPAGES=1|g" /etc/default/qemu-kvm
+#     sleep 1s
+# else
+#     echo 'KVM_HUGEPAGES=1' | sudo tee -a /etc/default/qemu-kvm
+#     sleep 1s
+# fi
+#
+# sudo bash -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
+# sudo bash -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled"
 
 echo
 echo "Restarting libvirtd service"

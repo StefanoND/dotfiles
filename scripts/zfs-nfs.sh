@@ -38,6 +38,7 @@ sudo zpool create -f -d -m none -o ashift=12 -O atime=off -o feature@lz4_compres
 # Change POOLNAME at the top of this script to the name you want to give this ZFS pool.
 # Change DEVNAME at the top of this script to the device you want.
 sudo zpool create -f -d -m none -o ashift=12 -o feature@lz4_compress=enabled -o feature@multi_vdev_crash_dump=disabled -o feature@large_dnode=disabled -o feature@sha512=disabled -o feature@skein=disabled -o feature@edonr=disabled -o feature@userobj_accounting=disabled "$POOLNAME" "$DEVNAME"1
+sudo zpool create -f -d -m none -o ashift=12 -o feature@lz4_compress=enabled -o feature@multi_vdev_crash_dump=disabled -o feature@large_dnode=disabled -o feature@sha512=disabled -o feature@skein=disabled -o feature@edonr=disabled -o feature@userobj_accounting=disabled NVME /dev/nvme0n1
 #####################################################################################################################
 #
 # Create a dataset
@@ -90,6 +91,8 @@ sudo mv /etc/exports /etc/exports.old
 EXVAR="/mnt/$POOLNAME/$DSNAME $IPADD/$NETMASK\(rw,insecure,sync,no_subtree_check,no_root_squash\)"
 
 sudo bash -c "echo $EXVAR >> /home/archuser/testdir/exports"
+
+sudo exportfs -rav
 
 #
 # Done
