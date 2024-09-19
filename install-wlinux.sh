@@ -326,7 +326,7 @@ PKGPARU=(
 
   # Game Engines
   'unityhub'
-  'unreal-engine-git'
+  # 'unreal-engine-git'
   'eam-git'
   'vscodium'
   'vscodium-features'
@@ -388,28 +388,6 @@ sync
 
 make -C "$HOME"/dotfiles/apps/ble.sh install PREFIX="$HOME"/.local
 sync
-
-cd "$HOME"/dotfiles/apps/deskflow
-cmake -B build
-sync
-cmake --build build -j$(( $(nproc) + 1 ))
-sync
-
-UNITPASS=n
-INTPASS=n
-if [[ .$HOME/dotfiles/apps/deskflow/build/bin/unittests | grep -q PASSED ]]; then
-  UNITPASS=y
-fi
-if [[ .$HOME/dotfiles/apps/deskflow/build/bin/integtests | grep -q PASSED ]]; then
-  INTPASS=y
-fi
-
-if [[ ${UNITPASS,,} = y ]] &&  [[ ${INTPASS,,} = y ]]; then
-  cp "$HOME"/dotfiles/apps/deskflow/build/bin/syn* "$HOME"/.local/bin
-  sync
-fi
-
-sudo firewall-cmd --permanent --add-port=24800/tcp
 
 cd "$HOME"/dotfiles
 
