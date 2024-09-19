@@ -318,8 +318,6 @@ PKGS=(
   # LSP
   'python-pip' # Required to install some LSP servers
   'npm'        # Required to install some LSP servers
-  'lua-language-server'
-  'shellharden'
 
   # Looking Glass Dependencies
   'libgl'
@@ -340,6 +338,7 @@ PKGS=(
   'libsamplerate'
 
   # Misc
+  'sshfs'
   'downgrade'
   'xdg-desktop-portal-kde'
   'xdg-desktop-portal'
@@ -420,6 +419,22 @@ PKGS=(
   # 'dvisvgm'
   # 'zotero-bin'
   # 'ncompress'
+
+  # Deskflow "Dependencies"
+  'ninja'
+  'openssl'
+  'glib2'
+  'gdk-pixbuf2'
+  'libxtst'
+  'libnotify'
+  'libxkbfile'
+  'gtest'
+  'pugixml'
+  'libei'
+  'libportal'
+  'qt6-base'
+  'qt6-tools'
+  'gtk3'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -869,6 +884,26 @@ elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
     sleep 1s
 fi
 
+cd "$HOME"/dotfiles/apps/deskflow
+cmake -B build
+sync
+cmake --build build -j$(( $(nproc) + 1 ))
+sync
+
+UNITPASS=n
+INTPASS=n
+if [[ .$HOME/dotfiles/apps/deskflow/build/bin/unittests | grep -q PASSED ]]; then
+  UNITPASS=y
+fi
+if [[ .$HOME/dotfiles/apps/deskflow/build/bin/integtests | grep -q PASSED ]]; then
+  INTPASS=y
+fi
+
+if [[ ${UNITPASS,,} = y ]] &&  [[ ${INTPASS,,} = y ]]; then
+  cp "$HOME"/dotfiles/apps/deskflow/build/bin/syn* "$HOME"/.local/bin
+  sync
+fi
+
 cd "$HOME"/.apps/
 
 wget https://looking-glass.io/artifact/stable/source -O looking-glass-B6.tar.gz
@@ -964,11 +999,9 @@ printf "DNSOverTLS=yes" | sudo tee -a /etc/systemd/resolved.conf
 sudo sed -i 's/\(firewall_backend *= *\).*/\1iptables/' /etc/libvirt/network.conf
 
 echo 'net.ipv4.ip_forward=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.default.rp_filter=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.ipv4.conf.all.rp_filter=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.bridge.bridge-nf-call-ip6tables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.bridge.bridge-nf-call-iptables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-echo 'net.bridge.bridge-nf-call-arptables=0' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv4.conf.all.forwarding=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv6.ip_forward=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo 'net.ipv6.conf.all.forwarding=1' | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 
 sudo sysctl --system
 

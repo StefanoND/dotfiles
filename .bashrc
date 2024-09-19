@@ -54,7 +54,7 @@ alias jctl="journalctl -p 3 -xb"
 # Recent installed packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
-fastfetch -l garuda
+fastfetch
 
 #######################################################
 # PERSONAL CONFIGS
@@ -165,6 +165,11 @@ PROMPT_COMMAND=_bash_history_sync
 "$PROMPT_COMMAND"
 # FINISH
 
+# export DISPLAY=:0
+export CARGO_BUILD_JOBS=$(( $(nproc) + 1 ))
+export MAKEFLAGS="-j$(( $(nproc) + 1 ))"
+# export MAKEFLAGS="-j$(expr "$(nproc)" \+ 1)"
+
 # Allow ctrl-S for history navigation (with ctrl-R)
 [[ $- == *i* ]] && stty -ixon
 
@@ -187,6 +192,9 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+
+# Add timestamp to terminal
+export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S)\]\ "
 
 # Default config home
 export XDG_CONFIG_HOME=$HOME/.config
@@ -228,6 +236,8 @@ export MAIL='flatpak run org.mozilla.Thunderbird'
 # Dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_ROOT=$HOME/.dotnet
+
+export CARGO_BUILD_JOBS=$(( $(nproc) + 1 ))
 
 xhost +local:root > /dev/null 2>&1
 
