@@ -120,7 +120,7 @@ PKGS=(
   'autojump'
   'starship'
 
-  # Neovim "Dependencies"
+  # Neovim Dependencies
   'ripgrep'
   'fd'
   'shfmt'
@@ -142,27 +142,27 @@ PKGS=(
   'ttf-firacode-nerd'
   'powerline-fonts'
 
-  # tdrop "Dependencies"
+  # tdrop Dependencies
   'xorg-xprop'
   'xorg-xwininfo'
   'xdotool'
 
-  # Tmux "Dependencies"
+  # Tmux Dependencies
   'xsel'
 
   # Nvidia installer
   'nvidia-inst'
 
-  # Ble.sh "Dependencies"
+  # Ble.sh Dependencies
   'thefuck'
   'zoxide'
   'ugrep'
   'fastfetch'
 
-  # Misc "Dependencies"
+  # Misc Dependencies
   'xorg-xhost'
 
-  # Deskflow "Dependencies"
+  # Deskflow Dependencies
   'ninja'
   'openssl'
   'glib2'
@@ -188,8 +188,12 @@ PKGS=(
   'mono'
   'coreutils'
   'dos2unix'
+  'dotnet-runtime'
+  'dotnet-sdk'
   'dotnet-runtime-7.0'
   'dotnet-sdk-7.0'
+  'dotnet-runtime-6.0'
+  'dotnet-sdk-6.0'
   'findutils'
   'lld'
   'openssl'
@@ -315,7 +319,7 @@ PKGPARU=(
   'linux-xanmod'          # Xanmod Kernel
   'linux-xanmod-headers'  # Headers for Xanmod
 
-  # Unity "Dependencies"
+  # Unity Dependencies
   'gconf'
   'libicu50'
   'icu70'
@@ -326,11 +330,10 @@ PKGPARU=(
 
   # Game Engines
   'unityhub'
-  # 'unreal-engine-git'
   'eam-git'
-  'vscodium'
-  'vscodium-features'
-  'vscodium-marketplace'
+  'vscodium-bin'
+  'vscodium-bin-features'
+  'vscodium-bin-marketplace'
 )
 
 for PKG in "${PKGPARU[@]}"; do
@@ -343,7 +346,7 @@ done
 
 # PIP
 PKGT=(
-  # LSP
+  # nvim Dependencies
   'argcomplete'
   'pynvim'
 )
@@ -402,32 +405,5 @@ sudo systemctl enable --now systemd-resolved.service
 sync
 sudo ln -svf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 sync
-
-sudo groupadd fuse
-sudo usermod -a -G fuse "$(logname)"
-
-mkdir "$HOME"/SHARED
-
-sshfs "$LNAME@$IPADD:$PATH" "$HOME"/SHARED
-
-"$LNAME@$IPADD:$PATH" "$HOME"/SHARED fuse.sshfs
-
-FSTABOPTS="defaults,x-systemd.automount,_netdev,user,idmap=user,reconnect,follow_symlinks,identityfile=$HOME/.ssh/id_rsa,allow_other,default_permissions,uid=1000,gid=1000"
-printf "\n%s@%s:%s  /home/archuser/SHARED fuse.sshfs %s 0 0\n" "$LNAME" "$IPADD" "$PATH" "$FSTABOPTS" | sudo tee -a /etc/fstab
-sudo systemctl daemon-reload
-
-ssh-keygen -t rsa -f "$HOME"/.ssh/sshfs_rsa
-
-echo
-echo "Copy $HOME/.ssh/sshfs_rsa.pub to the Host's authorized keys, like so"
-echo
-echo "ssh-copy-id -i $HOME/.ssh/sshfs_rsa.pub $LNAME@$IPADD"
-echo
-echo
-echo
-echo "Then, in the Host, you'll copy it to the authorized_keys file, like so"
-echo
-echo "cat $HOME/sshfs_rsa.pub >> $HOME/.ssh/authorized_keys"
-echo
 
 exit 0
