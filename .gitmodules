@@ -69,3 +69,6 @@
 [submodule "apps/qemu-anti-detection"]
 	path = apps/qemu-anti-detection
 	url = https://github.com/zhaodice/qemu-anti-detection.git
+[submodule "apps/deskflow"]
+	path = apps/deskflow
+	url = https://github.com/deskflow/deskflow.git

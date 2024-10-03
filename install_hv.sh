@@ -475,6 +475,9 @@ PKGPARU=(
   'snapper-tools'
   'snapper-support'
   'pa-applet'
+
+  # Needed for whonix
+  'safe-rm'
 )
 
 for PKG in "${PKGPARU[@]}"; do
