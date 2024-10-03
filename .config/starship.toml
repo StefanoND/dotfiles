@@ -1,6 +1,9 @@
 ## FIRST LINE/ROW: Info & Status
 palette = "catppuccin_mocha"
 
+# [timestamp]
+# format = "%Y-%m-%d %H:%M:%S"
+
 # First param ─┌
 [username]
 format = " [$user](bold green)[@](bold blue)"
@@ -66,10 +69,15 @@ style = "bold green"
 threshold = 80
 
 # Prompt: optional param 1
+# [time]
+# disabled = false
+# format = " 🕙 $time($style)\n"
+# style = "bright-white"
+# time_format = "%T"
+
 [time]
-disabled = true
-format = " 🕙 $time($style)\n"
-style = "bright-white"
+disabled = false
+format = " [$time](bold green) "
 time_format = "%T"
 
 # Prompt: param 2

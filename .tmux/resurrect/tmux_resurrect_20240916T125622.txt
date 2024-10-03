@@ -1,0 +1,6 @@
+pane	1	1	1	:*	1	archuser@archuser-standardpc:~	:/home/archuser/dotfiles	1	nvim	:nvim dotfiles/
+pane	1	1	1	:*	2	archuser@archuser-standardpc:~/dotfiles	:/home/archuser/dotfiles	0	yay	:yay -S autojump rar find-the-command linux-xanmod linux-xanmod-headers --noconfirm --needed --sudoloop
+pane	10	1	1	:*	1	archuser@archuser-standardpc:~	:/home/archuser/dotfiles/.config/tmux	1	nvim	:nvim .config/tmux
+window	1	1	:nvim	1	:*	e977,237x52,0,0{118x52,0,0,1,118x52,119,0,4}	:
+window	10	1	:nvim	1	:*	5ca0,237x52,0,0,11	:
+state	10	

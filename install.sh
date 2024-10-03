@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+echo
+echo "Don't use this script"
+echo
+sleep 1s
+exit 0
+
 if ! [ "$EUID" -ne 0 ]; then
     echo
     echo "Don't run this script as root."
