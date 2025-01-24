@@ -441,7 +441,8 @@ for PKG in "${PKGS[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  yes | sudo pacman -S "$PKG" --needed
+  # yes | sudo pacman -S "$PKG" --needed
+  sudo pacman -S "$PKG" --needed
   sync
   sleep 1s
 done

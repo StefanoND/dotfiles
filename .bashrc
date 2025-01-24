@@ -7,8 +7,8 @@ source /usr/share/doc/find-the-command/ftc.bash
 ## Useful aliases
 
 # Replace some more things with better alternatives
-alias cat='bat --style header --style snip --style changes --style header'
-[ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
+# alias cat='bat --style header --style snip --style changes --style header'
+# [ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
 
 # Common use
 alias grubup="sudo update-grub"

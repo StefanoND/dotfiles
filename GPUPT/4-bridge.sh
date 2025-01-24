@@ -36,7 +36,7 @@ if ! test -e /etc/sysctl.d/bridge.conf; then
     echo
     echo "Disabling netfilter for bridges."
     echo
-    printf "net.bridge.bridge-nf-call-ip6tables=0\nnet.bridge.bridge-nf-call-iptables=0\nnet.bridge.bridge-nf-call-arptables=0" | sudo tee /etc/sysctl.d/bridge.conf
+    printf "net.bridge.bridge-nf-call-ip6tables=0\nnet.bridge.bridge-nf-call-iptables=0\nnet.bridge.bridge-nf-call-arptables=0" | sudo tee /etc/sysctl.d/99-netfilter-bridge.conf
     sync
     echo
 fi
@@ -66,9 +66,7 @@ if ! test -e /etc/netctl/kvm-bridge; then
       echo
       ip addr
       answereth=n
-      answertap=n
       netdevice=null
-      tapdevice=null
       while [ "${answereth,,}" = n ]; do
           echo
           echo "What's your main network device? Should start with \"enp\""
@@ -84,29 +82,13 @@ if ! test -e /etc/netctl/kvm-bridge; then
           fi
       done
       sync
-      while [ "${answertap,,}" = n ]; do
-          echo
-          echo "What's your tap network device created by qemu? Should start with \"virbr\""
-          echo
-          sleep 1s
-          read TAP
-          if [[ `ip addr | grep "$TAP"` ]]; then
-              tapdevice=$TAP
-              answertap=y
-          else
-            echo
-            echo "\"$TAP\" doesn't exist."
-            echo
-          fi
-      done
-      sync
       echo
       echo "Configuring \"kvm-bridge\""
       echo
-      printf "Description=\"Bridge Interface br10 : %s,%s\"\n" "$netdevice" "$tapdevice"| sudo tee /etc/netctl/kvm-bridge
+      printf "Description=\"Bridge Interface br10 : %s, virbr0\"\n" "$netdevice"| sudo tee /etc/netctl/kvm-bridge
       printf "Interface=br10\n" | sudo tee -a /etc/netctl/kvm-bridge
       printf "Connection=bridge\n" | sudo tee -a /etc/netctl/kvm-bridge
-      printf "BindsToInterfaces=(%s %s)\n" "$netdevice" "$tapdevice" | sudo tee -a /etc/netctl/kvm-bridge
+      printf "BindsToInterfaces=(%s virbr0)\n" "$netdevice" | sudo tee -a /etc/netctl/kvm-bridge
       printf "IP=dhcp\n" | sudo tee -a /etc/netctl/kvm-bridge
       sync
       printf "<network>\n" | tee "$HOME"/bridged-network.xml
@@ -125,7 +107,7 @@ if ! test -e /etc/netctl/kvm-bridge; then
       printf "  </ip>\n" | tee -a "$HOME"/bridged-network.xml
       printf "</network>" | tee -a "$HOME"/bridged-network.xml
       sync
-      printf "\nallow %s\n" "$tapdevice" | sudo tee -a /etc/qemu/bridge.conf
+      printf "\nallow virbr0\n" | sudo tee -a /etc/qemu/bridge.conf
       printf "allow br10\n" | sudo tee -a /etc/qemu/bridge.conf
       echo
       echo "Defining Virtual Network"
@@ -163,10 +145,14 @@ if ! test -e /etc/netctl/kvm-bridge; then
       echo
       echo "Enabling kvm-bridge"
       echo
-      sudo systemctl enable netctl-auto@kvm-bridge.service
+      # sudo systemctl enable netctl-auto@kvm-bridge.service
       sudo netctl enable kvm-bridge
       sudo systemctl daemon-reload
       sleep 1s
+
+      sudo systemctl disable NetworkManager-wait-online.service
+      sudo systemctl mask NetworkManager-wait-online.service
+
       echo
       echo
       echo "Done"
