@@ -80,18 +80,18 @@ done
 # sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/system.conf
 # sudo sed -i "s|.*DefaultLimitNOFILE=.*|DefaultLimitNOFILE=$ramkib|g" /etc/systemd/user.conf
 
-if ! [[ -f /etc/sysctl.d/10-kvm.conf ]]; then
-    sudo touch /etc/sysctl.d/10-kvm.conf
-    sleep 1s
-fi
-
-if grep -i "vm.nr_hugepages" /etc/sysctl.d/10-kvm.conf; then
-    sudo sed -i "s|.*vm.nr_hugepages.*|vm.nr_hugepages = $ramgib|g" /etc/sysctl.d/10-kvm.conf
-    sleep 1s
-else
-    printf "\nvm.nr_hugepages = $ramgib\n" | sudo tee -a /etc/sysctl.d/10-kvm.conf
-    sleep 1s
-fi
+# if ! [[ -f /etc/sysctl.d/10-kvm.conf ]]; then
+#     sudo touch /etc/sysctl.d/10-kvm.conf
+#     sleep 1s
+# fi
+#
+# if grep -i "vm.nr_hugepages" /etc/sysctl.d/10-kvm.conf; then
+#     sudo sed -i "s|.*vm.nr_hugepages.*|vm.nr_hugepages = $ramgib|g" /etc/sysctl.d/10-kvm.conf
+#     sleep 1s
+# else
+#     printf "\nvm.nr_hugepages = $ramgib\n" | sudo tee -a /etc/sysctl.d/10-kvm.conf
+#     sleep 1s
+# fi
 
 # if grep -i "vm.hugetlb_shm_group" /etc/sysctl.d/10-kvm.conf; then
 #     sudo sed -i "s|.*vm.hugetlb_shm_group.*|vm.hugetlb_shm_group = 48|g" /etc/sysctl.d/10-kvm.conf
@@ -111,10 +111,10 @@ fi
 #     sleep 1s
 # fi
 
-GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
-
-GRUB+=" hugepages=$ramgib\""
-sleep 1s
+# GRUB=`cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c 2- | rev`
+#
+# GRUB+=" hugepages=$ramgib\""
+# sleep 1s
 
 # if ! [[ -f /etc/default/qemu-kvm ]]; then
 #     sudo touch /etc/default/qemu-kvm
