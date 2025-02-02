@@ -1398,7 +1398,7 @@ GRUB="$(cat /etc/default/grub | grep "GRUB_CMDLINE_LINUX_DEFAULT" | rev | cut -c
 # fi
 
 if sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o amd; then
-    GRUB+=" amd_iommu=on iommu=pt $grubgpu\""
+    GRUB+=" amd_iommu=on iommu=pt kvm_amd.avic=1 kvm_amd.nested=0 kvm_amd.sev=0 $grubgpu\""
     sleep 1s
 elif sudo grep 'vendor' /proc/cpuinfo | uniq | grep -i -o intel; then
     GRUB+=" intel_iommu=on iommu=pt $grubgpu\""

@@ -14,3 +14,4 @@ include $HOME/dotfiles/.config/i3/settings/window_gaps.conf
 include $HOME/dotfiles/.config/i3/settings/eye_protection.conf
 include $HOME/dotfiles/.config/i3/settings/manual_settings.conf
 
+exec --no-startup-id sleep 5 && i3 restart && sleep 3 && i3 restart
