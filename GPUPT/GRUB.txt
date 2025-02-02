@@ -1,0 +1,34 @@
+These are the parameters that should be in your grub, in this order. Numbers 6 and 7 are OPTIONAL and UNSAFE
+
+0. Prevents nouveau from initializing before vfio-pci binds to avoid conflicts
+"nouveau.modeset=0"
+
+1. Power Saving, CPU Power and Performance Settings
+"cpufreq.default_governor=performance"
+
+2. ACPI and Power Management
+"initcall_blacklist=acpi_cpufreq_init acpi_enforce_resources=lax"
+
+3. AMP P-State driver config
+"amd_pstate.shared_mem=1 amd_pstate=active"
+
+4. Enabling AVIC (must disable nested virtualization else AVIC won't work)
+"kvm_amd.avic=1 kvm_amd.force_avic=1 kvm_amd.nested=0 kvm_amd.sev=0 kvm_amd.npt=1"
+
+5. IOMMU for proper PCI passthrough
+"amd_iommu=on iommu=pt"
+
+6. PCIe Overrides, Forces PCIe ACS separation for "better" passthrough (DON'T USE IF YOU'RE NOT HAVING PROBLEMS)
+"pcie_acs_override=downstream,multifunction"
+
+7. Fixing "problems" with interrupt remapping support (DON'T USE IF YOU'RE NOT HAVING PROBLEMS)
+"vfio_iommu_type1.allow_unsafe_interrupts=1"
+
+8. GPU-Passthrough
+"vfio-pci.ids=xxxx:xxxx,xxxx:xxxx rd.driver.pre=vfio-pci"
+
+9. Windows, Controls ignores MSRs
+"kvm.ignore_msrs=1 kvm.report_ignored_msrs=0"
+
+10. cgroup hierarchy for better container and resources management
+"systemd.unified_cgroup_hierarchy=1"

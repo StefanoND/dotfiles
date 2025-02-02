@@ -1,13 +1,14 @@
 <domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
   <name>gwin11</name>
   <uuid>YOUR_UUID</uuid>
+  <description>Windows</description>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://microsoft.com/win/11"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit="KiB">16777216</memory>
-  <currentMemory unit="KiB">16777216</currentMemory>
+  <memory unit="KiB">25165824</memory>
+  <currentMemory unit="KiB">25165824</currentMemory>
   <memoryBacking>
     <hugepages/>
     <nosharepages/>
@@ -16,42 +17,86 @@
     <allocation mode="immediate"/>
     <discard/>
   </memoryBacking>
-  <vcpu placement="static">8</vcpu>
-  <iothreads>2</iothreads>
+  <vcpu placement="static" current="12">18</vcpu>
+  <vcpus>
+    <vcpu id="0" enabled="yes" hotpluggable="no"/>
+    <vcpu id="1" enabled="yes" hotpluggable="no"/>
+    <vcpu id="2" enabled="yes" hotpluggable="no"/>
+    <vcpu id="3" enabled="yes" hotpluggable="no"/>
+    <vcpu id="4" enabled="yes" hotpluggable="no"/>
+    <vcpu id="5" enabled="yes" hotpluggable="no"/>
+    <vcpu id="6" enabled="no" hotpluggable="yes"/>
+    <vcpu id="7" enabled="no" hotpluggable="yes"/>
+    <vcpu id="8" enabled="no" hotpluggable="yes"/>
+    <vcpu id="9" enabled="no" hotpluggable="yes"/>
+    <vcpu id="10" enabled="no" hotpluggable="yes"/>
+    <vcpu id="11" enabled="no" hotpluggable="yes"/>
+    <vcpu id="12" enabled="yes" hotpluggable="yes"/>
+    <vcpu id="13" enabled="yes" hotpluggable="yes"/>
+    <vcpu id="14" enabled="yes" hotpluggable="yes"/>
+    <vcpu id="15" enabled="yes" hotpluggable="yes"/>
+    <vcpu id="16" enabled="yes" hotpluggable="yes"/>
+    <vcpu id="17" enabled="yes" hotpluggable="yes"/>
+  </vcpus>
   <cputune>
-    <vcpupin vcpu="0" cpuset="2"/>
-    <vcpupin vcpu="1" cpuset="10"/>
-    <vcpupin vcpu="2" cpuset="3"/>
-    <vcpupin vcpu="3" cpuset="11"/>
-    <vcpupin vcpu="4" cpuset="6"/>
-    <vcpupin vcpu="5" cpuset="14"/>
-    <vcpupin vcpu="6" cpuset="7"/>
-    <vcpupin vcpu="7" cpuset="15"/>
+    <vcpupin vcpu="0" cpuset="1"/>
+    <vcpupin vcpu="1" cpuset="9"/>
+    <vcpupin vcpu="2" cpuset="2"/>
+    <vcpupin vcpu="3" cpuset="10"/>
+    <vcpupin vcpu="4" cpuset="3"/>
+    <vcpupin vcpu="5" cpuset="11"/>
+    <vcpupin vcpu="12" cpuset="5"/>
+    <vcpupin vcpu="13" cpuset="13"/>
+    <vcpupin vcpu="14" cpuset="6"/>
+    <vcpupin vcpu="15" cpuset="14"/>
+    <vcpupin vcpu="16" cpuset="7"/>
+    <vcpupin vcpu="17" cpuset="15"/>
     <emulatorpin cpuset="0,4,8,12"/>
-    <iothreadpin iothread="1" cpuset="1,9"/>
-    <iothreadpin iothread="2" cpuset="5,13"/>
     <emulatorsched scheduler="fifo" priority="10"/>
-    <iothreadsched iothreads="1" scheduler="fifo" priority="9"/>
-    <iothreadsched iothreads="2" scheduler="fifo" priority="9"/>
   </cputune>
+  <sysinfo type="smbios">
+    <bios>
+      <entry name="vendor">American Megatrends International, LLC.</entry>
+      <entry name="version">VERSION</entry>
+      <entry name="date">DATE</entry>
+      <entry name="release">RELEASE</entry>
+    </bios>
+    <system>
+      <entry name="manufacturer">Micro-Star International Co., Ltd.</entry>
+      <entry name="product">MS-7B79</entry>
+      <entry name="version">VERSION</entry>
+      <entry name="serial">To be filled by O.E.M.</entry>
+      <entry name="uuid">UUID</entry>
+      <entry name="sku">To be filled by O.E.M.</entry>
+      <entry name="family">To be filled by O.E.M.</entry>
+    </system>
+    <baseBoard>
+      <entry name="manufacturer">Micro-Star International Co., Ltd.</entry>
+      <entry name="product">X470 GAMING PLUS (MS-7B79)</entry>
+      <entry name="version">VERSION</entry>
+      <entry name="serial">SERIAL</entry>
+      <entry name="asset">To be filled by O.E.M.</entry>
+    </baseBoard>
+  </sysinfo>
   <os firmware="efi">
     <type arch="x86_64" machine="pc-q35-8.2">hvm</type>
     <firmware>
-      <feature enabled="no" name="enrolled-keys"/>
-      <feature enabled="no" name="secure-boot"/>
+      <feature enabled="yes" name="enrolled-keys"/>
+      <feature enabled="yes" name="secure-boot"/>
     </firmware>
-    <loader readonly="yes" type="pflash">/usr/share/edk2/x64/OVMF_CODE.fd</loader>
-    <nvram template="/usr/share/edk2/x64/OVMF_VARS.fd">/var/lib/libvirt/qemu/nvram/gwin11_VARS.fd</nvram>
+    <loader readonly="yes" secure="yes" type="pflash" format="raw">/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
+    <nvram template="/usr/share/edk2/x64/OVMF_VARS_4M.secboot.fd" templateFormat="raw" format="raw">/var/lib/libvirt/qemu/nvram/gwin11_SECBOOT_VARS.fd</nvram>
     <bootmenu enable="no"/>
-    <smbios mode="host"/>
+    <smbios mode="sysinfo"/>
   </os>
   <features>
     <acpi/>
-    <apic/>
-    <hyperv mode="passthrough">
+    <apic eoi="on"/>
+    <hap state="on"/>
+    <hyperv mode="custom">
       <relaxed state="on"/>
       <vapic state="on"/>
-      <spinlocks state="on" retries="8191"/>
+      <spinlocks state="on" retries="4095"/>
       <vpindex state="on"/>
       <runtime state="on"/>
       <synic state="on"/>
@@ -59,7 +104,7 @@
         <direct state="on"/>
       </stimer>
       <reset state="on"/>
-      <vendor_id state="on" value="OriginalAMD"/>
+      <vendor_id state="on" value="AuthenticAMD"/>
       <frequencies state="on"/>
       <reenlightenment state="off"/>
       <tlbflush state="on"/>
@@ -69,42 +114,26 @@
     </hyperv>
     <kvm>
       <hidden state="on"/>
+      <hint-dedicated state="on"/>
+      <poll-control state="on"/>
+      <pv-ipi state="off"/>
     </kvm>
     <vmport state="off"/>
     <smm state="on"/>
     <ioapic driver="kvm"/>
   </features>
-  <cpu mode="host-passthrough" check="none" migratable="off">
-    <topology sockets="1" dies="1" clusters="1" cores="4" threads="2"/>
+  <cpu mode="host-passthrough" check="none" migratable="on">
+    <topology sockets="1" dies="1" clusters="1" cores="9" threads="2"/>
     <cache mode="passthrough"/>
-    <feature policy="disable" name="svm"/>
-    <feature policy="require" name="hypervisor"/>
     <feature policy="require" name="topoext"/>
     <feature policy="require" name="invtsc"/>
-    <feature policy="disable" name="aes"/>
+    <feature policy="require" name="svm"/>
+    <feature policy="disable" name="hypervisor"/>
     <feature policy="disable" name="x2apic"/>
-    <feature policy="require" name="ibpb"/>
-    <feature policy="require" name="virt-ssbd"/>
-    <feature policy="require" name="pdpe1gb"/>
-    <feature policy="require" name="tsc-deadline"/>
-    <feature policy="require" name="tsc_adjust"/>
-    <feature policy="require" name="arch-capabilities"/>
-    <feature policy="require" name="rdctl-no"/>
-    <feature policy="require" name="skip-l1dfl-vmentry"/>
-    <feature policy="require" name="mds-no"/>
-    <feature policy="require" name="pschange-mc-no"/>
-    <feature policy="require" name="cmp_legacy"/>
-    <feature policy="require" name="perfctr_core"/>
-    <feature policy="require" name="clzero"/>
-    <feature policy="require" name="xsaveerptr"/>
-    <feature policy="disable" name="amd-stibp"/>
-    <feature policy="disable" name="amd-ssbd"/>
-    <feature policy="disable" name="stibp"/>
-    <feature policy="disable" name="xsaves"/>
   </cpu>
-  <clock offset="timezone" timezone="Europe/Lisbon">
+  <clock offset="localtime">
     <timer name="rtc" present="no" tickpolicy="catchup"/>
-    <timer name="pit" tickpolicy="discard"/>
+    <timer name="pit" present="no" tickpolicy="discard"/>
     <timer name="hpet" present="no"/>
     <timer name="kvmclock" present="no"/>
     <timer name="hypervclock" present="yes"/>
@@ -120,9 +149,10 @@
   <devices>
     <emulator>/usr/local/bin/qemu-system-x86_64</emulator>
     <disk type="file" device="disk">
-      <driver name="qemu" type="qcow2" cache="writeback" io="threads" discard="unmap"/>
-      <source file="/path/to/win11.qcow2"/>
+      <driver name="qemu" type="raw" cache="none" io="native" discard="unmap"/>
+      <source file="/path/to/win11.img"/>
       <target dev="sda" bus="sata"/>
+      <serial>SERIAL</serial>
       <boot order="1"/>
       <address type="drive" controller="0" bus="0" target="0" unit="0"/>
     </disk>
@@ -227,16 +257,12 @@
     <controller type="virtio-serial" index="0">
       <address type="pci" domain="0x0000" bus="0x04" slot="0x00" function="0x0"/>
     </controller>
-    <interface type="direct">
+    <interface type="bridge">
       <mac address="52:54:00:5c:5e:ec"/>
-      <source dev="enp34s0" mode="bridge"/>
+      <source bridge="br10"/>
       <model type="e1000e"/>
       <address type="pci" domain="0x0000" bus="0x02" slot="0x00" function="0x0"/>
     </interface>
-    <channel type="spicevmc">
-      <target type="virtio" name="com.redhat.spice.0"/>
-      <address type="virtio-serial" controller="0" bus="0" port="1"/>
-    </channel>
     <input type="evdev">
       <source dev="/dev/input/by-id/YOUR_MOUSE-event-mouse"/>
     </input>
@@ -245,22 +271,24 @@
     </input>
     <input type="mouse" bus="ps2"/>
     <input type="keyboard" bus="ps2"/>
-    <graphics type="spice" autoport="yes">
-      <listen type="address"/>
-      <image compression="off"/>
-    </graphics>
+    <tpm model="tpm-tis">
+      <backend type="emulator" version="2.0">
+        <profile name="default-v1"/>
+      </backend>
+    </tpm>
     <sound model="ich9">
       <codec type="micro"/>
       <audio id="1"/>
       <address type="pci" domain="0x0000" bus="0x00" slot="0x1b" function="0x0"/>
     </sound>
     <audio id="1" type="jack">
-            <input clientName="name" connectPorts="INPUT_NAME.*monitor_F[LR]"/>
-      <output clientName="name" connectPorts="OUTPUT_NAME.*playback_F[LR]"/>
+      <input mixingEngine="yes" fixedSettings="yes" clientName="gwin11" connectPorts="G535.*capture_MONO">
+        <settings frequency="48000" channels="1" format="f32"/>
+      </input>
+      <output mixingEngine="yes" fixedSettings="yes" clientName="gwin11" connectPorts="G535.*playback_F[LR]">
+        <settings frequency="48000" channels="2" format="f32"/>
+      </output>
     </audio>
-    <video>
-      <model type="none"/>
-    </video>
     <hostdev mode="subsystem" type="pci" managed="yes">
       <source>
         <address domain="0x0000" bus="0x27" slot="0x00" function="0x0"/>
@@ -277,28 +305,25 @@
     </hostdev>
     <watchdog model="itco" action="reset"/>
     <memballoon model="none"/>
+    <rng model="virtio">
+      <backend model="random">/dev/urandom</backend>
+      <address type="pci" domain="0x0000" bus="0x0c" slot="0x00" function="0x0"/>
+    </rng>
+    <panic model="hyperv"/>
   </devices>
   <qemu:commandline>
-    <qemu:arg value="-overcommit"/>
-    <qemu:arg value="cpu-pm=on"/>
-    <qemu:arg value="-device"/>
-    <qemu:arg value="{'driver':'ivshmem-plain','id':'shmem0','memdev':'looking-glass'}"/>
-    <qemu:arg value="-object"/>
-    <qemu:arg value="{'qom-type':'memory-backend-file','id':'looking-glass','mem-path':'/dev/kvmfr0','size':134217728,'share':true}"/>
     <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=0,version=A.L0,vendor=American Megatrends International,, LLC.,uefi=on,release=5.17,date=07/25/2022"/>
+        <qemu:arg value="type=11,path=/path/to/PkKek1.oemstr"/>
     <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=1,version=2.0,sku=To be filled by O.E.M.,product=MS-7B79,manufacturer=Micro-Star International Co.,, Ltd.,uuid=YOUR_UUID,serial=To be filled by O.E.M.,family=To be filled by O.E.M."/>
-    <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=2,asset=To be filled by O.E.M.,version=2.0,product=X470 GAMING PLUS (MS-7B79),location=To be filled by O.E.M.,manufacturer=Micro-Star International Co.,, Ltd.,serial=I316722555"/>
-    <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=3,asset=To be filled by O.E.M.,version=2.0,sku=To be filled by O.E.M.,manufacturer=Micro-Star International Co.,, Ltd.,serial=To be filled by O.E.M."/>
-    <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=4,asset=Unknown,version=AMD Ryzen 7 2700X Eight-Core Processor         ,part=Zen,manufacturer=Advanced Micro Devices,, Inc.,serial=Unknown,sock_pfx=AM4"/>
-    <qemu:arg value="-smbios"/>
-    <qemu:arg value="type=17,bank=Bank 0,asset=Not Specified,part=KHX2666C16D4/16GX   ,manufacturer=Kingston,speed=3200,serial=C092E824,loc_pfx=DIMM 0"/>
+    <qemu:arg value="type=17,manufacturer=Kingston,loc_pfx=DDR4,speed=2667,serial=SERIAL,part=PART"/>
     <qemu:arg value="-machine"/>
     <qemu:arg value="q35,smm=on,kernel_irqchip=on"/>
+    <qemu:arg value="-overcommit"/>
+    <qemu:arg value="cpu-pm=on"/>
+    <qemu:arg value="-global"/>
+    <qemu:arg value="kvm-pit.lost_tick_policy=discard"/>
+    <qemu:arg value="-global"/>
+    <qemu:arg value="ICH9-LPC.disable_s3=1"/>
     <qemu:env name="PIPEWIRE_RUNTIME_DIR" value="/run/user/1000"/>
     <qemu:env name="PIPEWIRE_LATENCY" value="256/48000"/>
   </qemu:commandline>
