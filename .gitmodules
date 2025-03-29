@@ -1,6 +1,3 @@
-[submodule "scripts/fzf-git.sh"]
-	path = scripts/fzf-git.sh
-	url = https://github.com/junegunn/fzf-git.sh.git
 [submodule "apps/ble.sh"]
 	path = apps/ble.sh
 	url = https://github.com/akinomyoga/ble.sh.git
