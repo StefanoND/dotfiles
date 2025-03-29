@@ -25,7 +25,7 @@ These are the parameters that should be in your grub, in this order. Numbers 6 a
 "vfio_iommu_type1.allow_unsafe_interrupts=1"
 
 8. GPU-Passthrough
-"vfio-pci.ids=xxxx:xxxx,xxxx:xxxx rd.driver.pre=vfio-pci"
+"vfio-pci.ids=xxxx:xxxx,xxxx:xxxx rd.driver.pre=vfio-pci video=vesafb:off,efifb:off"
 
 9. Windows, Controls ignores MSRs
 "kvm.ignore_msrs=1 kvm.report_ignored_msrs=0"

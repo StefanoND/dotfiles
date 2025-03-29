@@ -1,6 +1,9 @@
 ## FIRST LINE/ROW: Info & Status
 palette = "catppuccin_mocha"
 
+command_timeout = 1500
+scan_timeout = 1500
+
 # [timestamp]
 # format = "%Y-%m-%d %H:%M:%S"
 

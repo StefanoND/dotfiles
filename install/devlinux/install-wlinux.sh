@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if ! [ "$EUID" -ne 0 ]; then
-    echo
-    echo "Don't run this script as root."
-    echo
-    sleep 1s
-    exit 1
+  echo
+  echo "Don't run this script as root."
+  echo
+  sleep 1s
+  exit 1
 fi
 
 # This is for SSHFS, if it's not configured, sshfs config will be ignored
@@ -94,11 +94,11 @@ ln -svf "$HOME"/dotfiles/.config/starship.toml "$HOME"/.config/
 PKGS=(
   # Tools
   'base-devel'
-  'rustup'                  # Rust
-  'meson'                   # High productivity build system
-  'libconfig'               # C/C++ Configuration file library
-  'gdb'                     # GNU Debugger
-  'lldb'                    # High performance debugger
+  'rustup'    # Rust
+  'meson'     # High productivity build system
+  'libconfig' # C/C++ Configuration file library
+  'gdb'       # GNU Debugger
+  'lldb'      # High performance debugger
   'gcc'
   'cmake'
   'extra-cmake-modules'
@@ -128,6 +128,7 @@ PKGS=(
   'lua-language-server'
   'bash-language-server'
   'python-pip'
+  'python-argcomplete'
   'npm'
   'luarocks'
 
@@ -223,9 +224,9 @@ PKGS=(
   'yazi'
   'fzf'
   'sshfs'
-  'flatpak'                 # Mostly Sandboxed Package Manager
-  'flatpak-xdg-utils'       # Tools for Flatpak
-  'flatpak-builder'                 # Mostly Sandboxed Package Manager
+  'flatpak'           # Mostly Sandboxed Package Manager
+  'flatpak-xdg-utils' # Tools for Flatpak
+  'flatpak-builder'   # Mostly Sandboxed Package Manager
   'p7zip'
 )
 
@@ -237,10 +238,10 @@ for PKG in "${PKGS[@]}"; do
   sync
 done
 
-export CARGO_BUILD_JOBS=$(( $(nproc) + 1 ))
-export MAKEFLAGS=-j$(( $(nproc) + 1 ))
+export CARGO_BUILD_JOBS=$(($(nproc) + 1))
+export MAKEFLAGS=-j$(($(nproc) + 1))
 sudo sed -i "s/.*MAKEFLAGS.*/MAKEFLAGS=\"-j\$(( \$(nproc) + 1 ))\"/g" /etc/makepkg.conf
-printf "\nCARGO_BUILD_JOBS=%s\n" $(( $(nproc) + 1 )) | sudo tee -a /etc/environment
+printf "\nCARGO_BUILD_JOBS=%s\n" $(nproc) | sudo tee -a /etc/environment
 sudo sed -i "s/BROWSER=.*/BROWSER=$HOME/.local/share/flatpak/exports/share/applications/com.brave.Browser.desktop/g" /etc/environment
 
 echo
@@ -252,47 +253,47 @@ sync
 # Flatpak
 PKGFP=(
   # Main
-  'com.github.tchx84.Flatseal'                            # Flatpak permission manager
-  'org.libreoffice.LibreOffice'                           # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
-  'md.obsidian.Obsidian'                                  # A knowledge base that works on local Markdown files
-  'com.github.eneshecan.WhatsAppForLinux'                 # Messaging App
-  'org.qbittorrent.qBittorrent'                           # Torrent app
-  'info.smplayer.SMPlayer'                                # Media Player
-  'io.mpv.Mpv'                                            # Media player
-  'io.github.shiftey.Desktop'                             # Github Desktop app
-  'org.telegram.desktop'                                  # Messaging App
+  'com.github.tchx84.Flatseal'            # Flatpak permission manager
+  'org.libreoffice.LibreOffice'           # Open-source office suite ("replaces" MS Word, PowerPoint and Excel)
+  'md.obsidian.Obsidian'                  # A knowledge base that works on local Markdown files
+  'com.github.eneshecan.WhatsAppForLinux' # Messaging App
+  'org.qbittorrent.qBittorrent'           # Torrent app
+  'info.smplayer.SMPlayer'                # Media Player
+  'io.mpv.Mpv'                            # Media player
+  'io.github.shiftey.Desktop'             # Github Desktop app
+  'org.telegram.desktop'                  # Messaging App
 
   # Wine
-  'org.winehq.Wine//stable-23.08'                         # Windows Compatibility Layer
-  'org.winehq.Wine.mono//stable-23.08'                    # .NET Framework implementation for Wine based on Mono
-  'org.winehq.Wine.gecko//stable-23.08'                   # Web engine for Wine based on Mozilla Gecko
-  'org.winehq.Wine.DLLs.dxvk//stable-23.08'               # Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine
-  'com.github.Matoking.protontricks'                      # Wrapper to make winetricks work with Proton
-  'org.phoenicis.playonlinux'                             # GUI front-end for wine. "PlayOnLinux's Designated Successor"
+  'org.winehq.Wine//stable-23.08'           # Windows Compatibility Layer
+  'org.winehq.Wine.mono//stable-23.08'      # .NET Framework implementation for Wine based on Mono
+  'org.winehq.Wine.gecko//stable-23.08'     # Web engine for Wine based on Mozilla Gecko
+  'org.winehq.Wine.DLLs.dxvk//stable-23.08' # Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine
+  'com.github.Matoking.protontricks'        # Wrapper to make winetricks work with Proton
+  'org.phoenicis.playonlinux'               # GUI front-end for wine. "PlayOnLinux's Designated Successor"
 
   # Browser
-  'org.torproject.torbrowser-launcher'                    # Tor Browser
-  'net.mullvad.MullvadBrowser'                            # Mullvad Browser
-  'com.brave.Browser'                                     # Brave Browser
+  'org.torproject.torbrowser-launcher' # Tor Browser
+  'net.mullvad.MullvadBrowser'         # Mullvad Browser
+  'com.brave.Browser'                  # Brave Browser
 
-  'com.spotify.Client'                                    # Spotify
-  'io.github.Qalculate.qalculate-qt'                      # Calculator
-  'nl.hjdskes.gcolor3'                                    # Color Picker
-  'org.kde.kleopatra'                                     # Certificate Manager and Unified Crypto GUI
-  'org.kde.okteta'                                        # Hex Editor
-  'com.bitwarden.desktop'                                 # Password Manager
-  'org.getmonero.Monero'                                  # Crypto
-  'org.eclipse.Java'                                      # Needed for M$ TFVC (Terrible Fucking Version Control)
-#    ''         #
+  'com.spotify.Client'               # Spotify
+  'io.github.Qalculate.qalculate-qt' # Calculator
+  'nl.hjdskes.gcolor3'               # Color Picker
+  'org.kde.kleopatra'                # Certificate Manager and Unified Crypto GUI
+  'org.kde.okteta'                   # Hex Editor
+  'com.bitwarden.desktop'            # Password Manager
+  'org.getmonero.Monero'             # Crypto
+  'org.eclipse.Java'                 # Needed for M$ TFVC (Terrible Fucking Version Control)
+  #    ''         #
 )
 
 for PKG in "${PKGFP[@]}"; do
-    echo
-    echo "INSTALLING: ${PKG}"
-    echo
-    flatpak --user install flathub "$PKG" -y --or-update
-    echo
-    sync
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  flatpak --user install flathub "$PKG" -y --or-update
+  echo
+  sync
 done
 
 cd "$HOME"/dotfiles/apps/paru
@@ -309,15 +310,15 @@ sudo pacman -Rsn rar --noconfirm --unneeded
 # PARU
 PKGPARU=(
   # Shell/Terminal
-  'autojump'              # Faster way to navigate filesystem
+  'autojump' # Faster way to navigate filesystem
 
   # Tools
-  'rar'                   # Rar AND Unrar
-  'find-the-command'      # Hook for bash, fish and zsh to find
+  'rar'              # Rar AND Unrar
+  'find-the-command' # Hook for bash, fish and zsh to find
 
   # Xanmod
-  'linux-xanmod'          # Xanmod Kernel
-  'linux-xanmod-headers'  # Headers for Xanmod
+  'linux-xanmod'         # Xanmod Kernel
+  'linux-xanmod-headers' # Headers for Xanmod
 
   # Unity Dependencies
   'gconf'
@@ -347,23 +348,30 @@ done
 # PIP
 PKGT=(
   # nvim Dependencies
-  'argcomplete'
   'pynvim'
+  'gdtoolkit'
+  'grip'
+
+  # CMake
+  'cmake-language-server' # CMake LSP
+  # Unreal Engine
+  'ue4cli' # Wrapper for UnrealBuildTool
+
+  # NWScript
+  'rollnw'
+  'arclight' # NWScript LSP
 )
 
 for PKG in "${PKGT[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  pip install --break-system-packages "$PKG"
+  CC=cc python -m pip install --user --upgrade --break-system-packages "$PKG"
   sync
 done
 
 sync
 nvidia-inst --32 --conf
-sync
-
-pip install --user pynvim --break-system-packages
 sync
 
 rustup install stable

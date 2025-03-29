@@ -4,6 +4,52 @@
 # To temporarily bypass an alias, we precede the command with a \
 # EG: the ls command is aliased, but to use the normal ls command you would type \ls
 
+# Common use
+alias grubup="sudo update-grub"
+alias fixpacman="sudo rm /var/lib/pacman/db.lck"
+alias tarnow='tar -acf '
+alias untar='tar -zxvf '
+alias wget='wget -c '
+alias rmpkg="sudo pacman -Rdd"
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='ugrep --color=auto'
+alias fgrep='ugrep -F --color=auto'
+alias egrep='ugrep -E --color=auto'
+alias hw='hwinfo --short'                          # Hardware Info
+alias big="expac -H M '%m\t%n' | sort -h | nl"     # Sort installed packages according to size in MB (expac must be installed)
+alias gitpkg='pacman -Q | grep -i "\-git" | wc -l' # List amount of -git packages
+alias ip='ip -color'
+
+# Get fastest mirrors
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+
+# Help people new to Arch
+alias apt='man pacman'
+alias apt-get='man pacman'
+alias please='sudo'
+alias tb='nc termbin.com 9999'
+alias helpme='cht.sh --shell'
+alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
+
+# Use magick instead of convert
+alias convert='magick'
+
+# Cleanup orphaned packages
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+
+# Get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+
+# Recent installed packages
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+
 # Sudo preserving user's envvars
 alias sude='sudo -E'
 
@@ -44,6 +90,9 @@ alias ebal='edit ~/.bash_aliases'
 # alias to show the date
 alias da='date "+%d/%m/%Y %A %T %Z"'
 
+# Use zoxide with CD
+# alias cd='z'
+
 # cd into the old directory
 alias bd='cd "$OLDPWD"'
 
@@ -69,31 +118,54 @@ alias cpf='cp -fv'
 alias mv='mv -iv'
 alias mvf='mv -fv'
 alias mkdir='mkdir -p'
-alias ls='eza -al --color=always --group-directories-first --icons --git'
 alias ping='ping -c 10'
 alias less='less -R'
 alias cls='clear'
+
+# nvim
 alias vi='nvim'
 alias vim='nvim'
-alias svi='sudo vi'
+alias svi='sudonvim'
+alias svim='sudonvim'
+alias snvim='sudonvim'
+alias sudovi='sudonvim'
+alias sudovim='sudonvim'
+alias sevi='sudenvim'
+alias sevim='sudenvim'
+alias senvim='sudenvim'
+alias sudoevi='sudoenvim'
+alias sudoevim='sudoenvim'
+alias sudevi='sudoenvim'
+alias sudevim='sudoenvim'
+# nvim Godot integration
+alias gdnvim="nvim --listen ./godothost"
+alias gdvim="nvim --listen ./godothost"
+alias godotnvim="nvim --listen ./godothost"
+alias godotvim="nvim --listen ./godothost"
+alias nvimgodot="nvim --listen ./godothost"
+alias vimgodot="nvim --listen ./godothost"
+alias nvimgd="nvim --listen ./godothost"
+alias vimgd="nvim --listen ./godothost"
 # alias sudo='sudo -v; sudo '
 
-# Replace ls with eza
-alias la='eza -a --color=always --group-directories-first --icons --git'      # all files and dirs
-alias ll='eza -l --color=always --group-directories-first --icons --git'      # long format
-alias lt='eza -aT --color=always --group-directories-first --icons --git'     # tree listing
-alias l.='eza -ald --color=always --group-directories-first --icons --git .*' # show only dotfiles
-alias lx='eza -l -s extension'                                                # sort by extension
-alias lk='eza -l -s size'                                                     # sort by size
-alias lc='eza -l -t modified'                                                 # sort by change time
-alias lr='eza -lR'                                                            # recursive ls
-alias lt='eza -l -s date'                                                     # sort by date
-alias lff="eza -l --group-directories-first"                                  # directories first
-alias ldl="eza -l"                                                            # directories last
-alias lf="eza -l | egrep -v '^d'"                                             # files only
-alias ldir="eza -l | egrep '^d'"                                              # directories only
+# Replace cat with bat
+alias cat='bat --style header --style snip --style changes --style header'
 
-      # ".Z") uncompress "$archive" ;;
+# Replace ls with eza
+# alias ls='eza -al --color=always --group-directories-first --icons=always --git'      # all files and dris and permissions
+alias la='eza -a --color=always --group-directories-first --icons=always --git'      # all files and dirs
+alias ll='eza -l --color=always --group-directories-first --icons=always --git'      # long format
+alias lt='eza -aT --color=always --group-directories-first --icons=always --git'     # tree listing
+alias l.='eza -ald --color=always --group-directories-first --icons=always --git .*' # show only dotfiles
+alias lx='eza -l -s extension'                                                       # sort by extension
+alias lk='eza -l -s size'                                                            # sort by size
+alias lc='eza -l -t modified'                                                        # sort by change time
+alias lr='eza -lR'                                                                   # recursive ls
+alias lt='eza -l -s date'                                                            # sort by date
+alias lff="eza -l --group-directories-first"                                         # directories first
+alias ldl="eza -l"                                                                   # directories last
+alias lf="eza -l | egrep -v '^d'"                                                    # files only
+alias ldir="eza -l | egrep '^d'"                                                     # directories only
 
 # SHA1
 alias sha1='openssl sha1'
@@ -117,8 +189,8 @@ alias firedragon='firedragon -P & disown'
 alias thunar='thunar & disown'
 
 # QT's apps
-alias dolphin='QT_QPA_PLATFORMTHEME=qt5ct:qt6ct /usr/bin/dolphin & disown'
-alias kate='QT_QPA_PLATFORMTHEME=qt5ct:qt6ct /usr/bin/kate & disown'
+alias dolphin='/usr/bin/dolphin & disown'
+alias kate='/usr/bin/kate & disown'
 
 alias virt-manager='virt-manager & disown'
 alias virtualbox='virtualbox & disown'
@@ -131,7 +203,6 @@ alias stemacsd='/usr/bin/emacs --init-directory="~/dotfiles/emacs/stemacs/stemac
 alias stemacst='emacsclient -c -t -s stemacs -a stemacs'
 alias stemacs='emacsclient -c -s stemacs -a stemacs & disown'
 alias godot='nohup godot & disown'
-alias sudenvim='sudo -E nvim'
 alias zoom='nohup zoom & disown'
 alias syncthing='nohup syncthing & disown'
 alias yata='nohup gtk-launch yata & disown'
@@ -147,18 +218,11 @@ alias headsetchargeindicator='nohup python3 ~/dotfiles/apps/headset-charge-indic
 alias waybar='nohup waybar & disown'
 alias restartwaybar='killall -9 waybar && sleep 1s && waybar & disown'
 
-# Godot
-alias gdnvim="nvim --listen ./godothost"
-alias gdvim="nvim --listen ./godothost"
-alias godotnvim="nvim --listen ./godothost"
-alias godotvim="nvim --listen ./godothost"
-alias nvimgodot="nvim --listen ./godothost"
-alias vimgodot="nvim --listen ./godothost"
-alias nvimgd="nvim --listen ./godothost"
-alias vimgd="nvim --listen ./godothost"
-
 # Monero
 # alias monero='monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'
+
+alias ue4='echo Please use ue instead.'
+alias ue5='echo Please use ue instead.'
 
 # Using other command in .bashrc.local
 # alias ue4='SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
@@ -191,8 +255,8 @@ alias vesktop='nohup flatpak run dev.vencord.Vesktop & disown'
 alias whatsapp='nohup flatpak run com.github.eneshecan.WhatsAppForLinux & disown'
 alias qbittorrent='nohup flatpak run org.qbittorrent.qBittorrent & disown'
 alias tenacity='nohup flatpak run org.tenacityaudio.Tenacity & disown'
-alias obs-studio='nohup flatpak run com.obsproject.Studio & disown'
-alias obs='nohup flatpak run com.obsproject.Studio & disown'
+# alias obs-studio='nohup flatpak run com.obsproject.Studio & disown'
+# alias obs='nohup flatpak run com.obsproject.Studio & disown'
 alias smplayer='nohup flatpak run info.smplayer.SMPlayer & disown'
 alias mpv='nohup flatpak run io.mpv.Mpv & disown'
 alias gimp='nohup flatpak run org.gimp.GIMP & disown'
@@ -202,17 +266,19 @@ alias handbrake='nohup flatpak run fr.handbrake.ghb & disown'
 alias github-desktop='nohup flatpak run io.github.shiftey.Desktop & disown'
 alias github='nohup flatpak run io.github.shiftey.Desktop & disown'
 alias unityhub='nohup flatpak run com.unity.UnityHub & disown'
-alias steam='nohup flatpak run com.valvesoftware.Steam & disown'
-alias lutris='nohup flatpak run net.lutris.Lutris & disown'
+# alias steam='nohup flatpak run com.valvesoftware.Steam & disown'
+alias steam='nohup steam & disown'
+# alias lutris='nohup flatpak run net.lutris.Lutris & disown'
+alias lutris='nohup lutris & disown'
 # alias lutris='nohup lutris & disown'
-alias epicassetmanager='nohup flatpak run io.github.achetagames.epic_asset_manager & disown'
-alias eam='nohup flatpak run io.github.achetagames.epic_asset_manager & disown'
+alias epicassetmanager='nohup epic_asset_manager & disown'
+alias eam='nohup epic_asset_manager & disown'
 # alias epicassetmanager='nohup epic_asset_manager & disown'
 # alias eam='nohup epic_asset_manager & disown'
-alias protonup-qt='nohup flatpak run net.davidotek.pupgui2 & disown'
-alias protonup='nohup flatpak run net.davidotek.pupgui2 & disown'
+# alias protonup-qt='nohup flatpak run net.davidotek.pupgui2 & disown'
+# alias protonup='nohup flatpak run net.davidotek.pupgui2 & disown'
 alias antimicrox='nohup flatpak run io.github.antimicrox.antimicrox & disown'
-alias protontricks='nohup flatpak run com.github.Matoking.protontricks & disown'
+# alias protontricks='nohup flatpak run com.github.Matoking.protontricks & disown'
 # alias torbrowser-launcher='nohup flatpak run org.torproject.torbrowser-launcher & disown'
 # alias torbrowser='nohup flatpak run org.torproject.torbrowser-launcher & disown'
 alias torbrowser-launcher='nohup /usr/bin/torbrowser-launcher & disown'
@@ -228,8 +294,8 @@ alias bitwarden='nohup flatpak run com.bitwarden.desktop & disown'
 alias monero='nohup flatpak run org.getmonero.Monero & disown'
 alias eclipse='nohup flatpak run org.eclipse.Java & disown'
 alias stremio='nohup flatpak run com.stremio.Stremio & disown'
-alias brave='QT_QPA_PLATFORMTHEME=qt5ct:qt6ct /usr/bin/brave & disown'
-alias bravebrowser='QT_QPA_PLATFORMTHEME=qt5ct:qt6ct /usr/bin/brave & disown'
+alias brave='nohup /usr/bin/brave --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
+alias bravebrowser='nohup /usr/bin/brave --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
 # alias brave='nohup flatpak run com.brave.Browser & disown'
 # alias bravebrowser='nohup flatpak run com.brave.Browser & disown'
 alias thunderbird='nohup flatpak run org.mozilla.Thunderbird & disown'

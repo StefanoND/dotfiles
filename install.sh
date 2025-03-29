@@ -442,6 +442,7 @@ PKGS=(
 
   # LSP
   'python-pip' # Required to install some LSP servers
+  'python-argcomplete'
   'npm'        # Required to install some LSP servers
   'yarn'       # Required to install some LSP servers
   'lua-language-server'
@@ -632,18 +633,20 @@ XDG_MENU_PREFIX=arch- kbuildsycoca6
 # PIP
 PKGT=(
   # LSP
-  'cmake-language-server'
-  'gdtoolkit'
-  'argcomplete'
-  'grip'
   'pynvim'
+  'cmake-language-server'
+  'ue4cli'
+  'gdtoolkit'
+  'grip'
+  'rollnw'
+  'arclight'
 )
 
 for PKG in "${PKGT[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
-  pip install --break-system-packages "$PKG"
+  CC=cc python -m pip install --user --upgrade --break-system-packages "$PKG"
   sync
   sleep 1s
 done
@@ -907,7 +910,7 @@ sudo usermod -aG docker "$(logname)"
 sudo usermod -aG gamemode "$(logname)"
 sudo usermod -aG input "$(logname)"
 
-sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index.theme
+sudo sed -i 's/Inherits*/Inherits=Papirus/g' /usr/share/icons/default/index.theme
 
 cp -ur /usr/share/fonts "$HOME"/.fonts
 cp -ur /usr/share/icons "$HOME"/.icons
@@ -929,7 +932,7 @@ flatpak --user override --filesystem=xdg-config/Kvantum:ro
 flatpak --user override --env=XCURSOR_PATH="$HOME"/.icons
 flatpak --user override --env=XCURSOR_THEME=Catppuccin-Mocha-Mauve-Cursors
 flatpak --user override --env=GTK_THEME=Catppuccin-Mocha-Standard-Mauve-Dark
-flatpak --user override --env=ICON_THEME=Papirus-Dark
+flatpak --user override --env=ICON_THEME=Papirus
 flatpak --user override --env=QT_STYLE_OVERRIDE=kvantum
 flatpak --user override --env=QT_QPA_PLATFORMTHEME=qt5ct,qt6ct
 flatpak --user override --env=PATH="$PATH":/usr/lib/extensions/vulkan/gamescope/bin
@@ -1122,13 +1125,6 @@ sudo killall -9 emacs
 sleep 5s
 "$HOME"/dotfiles/emacs/doom/doomemacs/bin/doom sync
 sleep 1s
-
-echo
-echo "Installing UE Cli"
-echo
-cd "$HOME"/dotfiles/apps/ue4cli
-pip3 install ue4cli --break-system-packages
-sync
 
 echo
 echo 'Installing HeadsetControl'
@@ -1461,6 +1457,13 @@ sleep 1s
 
 sudo update-grub
 
+echo
+echo 'Copy/link your backed up .gnupg and .ssh folder as well your *.local files to your home folder'
+echo 'Then run the following commands:'
+echo 'eval "$(ssh-agent -s)"'
+echo 'ssh-add ~/.ssh/id_ed25519'
+echo 'Change id_ed25519 to the actual file'
+echo
 echo
 echo "You must run both qt5ct and qt6ct and adjust their themes, icons, etc accordingly"
 echo

@@ -2,6 +2,14 @@
 [include]
   path = ~/.gitconfig.local
 
+# The contents of this file are included only for GitHub.com URLs
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+  path = ~/.gitconfig.github
+
+# The contents of this file are included only for GitLab.com URLs
+[includeIf "hasconfig:remote.*.url:https://gitlab.com/**"]
+  path = ~/.gitconfig.gitlab
+
 # Dracula theme
 [url "https://github.com/dracula/"]
   insteadOf = dracula://
@@ -66,15 +74,14 @@
   unstage = reset HEAD --
   last = log -1 HEAD
 
-[commit]
-  gpgsign = true
-
 [pull]
   rebase = false
 [init]
   defaultBranch = trunk
 [merge]
   conflictstyle = diff3
+[diff]
+  colorMoved = default
 
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
@@ -82,3 +89,8 @@
   insteadOf = https://gitlab.com/
 [url "ssh://git@bitbucket.org/"]
   insteadOf = https://bitbucket.org/
+
+[credential]
+  helper = /usr/lib/git-core/git-credential-libsecret
+[safe]
+	directory = /mnt/WORK/WoSEE/Documents/servervault

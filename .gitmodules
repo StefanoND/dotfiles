@@ -13,9 +13,6 @@
 [submodule "apps/hdrop"]
 	path = apps/hdrop
 	url = https://github.com/Schweber/hdrop.git
-[submodule "apps/z"]
-	path = apps/z
-	url = https://github.com/rupa/z.git
 [submodule ".config/tmux/plugins/tpm"]
 	path = .config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
@@ -69,3 +66,15 @@
 [submodule "apps/deskflow"]
 	path = apps/deskflow
 	url = https://github.com/deskflow/deskflow.git
+[submodule "apps/hyprdrop"]
+	path = apps/hyprdrop
+	url = https://github.com/kjlo/hyprdrop.git
+[submodule "uniformlook/papirus-folders"]
+	path = uniformlook/papirus-folders
+	url = https://github.com/catppuccin/papirus-folders.git
+[submodule "uniformlook/sddm/sddm-hyprland"]
+	path = uniformlook/sddm/sddm-hyprland
+	url = https://github.com/HyDE-Project/sddm-hyprland.git
+[submodule "apps/neovim"]
+	path = apps/neovim
+	url = https://github.com/neovim/neovim.git

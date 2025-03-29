@@ -1,296 +1,420 @@
 {
-  "layer": "top",
-  "position": "top",
-  "spacing": 1,
-  "margin-top": 3,
-  "margin-bottom": 0,
-  "margin-left": 3,
-  "margin-right": 3,
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
 
-  // Choose order of the modules
+    "layer": "bottom",
+    // "layer": "top",
 
-  "modules-left": [
-    "custom/icon",
-    "hyprland/workspaces",
-    "hyprland/window",
-    "custom/spotify"
-  ],
+    "reload_style_on_change": true,
 
-  "modules-center": [
-    "custom/keyboard-layout",
-    "custom/updates",
-    "clock",
-    "custom/weather"
-  ],
+    "position": "top",
 
-  "modules-right": [
-    "backlight",
-    // "temperature",
-    "cpu",
-    "memory",
-    "network",
-    "battery",
-    "pulseaudio",
-    "battery",
-    "tray",
-    // "idle_inhibitor",
-    "custom/notification"
-    // "custom/power"
-  ],
+    "height": 4,
 
-// Modules Configuration
+    "margin-left": 4,
+    "margin-bottom": -8,
+    "margin-right": 4,
 
-  "custom/icon": {
-    "format": "󰣇",
-    "on-click": "/usr/bin/nwg-drawer"
-  },
+    "spacing": 5, // Gaps between modules (5px)
 
-  "hyprland/workspaces" : {
-    "format": "{icon}",
-    "on-click": "activate",
-    "active-only": false,
-    "all-outputs": true,
-    "sort-by-number": true,
-    "format-icons": {
-      "default": "",
-      "active": "",
-      "urgent": "",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+    "modules-left": [
+        //"custom/rofi",
+        "hyprland/workspaces",
+        //"hyprland/submap",
+        //"temperature",
+        //"idle_inhibitor",
+        //"mpd"
+        "custom/spotify"
+    ],
+    "modules-center": [
+        //"hyprland/window",
+        "clock#date",
+        "custom/weather"
+        //"custom/gammastep"
+    ],
+    "modules-right": [
+        //"backlight",
+        "custom/storage",
+        "memory",
+        "cpu",
+        "network",
+        //"battery",
+        //"pulseaudio",
+        "wireplumber",
+        "custom/screenshot_t",
+        "tray",
+        "custom/power"
+    ],
+
+
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+
+    "custom/sp1": {
+        "format": " | ",
+        "tooltip": false
     },
-    "persistent-workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": []
-    }
-  },
+    "custom/sp2": {
+        "format": " |",
+        "tooltip": false
+    },
 
-//  "hyprland/workspaces" : {
-//    "format": "{icon}",
-//    "on-click": "activate",
-//    "active-only": false,
-//    "all-outputs": true,
-//    "format-icons": {
-//      "default": "",
-//      "active": "",
-//      "urgent": "",
+
+    "custom/rofi": {
+        "format": "",
+        "tooltip": false,
+        "on-click-right": "nwg-drawer",
+        "on-click": "wofi --show run",
+        "on-click-middle": "pkill -9 wofi"
+    },
+    "custom/screenshot_t":{
+        "format":"",
+        "on-click": "~/.config/hypr/scripts/screenshot_full",
+        "on-click-right":"~/.config/hypr/scripts/screenshot_area",
+        "max-length": 3,
+        "min-length": 3
+    },
+
+    "clock#1": {
+        "format": " {:%a}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+    "clock#2": {
+        "format": " {:%d-%h-%Y}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+    "clock#3": {
+        "format": " {:%H:%M:%S %p}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+
+    "temperature": {
+        // "thermal-zone": 1,
+        "interval": 4,
+        //"hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": " {temperatureC}°C",
+        "format-critical": "  {temperatureC}°C",
+        "format": "{icon}  {temperatureC}°C",
+        "format-icons": ["", "", ""],
+        "max-length": 7,
+        "min-length": 7,
+        "on-click": "xsensors"
+    },
+
+    "memory": {
+        "interval": 15,
+        "format": "<span foreground='#b4befe'></span>  {used:0.2f}<span foreground='#585b70'> | </span>{total:0.0f} GB",
+        "on-click": "kitty -e btop",
+        "max-length": 13,
+        "min-length": 13
+    },
+
+    "battery": {
+        "interval": 2,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "network": {
+        "format-wifi": "  {essid} ({signalStrength}%) ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes} ",
+        //"format-wifi": " {essid} ({signalStrength}%) ",
+        //"format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-ethernet": " <span foreground='#b4befe'></span>  ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes} ",
+        "format-linked": "  {ifname} (No IP) ",
+        "format": "",
+        "format-disconnected": "",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "wl-copy $(ip address show up scope global | grep inet | head -n1 | cut -d/ -f 1 | tr -d [:space:] | cut -c5-)",
+        "on-click-right": "wl-copy $(ip address show up scope global | grep inet6 | head -n1 | cut -d/ -f 1 | tr -d [:space:] | cut -c6-)",
+        "tooltip-format": " {bandwidthUpBits}  {bandwidthDownBits}\n{ifname}\n{ipaddr}/{cidr}\n",
+        "tooltip-format-wifi": " {essid} {frequency}MHz\nStrength: {signaldBm}dBm ({signalStrength}%)\nIP: {ipaddr}/{cidr}\n {bandwidthUpBits}  {bandwidthDownBits}",
+        "interval": 5,
+        "max-length": 25,
+        "min-length": 20
+    },
+    "custom/storage": {
+        "format": "<span foreground='#b4befe'></span>  <span foreground='#cdd6f4'>{}</span>",
+        "format-alt": "{percentage}% ",
+        "format-alt-click": "click-right",
+        "return-type": "json",
+        "interval": 60,
+        "exec": "~/.config/waybar/modules/storage.sh",
+        "max-length": 8,
+        "min-length": 8
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-alt": "{percent}% {icon}",
+        "format-alt-click": "click-right",
+        //"format-icons": ["", ""],
+        "format-icons": ["", ""],
+        "on-scroll-down": "brightnessctl s 5%-",
+        "on-scroll-up": "brightnessctl s +5%"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip": "true"
+    },
+    "custom/weather": {
+        "format": "<span foreground='#cdd6f4'>{}</span>",
+        "format-alt": "{alt}: {}",
+        "format-alt-click": "click-right",
+        "interval": 3600,
+        "exec": "curl -s 'https://wttr.in/Lisbon?format=1'",
+        //"return-type": "json",
+        //"exec": "~/.config/waybar/modules/weather.sh",
+        "exec-if": "ping wttr.in -c1",
+        "max-length": 9,
+        "min-length": 9
+    },
+    "custom/pacman": {
+        "format": "<big>􏆲</big>  {}",
+        "interval": 3600,                     // every hour
+        "exec": "checkupdates | wc -l",       // # of updates
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "kitty -e 'paru'; pkill -SIGRTMIN+8 waybar", // update system
+        "signal": 8,
+        "max-length": 5,
+        "min-length": 3
+    },
+
+    "custom/spotify": {
+        "exec": "~/.config/waybar/mediaplayer.py --player spotify_player",
+        "format": "<span foreground='#cdd6f4'>{}</span>  <span foreground='#a6e3a1'></span>",
+        "return-type": "json",
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous",
+        "on-click-middle": "killall -9 spotify"
+    },
+
+    "custom/media": {
+        "format": "{0} {1}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        //"exec": "~/.config/waybar/mediaplayer.py" // Script in resources folder
+        // "exec": "~/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "tooltip": false,
+        "on-click": "wlogout",
+        "max-length": 3,
+        "min-length": 3
+    },
+
+    "clock": {
+        "format": "  {:%H:%M   %e %b}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>"
+    },
+
+    "clock#date": {
+        "format": "<span foreground='#b4befe'>󰥔</span>  <span foreground='#cdd6f4'>{:%H:%M:%S</span>    <span foreground='#b4befe'></span> <span foreground='#cdd6f4'>%e %b</span>}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>",
+        "max-length": 19,
+        "min-length": 19,
+        "interval": 1
+    },
+
+    "custom/gammastep": {
+      "interval": 5,
+      "return-type": "json",
+      "exec": {
+        "pre": "if unit_status=\"$(systemctl --user is-active gammastep)\"; then\nstatus=\"$unit_status ($(journalctl --user -u gammastep.service -g 'Period: ' | tail -1 | cut -d ':' -f6 | xargs))\"\nelse\nstatus=\"$unit_status\"\nfi",
+        "alt": "${status:-inactive}",
+        "tooltip": "Gammastep is $status",
+      },
+      "format": "{icon}",
+      "format-icons": {
+        "activating": "󰁪 ",
+        "deactivating": "󰁪 ",
+        "inactive": "? ",
+        "active (Night)": " ",
+        "active (Nighttime)": " ",
+        "active (Transition (Night)": " ",
+        "active (Transition (Nighttime)": " ",
+        "active (Day)": " ",
+        "active (Daytime)": " ",
+        "active (Transition (Day)": " ",
+        "active (Transition (Daytime)": " ",
+      },
+      "on-click": "systemctl --user is-active gammastep && systemctl --user stop gammastep || systemctl --user start gammastep",
+    },
+
+    "cpu": {
+        "interval": 1,
+        //"format": " {}%", // Icon: microchip
+        "format": "<span foreground='#b4befe'></span>  {max_frequency}GHz <span color=\"darkgray\">| {usage}%</span>",
+        "max-length": 17,
+        "min-length": 17
+    },
+
+    "mpd": {
+        "max-length": 25,
+        "format": "<span foreground='#bb9af7'></span> {title}",
+        "format-paused": " {title}",
+        "format-stopped": "<span foreground='#bb9af7'></span>",
+        "format-disconnected": "",
+        "on-click": "mpc --quiet toggle",
+        "on-click-right": "mpc update; mpc ls | mpc add",
+        "on-click-middle": "kitty -e ncmpcpp",
+        "on-scroll-up": "mpc --quiet prev",
+        "on-scroll-down": "mpc --quiet next",
+        "smooth-scrolling-threshold": 5,
+        "tooltip-format": "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})"
+    },
+
+    "custom/title": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+        //"max-length": 35,
+        "tooltip": false
+    },
+
+    "custom/title#name": {
+        "format": "{}",
+        "interval": 0,
+        "return-type": "json",
+
+        "max-length": 35,
+        "exec": "$HOME/.scripts/title"
+    },
+
+    /*"custom/keyboard": {
+        "format": " {}",
+        "interval": 1,
+        "exec": "$HOME/.config/waybar/get_kbdlayout.sh"
+    },*/
+
+    "hyprland/workspaces": {
+        "all-outputs": true,
+        "format": "{name}",
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九",
+            "10": "十",
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1 1>/dev/null",
+        "on-scroll-down": "hyprctl dispatch workspace e-1 1>/dev/null",
+        "sort-by-number": true,
+        "active-only": true,
+    },
+
+    "hyprland/window": {
+        "max-length": 100,
+        "separate-outputs": true
+    },
+
+
+//  "hyprland/window": {
+//    "format": "{}",
+//    "max-length": 32,
+//    "icon":true,
+//    "icon-size" : 20,
+//    "rewrite": {
+//      "(.*) - NVIM": " NeoVim",
+//      "(.*) — Mozilla Firefox": "󰈹 Firefox",
+//      " ": "󰇄 Desktop",
+//      "(.*) Spotify Free": "󰓇 Spotify",
+//      "(.*) Spotify": "󰓇 Spotify",
+//      " ~": " l6174@Radon",
+//      "(.*) - Obsidian(.*)": "󱓧 Obsidian"
 //    },
-//    "persistent-workspaces": {
-//      "*": 0
-//    }
+//    //"separate-outputs": true
 //  },
 
-  "hyprland/window": {
-    "format": "{}",
-    "max-length": 32,
-    "icon":true,
-    "icon-size" : 20,
-    "rewrite": {
-      "(.*) - NVIM": " NeoVim",
-      "(.*) — Mozilla Firefox": "󰈹 Firefox",
-      " ": "󰇄 Desktop",
-      "(.*) Spotify Free": "󰓇 Spotify",
-      "(.*) Spotify": "󰓇 Spotify",
-      " ~": " l6174@Radon",
-      "(.*) - Obsidian(.*)": "󱓧 Obsidian"
+    "pulseaudio": {
+        "scroll-step": 3, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "amixer sset Master toggle"
     },
-    //"separate-outputs": true
-  },
 
-  "custom/spotify": {
-    "exec": "/usr/bin/python3 $HOME/.config/waybar/scripts/mediaplayer.py --player spotify --verbose",
-    "format": "{} ",
-    "return-type": "json",
-    "on-click": "playerctl play-pause",
-    "on-scroll-up": "playerctl next",
-    "on-scroll-down": "playerctl previous",
-    "on-click-middle": "killall -9 spotify",
-    "max-length": 40,
-    "smooth-scrolling-threshold": 1.0
-  },
-
-  "custom/updates": {
-    "format": "{} {icon}",
-    "return-type": "json",
-    "format-icons": {
-      "has-updates": "󱍷",
-      "updated": "󰂪",
-      "interval": 7200
+    "wireplumber": {
+        "on-click": "pavucontrol",
+        "on-click-right": "amixer sset Master toggle 1>/dev/null",
+        //on-click: "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        //on-scroll-down: "${wpctl} set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 0.04+";
+        //on-scroll-up: "${wpctl} set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 0.04-";
+        "format": "{icon}  <span foreground='#cdd6f4'>{volume}%</span>",
+        "format-muted": "<span foreground='#f38ba8'> </span>",
+        "format-source": "<span foreground='#a6e3a1'></span>",
+        "format-source-muted": "<span foreground='#fab387'></span>",
+        //"format-muted": "<span foreground='#fab387'> </span>",
+        //"format-icons": [ "<span foreground='#fab387'></span>" ]
+        "format-icons": {
+            "headphone": "<span foreground='#f38ba8'></span> ",
+            "hands-free": "<span foreground='#f38ba8'></span> ",
+            "headset": "<span foreground='#f38ba8'></span> ",
+            "phone": "<span foreground='#f38ba8'></span> ",
+            "portable": "<span foreground='#f38ba8'></span> ",
+            "car": "<span foreground='#f38ba8'></span> ",
+            "default": ["<span foreground='#94e2d5'></span> ", "<span foreground='#a6e3a1'></span> ", "<span foreground='#f9e2af'></span> "]
+        },
+        "max-length": 10,
+        "min-length": 10
     },
-    "exec-if": "which waybar-module-pacman-updates",
-    "exec": "waybar-module-pacman-updates",
-    "on-click": "kitty update"
-  },
 
-  "clock": {
-    "format": "<b>{:%H:%M:%S | %a %d/%b/%Y}</b> ",
-    "interval": 1,
-    "tooltip-format": "<big>{:%A, %d %B %Y }</big>\n<tt><small>{calendar}</small></tt>",
-    "on-click": "~/.config/waybar/scripts/OCV"
-  },
-
-  "custom/weather": {
-    "format": "{}°",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "wttrbar --location Lisbon --main-indicator temp_C --date-format '%a %d/%b/%Y' --lang en",
-    "return-type": "json",
-    "on-click": "firedragon 'https://www.meteoblue.com/en/weather/week/lisbon_portugal_2267057'"
-  },
-
-  "backlight": {
-    "format": "{icon} <b>{percent}%</b>",
-    "format-icons": ["󰃞", "󰃟", "󰃠"],
-    "on-scroll-down": "brightnessctl -c backlight set 1%-",
-    "on-scroll-up": "brightnessctl -c backlight set +1%",
-    "on-click": "~/.config/waybar/scripts/backlight-hint.sh"
-  },
-
-  "custom/keyboard-layout": {
-    "format": " {icon} Cheat ", // Icon: keyboard
-    "format-icons": "", // Icon: keyboard
-    "on-click": "~/.config/waybar/scripts/keyhint.sh",
-  },
-
-  "temperature": {
-    // "thermal-zone": 7,  // Check with: # cat /sys/class/hwmon/hwmon*/temp1_input
-    "interval": 5,
-    "hwmon-path": [
-      "/sys/class/hwmon/hwmon0/temp1_input",
-      "/sys/class/hwmon/hwmon1/temp1_input"
-    ],
-    "critical-threshold": 80,
-    "format-critical": " {temperatureC}°C",
-    "format": " {temperatureC}°C"
-  },
-
-  "cpu": {
-    "format": " {usage}%",
-    "on-click": "kitty htop",
-    "interval": 1
-  },
-
-  "memory": {
-    "interval": 1,
-    "format": " {used}GiB",
-    "format-alt": " {used:0.1f}G"
-  },
-
-  "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{icon} {capacity}%",
-    "format-icons": ["󰂎", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
-  },
-
-  "pulseaudio": {
-    "scroll-step": 5, // %, can be a float
-    "format": "{icon} <b>{volume}%</b> {format_source}",
-    "format-bluetooth": "{icon}  <b>{volume}%</b> {format_source}",
-    "format-bluetooth-muted": "󰝟 {icon} {format_source}",
-    "format-muted": " 󰝟 {format_source}",
-    "format-source": " <b>{volume}%</b>",
-    "format-source-muted": " ",
-    "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": ["󰕿", "󰖀", "󰕾"]
-    },
-    "on-click": "pavucontrol",
-    "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-  },
-
-  "network": {
-    "min-length": 22,
-    "max-length": 24,
-    "exec": "~/.config/waybar/scripts/network_traffic.sh",
-    "return-type": "json",
-    "interval": 1,
-    "format": "⚠Disabled",
-    "format-wifi": "󰤨   {essid} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}",
-    "format-ethernet": "󰈀 ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}",    // optional
-    "format-linked": "{ifname} (No IP)",
-    "fomat-disconnected": "󱚵 Disconnected",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "family": "ipv4",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-    //"tooltip-format-ethernet": "{ifname} ",
-    //"tooltip-format-disconnected": "Disconnected",
-    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
-    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\nup: {bandwidthUpBits} down: {bandwidthDownBits}",
-    "on-click": "nm-connection-editor"
-  },
-
-  "tray": {
-    "icon-size": 20,
-    "spacing": 5
-  },
-
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "󰈈 ",
-      "deactivated": "󰈉 "
+    "tray": {
+        "icon-size": 15,
+        "spacing": 5,
+        "max-length": 24,
+        "min-length": 3
     }
-  },
-
-  "custom/power": {
-    "format": "󰐥",
-    "on-click": "nwgbar",
-    "tooltip": false
-  },
-
-  "custom/separator-space": {
-    "format": " ",
-    "tooltip": false
-  },
-
-  "custom/separator-gap": {
-    "format": "  ",
-    "tooltip": false
-  },
-
-  "custom/separator-arrow": {
-    "format": "  ",
-    "tooltip": false
-  },
-
-  "custom/notification": {
-    "format": "{icon}",
-    "format-icons": {
-      "notification": "󱅫 ",
-      "none": "󰂚 ",
-      "dnd-notification": "󰵙 ",
-      "dnd-none": "󰂛 ",
-      "inhibited-notification": "󱅫 ",
-      "inhibited-none": "󰂚 ",
-      "dnd-inhibited-notification": "󰵙 ",
-      "dnd-inhibited-none": "󰂛​ "
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
-  },
 }

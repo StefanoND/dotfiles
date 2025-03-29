@@ -4,22 +4,22 @@ export XDG_CONFIG_HOME=$HOME/.config
 # Terminal
 export TERM=xterm-256color
 
-export PATH=".local/bin/bear:$PATH"
-export PIPEWIRE_LATENCY="64/48000"
+# Pipewire
+export PIPEWIRE_LATENCY="1024/48000"
 
 # Themeing
-export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
-# export QT_STYLE_OVERRIDE=kvantum
+export QT_CURSOR_SIZE=36
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_QPA_PLATFORM=wayland:xcb
+export QT_QPA_PLATFORMTHEME=qt5ct
 export GTK2_RC_FILES=/home/archuser/.gtkrc-2.0
+export HYPRCURSOR_THEME=catppuccin-mocha-mauve-cursors
+export HYPRCURSOR_SIZE=48
 export XCURSOR_THEME=catppuccin-mocha-mauve-cursors
-export XCURSOR_SIZE=48
+export XCURSOR_SIZE=36
 export GTK_THEME=Catppuccin-Dark
-export NO_AT_BRIDGE=1
-export GSK_RENDERER=gl
-export GDK_DEBUG=gl-no-fractional
-# export GTK_USE_PORTAL=1
-# export GDK_DEBUG=portals
-# export XDG_DESKTOP_PORTAL=1
+# export GDK_BACKEND=wayland:x11:*
+export XDG_MENU_PREFIX=arch-
 
 # text editor
 export SUDO_EDITOR=nvim
@@ -33,8 +33,10 @@ export BROWSER=brave
 export TERM=kitty
 
 #mail
-export MAIL='flatpak run org.mozilla.Thunderbird'
+# export MAIL='flatpak run org.mozilla.Thunderbird'
 
 # Dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_ROOT=$HOME/.dotnet
+
+. "$HOME/.atuin/bin/env"

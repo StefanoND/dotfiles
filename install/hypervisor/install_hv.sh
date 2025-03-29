@@ -666,7 +666,7 @@ if [ -d "$HOME"/.themes ]; then
   sync
 fi
 
-sudo sed -i 's/Inherits*/Inherits=Papirus-Dark/g' /usr/share/icons/default/index.theme
+sudo sed -i 's/Inherits*/Inherits=Papirus/g' /usr/share/icons/default/index.theme
 
 sudo cp -ur "$HOME"/dotfiles/themes/GTKTheme/* /usr/share/themes/
 sync

@@ -1,0 +1,35 @@
+drun-display-format: "{icon} {name}";
+location: 0;
+disable-history: false;
+display-drun: "   Apps ";
+display-run: "   Run ";
+display-window: " 󰕰  Window";
+display-Network: " 󰤨  Network";
+sidebar-mode: true;
+icon-theme=Papirus
+show-icons=true
+term=kitty
+allow_images=true
+hide_scroll=true
+no_actions=false
+mode=run,drun,window
+--show
+
+
+configuration{
+    modi: "run,drun,window";
+    icon-theme: "Oranchelo";
+    show-icons: true;
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 󰕰  Window";
+    display-Network: " 󰤨  Network";
+    sidebar-mode: true;
+}
+
+@theme "catppuccin-mocha"

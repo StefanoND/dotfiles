@@ -99,7 +99,7 @@ printf "options vfio-pci ids=%s\n" "$GPUIDS" | sudo tee /etc/modprobe.d/vfio.con
 printf "softdep nouveau pre: vfio vfio_pci\n" | sudo tee -a /etc/modprobe.d/vfio.conf
 printf "softdep nvidia pre: vfio vfio_pci\n" | sudo tee -a /etc/modprobe.d/vfio.conf
 printf "softdep nvidia_drm pre: vfio vfio_pci\n" | sudo tee -a /etc/modprobe.d/vfio.conf
-printf "softdep nvidia-* pre: vfio vfio_pci\n" | sudo tee -a /etc/modprobe.d/vfio.conf
+printf "softdep nvidia_* pre: vfio vfio_pci\n" | sudo tee -a /etc/modprobe.d/vfio.conf
 sync
 sleep 1s
 

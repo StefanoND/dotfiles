@@ -2,6 +2,8 @@ echo
 echo "Don't run this script"
 echo
 
+exit 0
+
 # Run these 2 commands first
 # openssl req -newkey rsa:2048 -nodes -keyout PKpriv.key -x509 -days 365 -out PK.crt
 # openssl x509 -in PK.crt -outform der -out PK.der
