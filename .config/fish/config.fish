@@ -143,7 +143,9 @@ set -gx NVM_BIN "$HOMEPATH/.local/share/nvm/v23.10.0/bin"
 # set -gx DOOMDIR "$HOMEPATH/dotfiles/emacs/doom/.doom.d"
 # set -gx STEMACSDIR "$HOMEPATH/dotfiles/emacs/stemacs/.stemacs.d"
 
-set -gx fish_user_paths $NVM_BIN:$ATUIN_BIN:$YARN_NODEMODULES_BIN:$YARN_BIN:$NWSCRIPTD_BIN:$NWSCRIPTLINT_BIN:$NIMBLE_BIN:$DOTNET_TOOLS:$CARGO_BIN:$LOCAL_BIN:$PATH
+set -gx EMACS_BIN "$HOMEPATH/.config/emacs/bin"
+
+set -gx fish_user_paths $EMACS_BIN:$NVM_BIN:$ATUIN_BIN:$YARN_NODEMODULES_BIN:$YARN_BIN:$NWSCRIPTD_BIN:$NWSCRIPTLINT_BIN:$NIMBLE_BIN:$DOTNET_TOOLS:$CARGO_BIN:$LOCAL_BIN:$PATH
 
 # NeoVim Snacks plugin
 set -gx SNACKS_KITTY true
@@ -206,7 +208,7 @@ function ls
 end
 
 # Automatically do an ls after each cd
-function cs
+function cd
     if test -z "$argv[1]"
         echo "Please provide a folder"
         return
@@ -220,14 +222,12 @@ function nvim
         echo "Please provide a path/file"
         return
     end
-    set -l file $argv[1]
-    if test -d $argv[1] && test $argv[1] != "."
+    if test -d $argv[1]
         pushd $argv[1]
     else if test -f $argv[1]
         pushd (dirname $argv[1])
-        set file .
     end
-    /usr/local/bin/nvim $file
+    /usr/local/bin/nvim $argv[1]
 end
 
 function sudonvim
@@ -235,14 +235,12 @@ function sudonvim
         echo "Please provide a path/file"
         return
     end
-    set -l file $argv[1]
-    if test -d $argv[1] && test $argv[1] != "."
+    if test -d $argv[1]
         pushd $argv[1]
     else if test -f $argv[1]
         pushd (dirname $argv[1])
-        set file .
     end
-    sudo /usr/local/bin/nvim $file
+    sudo /usr/local/bin/nvim $argv[1]
 end
 
 function sudenvim
@@ -250,14 +248,12 @@ function sudenvim
         echo "Please provide a path/file"
         return
     end
-    set -l file $argv[1]
-    if test -d $argv[1] && test $argv[1] != "."
+    if test -d $argv[1]
         pushd $argv[1]
     else if test -f $argv[1]
         pushd (dirname $argv[1])
-        set file .
     end
-    sudo -E /usr/local/bin/nvim $file
+    sudo -E /usr/local/bin/nvim $argv[1]
 end
 
 # Extract
@@ -414,7 +410,7 @@ function cpg
     end
     cprs $argv[1] $argv[2]
     sync
-    cs (dirname $argv[2])
+    cd (dirname $argv[2])
 end
 
 # Moves files or directories/folders with a progress bar
@@ -512,14 +508,14 @@ function mvg
     end
     mvrs $argv[1] $argv[2]
     sync
-    cs (dirname $argv[2])
+    cd (dirname $argv[2])
 end
 
 # Create and go to the directory
 function mkdirg
     mkdir -p $argv[1]
     sync
-    cs (dirname $argv[1])
+    cd (dirname $argv[1])
 end
 
 # Goes up a specified number of directories  (i.e. up 4)
@@ -541,7 +537,7 @@ function up
     if test -z "$d"
         set d ..
     end
-    cs $d
+    cd $d
 end
 
 # GitHub Titus Additions
@@ -808,13 +804,13 @@ print(json.dumps(j, indent=2))' >compile_commands.json
     end
 end
 
-function updateNvim
-    if not git -C "$HOMEPATH"/dotfiles/apps/neovim status -uno | grep -iq "Your branch is up to date with"
-        git -C "$HOMEPATH"/dotfiles/apps/neovim pull && sync
-        make -C "$HOMEPATH"/dotfiles/apps/neovim distclean && sync
-        # make -C "$HOMEPATH"/dotfiles/apps/neovim CMAKE_BUILD_TYPE=RelWithDebInfo && sync
-        make -C "$HOMEPATH"/dotfiles/apps/neovim CMAKE_BUILD_TYPE=Release && sync
-        sudo make -C "$HOMEPATH"/dotfiles/apps/neovim install && sync
+function updateNeovim
+    if not git -C "$HOMEPATH"/.apps/neovim status -uno | grep -iq "Your branch is up to date with"
+        git -C "$HOMEPATH"/.apps/neovim pull && sync
+        make -C "$HOMEPATH"/.apps/neovim distclean && sync
+        # make -C "$HOMEPATH"/.apps/neovim CMAKE_BUILD_TYPE=RelWithDebInfo && sync
+        make -C "$HOMEPATH"/.apps/neovim CMAKE_BUILD_TYPE=Release && sync
+        sudo make -C "$HOMEPATH"/.apps/neovim install && sync
         echo
         echo Updated
         echo
@@ -875,7 +871,7 @@ function nwmain
     if not test -z "$argv" && test $argv = -F
         $command
     else
-        $command &>/dev/null &
+        $command &>/dev/null & disown
     end
 end
 
@@ -894,7 +890,7 @@ function nwtoolset
     if not test -z "$argv" && test $argv = -F
         $command
     else
-        $command &>/dev/null &
+        $command &>/dev/null & disown
     end
 end
 
@@ -913,7 +909,7 @@ function nwdebugger
     if not test -z "$argv" && test $argv = -F
         $command
     else
-        $command &>/dev/null &
+        $command &>/dev/null & disown
     end
 end
 
@@ -932,7 +928,7 @@ function nwhak
     if not test -z "$argv" && test $argv = -F
         $command
     else
-        $command &>/dev/null &
+        $command &>/dev/null & disown
     end
 end
 

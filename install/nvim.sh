@@ -159,6 +159,7 @@ PKGC=(
   'grip'
   'rollnw'
   'arclight'
+  'hererocks'
 )
 
 for PKG in "${PKGC[@]}"; do

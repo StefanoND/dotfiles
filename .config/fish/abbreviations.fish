@@ -35,13 +35,13 @@ abbr -g mirrora "sudo reflector --latest 50 --number 20 --sort age --save /etc/p
 # Help people new to Arch
 abbr -g apt 'man pacman'
 abbr -g apt-get 'man pacman'
-abbr -g please 'sudo'
+abbr -g please sudo
 abbr -g tb 'nc termbin.com 9999'
 abbr -g helpme 'cht.sh --shell'
 abbr -g pacdiff 'sudo -H DIFFPROG=meld pacdiff'
 
 # Use magick instead of convert
-abbr -g convert 'magick'
+abbr -g convert magick
 
 # Cleanup orphaned packages
 abbr -g cleanup 'sudo pacman -Rns $(pacman -Qtdq)'
@@ -122,23 +122,23 @@ abbr -g mvf 'mv -fv'
 abbr -g mkdir 'mkdir -p'
 abbr -g ping 'ping -c 10'
 abbr -g less 'less -R'
-abbr -g cls 'clear'
+abbr -g cls clear
 
 # nvim
-abbr -g vi 'nvim'
-abbr -g vim 'nvim'
-abbr -g svi 'sudonvim'
-abbr -g svim 'sudonvim'
-abbr -g snvim 'sudonvim'
-abbr -g sudovi 'sudonvim'
-abbr -g sudovim 'sudonvim'
-abbr -g sevi 'sudenvim'
-abbr -g sevim 'sudenvim'
-abbr -g senvim 'sudenvim'
-abbr -g sudoevi 'sudoenvim'
-abbr -g sudoevim 'sudoenvim'
-abbr -g sudevi 'sudoenvim'
-abbr -g sudevim 'sudoenvim'
+abbr -g vi nvim
+abbr -g vim nvim
+abbr -g svi sudonvim
+abbr -g svim sudonvim
+abbr -g snvim sudonvim
+abbr -g sudovi sudonvim
+abbr -g sudovim sudonvim
+abbr -g sevi sudenvim
+abbr -g sevim sudenvim
+abbr -g senvim sudenvim
+abbr -g sudoevi sudoenvim
+abbr -g sudoevim sudoenvim
+abbr -g sudevi sudoenvim
+abbr -g sudevim sudoenvim
 # nvim Godot integration
 abbr -g gdnvim "nvim --listen ./godothost"
 abbr -g gdvim "nvim --listen ./godothost"

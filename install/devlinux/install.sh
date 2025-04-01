@@ -115,14 +115,17 @@ PKGS=(
   'fish'
 
   # Fonts
-  'inter-font'              # Industry standard general font
-  'ttf-jetbrains-mono'      # Industry standard programming font
-  'ttf-jetbrains-mono-nerd' # Same as above for ricing
-  'powerline-fonts'         # Ricing fonts
-  'noto-fonts'              # Open-Source "universal" fonts
-  'noto-fonts-extra'        # Extra variations to noto fonts such as condensed, semi-bold, etc
-  'noto-fonts-cjk'          # Support port Chinese Janapese and Korean characters
-  'noto-fonts-emoji'        # Emoji Support
+  'inter-font'                    # Industry standard general font
+  'ttf-jetbrains-mono'            # Industry standard programming font
+  'ttf-jetbrains-mono-nerd'       # Same as above for ricing
+  'ttf-nerd-fonts-symbols'        #
+  'ttf-nerd-fonts-symbols-common' #
+  'ttf-nerd-fonts-symbols-mon'    #
+  'powerline-fonts'               # Ricing fonts
+  'noto-fonts'                    # Open-Source "universal" fonts
+  'noto-fonts-extra'              # Extra variations to noto fonts such as condensed, semi-bold, etc
+  'noto-fonts-cjk'                # Support port Chinese Janapese and Korean characters
+  'noto-fonts-emoji'              # Emoji Support
 
   # Ble.sh Dependencies
   'thefuck'   #
