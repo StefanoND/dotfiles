@@ -110,7 +110,7 @@ set -gx LSP_USE_PLISTS true
 
 # Dotnet
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
-set -gx DOTNET_ROOT "$HOMEPATH/.dotnet"
+set -gx DOTNET_ROOT /usr/share/dotnet
 set -gx DOTNET_TOOLS "$HOMEPATH/.dotnet/tools"
 # set -gx DOTNET_SYSTEM_GLOBALIZATION_INVARIANT 1
 
@@ -137,6 +137,8 @@ set -gx NVM_DIR "$HOMEPATH/.config/nvm"
 set -gx NVM_DATA "$HOMEPATH/.local/share/nvm"
 set -gx NVM_BIN "$HOMEPATH/.local/share/nvm/v23.10.0/bin"
 
+set -gx MASON_BIN "$HOMEPATH/.local/share/nvim/mason/bin"
+
 # set -gx LOCALE_ARCHIVE /usr/lib/locale/locale-archive
 
 # set -gx PATH "$PATH:$HOMEPATH/dotfiles/emacs/doom/doomemacs/bin"
@@ -145,7 +147,7 @@ set -gx NVM_BIN "$HOMEPATH/.local/share/nvm/v23.10.0/bin"
 
 set -gx EMACS_BIN "$HOMEPATH/.config/emacs/bin"
 
-set -gx fish_user_paths $EMACS_BIN:$NVM_BIN:$ATUIN_BIN:$YARN_NODEMODULES_BIN:$YARN_BIN:$NWSCRIPTD_BIN:$NWSCRIPTLINT_BIN:$NIMBLE_BIN:$DOTNET_TOOLS:$CARGO_BIN:$LOCAL_BIN:$PATH
+set -gx fish_user_paths $MASON_BIN:$EMACS_BIN:$NVM_BIN:$ATUIN_BIN:$YARN_NODEMODULES_BIN:$YARN_BIN:$NWSCRIPTD_BIN:$NWSCRIPTLINT_BIN:$NIMBLE_BIN:$DOTNET_ROOT:$DOTNET_TOOLS:$CARGO_BIN:$LOCAL_BIN:$PATH
 
 # NeoVim Snacks plugin
 set -gx SNACKS_KITTY true
@@ -216,18 +218,24 @@ function cd
     z $argv[1] && ls
 end
 
+# Glow
+function glow
+    /usr/bin/glow -s ~/.config/glow/catppuccin-mocha.json
+end
+
 # Neovim
 function nvim
     if test -z "$argv[1]"
         echo "Please provide a path/file"
         return
     end
-    if test -d $argv[1]
-        pushd $argv[1]
-    else if test -f $argv[1]
-        pushd (dirname $argv[1])
+    set -l command $argv[1]
+    if test -d $argv[1] && not test $argv[1] = .
+        set command "-c cd $argv[1]" $argv[1]
+    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
+        set command "-c cd $(dirname $argv[1])" $argv[1]
     end
-    /usr/local/bin/nvim $argv[1]
+    /usr/local/bin/nvim $command
 end
 
 function sudonvim
@@ -235,12 +243,13 @@ function sudonvim
         echo "Please provide a path/file"
         return
     end
-    if test -d $argv[1]
-        pushd $argv[1]
-    else if test -f $argv[1]
-        pushd (dirname $argv[1])
+    set -l command $argv[1]
+    if test -d $argv[1] && not test $argv[1] = .
+        set command "-c cd $argv[1]" $argv[1]
+    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
+        set command "-c cd $(dirname $argv[1])" $argv[1]
     end
-    sudo /usr/local/bin/nvim $argv[1]
+    sudo -E /usr/local/bin/nvim $command
 end
 
 function sudenvim
@@ -248,12 +257,13 @@ function sudenvim
         echo "Please provide a path/file"
         return
     end
-    if test -d $argv[1]
-        pushd $argv[1]
-    else if test -f $argv[1]
-        pushd (dirname $argv[1])
+    set -l command $argv[1]
+    if test -d $argv[1] && not test $argv[1] = .
+        set command "-c cd $argv[1]" $argv[1]
+    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
+        set command "-c cd $(dirname $argv[1])" $argv[1]
     end
-    sudo -E /usr/local/bin/nvim $argv[1]
+    sudo -E /usr/local/bin/nvim $command
 end
 
 # Extract
@@ -806,10 +816,13 @@ end
 
 function updateNeovim
     if not git -C "$HOMEPATH"/.apps/neovim status -uno | grep -iq "Your branch is up to date with"
+        set -l type RelWithDebInfo
+        if argv[1] == -r
+            set type Release
+        end
         git -C "$HOMEPATH"/.apps/neovim pull && sync
         make -C "$HOMEPATH"/.apps/neovim distclean && sync
-        # make -C "$HOMEPATH"/.apps/neovim CMAKE_BUILD_TYPE=RelWithDebInfo && sync
-        make -C "$HOMEPATH"/.apps/neovim CMAKE_BUILD_TYPE=Release && sync
+        make -C "$HOMEPATH"/.apps/neovim CMAKE_BUILD_TYPE=$type && sync
         sudo make -C "$HOMEPATH"/.apps/neovim install && sync
         echo
         echo Updated

@@ -58,6 +58,7 @@ PKGA=(
   'ispc'
   'ctags'
   'doxygen'
+  'tree-sitter-cli'
   'texlive-bin'
   'texlive-latexrecommended'
   'texlive-latexextra'
@@ -81,6 +82,7 @@ PKGA=(
   'python-pip'
   'python-pipx'
   'python-argcomplete'
+  'pyton-pylatexenc'
   'cmake'
   'cmake-extras'
   'imagemagick'
@@ -106,6 +108,8 @@ PKGA=(
   'mono-msbuild'
   'mono-msbuild-sdkresolver'
   'libuv'
+
+  'github-cli'
 )
 
 for PKG in "${PKGA[@]}"; do
@@ -139,6 +143,7 @@ paru -Syy
 PKGB=(
   # nvim Dependencies
   'cmake-language-server'
+  'shell-color-scripts-git'
 )
 
 for PKG in "${PKGB[@]}"; do
@@ -197,8 +202,6 @@ PKGD=(
   'tailwindcss-language-server'
   'typescript'
   'typescript-language-server'
-  'eslint-lsp'
-  '@fsouza/prettierd'
   'yarn'
   '@vscode/vsce'
   'fish-lsp'

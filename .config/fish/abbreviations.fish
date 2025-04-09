@@ -4,8 +4,6 @@
 # To temporarily bypass an abbreviation, we precede the command with a \
 # EG: the ls command is abbreviated, but to use the normal ls command you would type \ls
 
-abbr -g discard '>/dev/null &'
-
 # Common use
 abbr -g grubup "sudo update-grub"
 abbr -g fixpacman "sudo rm /var/lib/pacman/db.lck"
@@ -85,18 +83,22 @@ abbr -g topcpu "/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 # Search files in the current folder
 abbr -g f "find . | grep "
 
-# Edit these .bash files
+# # Edit these .bash files
 # abbr -g ebrc 'edit ~/.bashrc'
 # abbr -g ebal 'edit ~/.bash_aliases'
+
+# Edit these fish files
+abbr -g efrc 'edit ~/.fishrc.fish'
+abbr -g efab 'edit ~/.abbreviations.fish'
 
 # abbr -g to show the date
 abbr -g da 'date "+%d/%m/%Y %A %T %Z"'
 
-# Use zoxide with CD
+# # Use zoxide with CD
 # abbr -g cd 'z'
 
-# cd into the old directory
-abbr -g bd 'cd "$OLDPWD"'
+# # cd into the old directory
+# abbr -g bd 'cd "$OLDPWD"'
 
 # Change directory abbr -ges
 abbr -g home 'cd ~'
@@ -139,15 +141,17 @@ abbr -g sudoevi sudoenvim
 abbr -g sudoevim sudoenvim
 abbr -g sudevi sudoenvim
 abbr -g sudevim sudoenvim
+
 # nvim Godot integration
-abbr -g gdnvim "nvim --listen ./godothost"
-abbr -g gdvim "nvim --listen ./godothost"
-abbr -g godotnvim "nvim --listen ./godothost"
-abbr -g godotvim "nvim --listen ./godothost"
-abbr -g nvimgodot "nvim --listen ./godothost"
-abbr -g vimgodot "nvim --listen ./godothost"
-abbr -g nvimgd "nvim --listen ./godothost"
-abbr -g vimgd "nvim --listen ./godothost"
+abbr -g gdnvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g gdvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g godotnvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g godotvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g nvimgodot "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g vimgodot "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g nvimgd "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g vimgd "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+
 # abbr -g sudo 'sudo -v; sudo '
 
 # Replace cat with bat
@@ -186,39 +190,39 @@ abbr -g 666 'chmod -R 666'
 abbr -g 755 'chmod -R 755'
 abbr -g 777 'chmod -R 777'
 
-# abbr -g firefox 'firefox -P & disown'
-abbr -g firedragon 'firedragon -P & disown'
-abbr -g thunar 'thunar & disown'
+# abbr -g firefox 'firefox -P &>/dev/null & disown'
+# abbr -g firedragon 'firedragon -P &>/dev/null & disown'
+# abbr -g thunar 'thunar &>/dev/null & disown'
 
 # QT's apps
-abbr -g dolphin '/usr/bin/dolphin & disown'
-abbr -g kate '/usr/bin/kate & disown'
+abbr -g dolphin 'dolphin &>/dev/null & disown'
+abbr -g kate 'kate &>/dev/null & disown'
 
-abbr -g virt-manager 'virt-manager & disown'
-abbr -g virtualbox 'virtualbox & disown'
+abbr -g virt-manager 'virt-manager &>/dev/null & disown'
+abbr -g virtualbox 'virtualbox &>/dev/null & disown'
 # abbr -g emacsd '/usr/bin/emacs --daemon'
-# abbr -g emacs 'emacsclient -c -a emacs & disown'
-abbr -g doomemacsd '/usr/bin/emacs --init-directory="~/dotfiles/emacs/doom/doomemacs" --bg-daemon="doom"'
-abbr -g doomemacst 'emacsclient -c -t -s doom -a doom'
-abbr -g doomemacs 'emacsclient -c -s doom -a doom & disown'
-abbr -g stemacsd '/usr/bin/emacs --init-directory="~/dotfiles/emacs/stemacs/stemacs" --bg-daemon="stemacs"'
-abbr -g stemacst 'emacsclient -c -t -s stemacs -a stemacs'
-abbr -g stemacs 'emacsclient -c -s stemacs -a stemacs & disown'
-abbr -g godot 'nohup godot & disown'
-abbr -g zoom 'nohup zoom & disown'
-abbr -g syncthing 'nohup syncthing & disown'
-abbr -g yata 'nohup gtk-launch yata & disown'
-abbr -g codium 'nohup codium & disown'
-# abbr -g codium 'nohup codium --password-store="kwallet5" & disown'
-abbr -g code 'nohup vscodium & disown'
-abbr -g vscode 'nohup vscodium & disown'
+# abbr -g emacs 'emacsclient -c -a emacs &>/dev/null & disown'
+# abbr -g doomemacsd '/usr/bin/emacs --init-directory="~/dotfiles/emacs/doom/doomemacs" --bg-daemon="doom"'
+# abbr -g doomemacst 'emacsclient -c -t -s doom -a doom'
+# abbr -g doomemacs 'emacsclient -c -s doom -a doom &>/dev/null & disown'
+# abbr -g stemacsd '/usr/bin/emacs --init-directory="~/dotfiles/emacs/stemacs/stemacs" --bg-daemon="stemacs"'
+# abbr -g stemacst 'emacsclient -c -t -s stemacs -a stemacs'
+# abbr -g stemacs 'emacsclient -c -s stemacs -a stemacs &>/dev/null & disown'
+abbr -g godot 'godot &>/dev/null & disown'
+abbr -g zoom 'zoom &>/dev/null & disown'
+abbr -g syncthing 'syncthing &>/dev/null & disown'
+abbr -g yata 'gtk-launch yata &>/dev/null & disown'
+abbr -g codium 'codium &>/dev/null & disown'
+# abbr -g codium 'codium --password-store="kwallet5" &>/dev/null & disown'
+abbr -g code 'vscodium &>/dev/null & disown'
+abbr -g vscode 'vscodium &>/dev/null & disown'
 abbr -g trash 'gio trash'
 abbr -g rmt 'gio trash'
-abbr -g headset-charge-indicator 'nohup python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py & disown'
-abbr -g headsetchargeindicator 'nohup python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py & disown'
+abbr -g headset-charge-indicator 'python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py &>/dev/null & disown'
+abbr -g headsetchargeindicator 'python3 ~/dotfiles/apps/headset-charge-indicator/headset-charge-indicator.py &>/dev/null & disown'
 
-abbr -g waybar 'nohup waybar & disown'
-abbr -g restartwaybar 'killall -9 waybar && sleep 1s && waybar & disown'
+abbr -g waybar 'waybar &>/dev/null & disown'
+abbr -g restartwaybar 'killall -9 waybar && sleep 1s && waybar &>/dev/null & disown'
 
 # Monero
 # abbr -g monero 'monerod --block-sync-size 10 --db-sync-mode fastest:sync:8750'
@@ -230,138 +234,27 @@ abbr -g ue5 'echo Please use ue instead.'
 # abbr -g ue4 'SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
 # abbr -g ue5 'SDL_VIDEODRIVER=x11 ~/.local/bin/ue4'
 
-# Flatpaks
-# WINE
-# Wine
-#& disown'
-abbr -g wine 'nohup flatpak run org.winehq.Wine & disown'
-# abbr -g wine-gecko 'nohup flatpak run org.winehq.Wine.gecko & disown'
-# abbr -g wine-mono 'nohup flatpak run org.winehq.Wine.mono & disown'
-abbr -g winetricks 'nohup flatpak run --command=winetricks org.winehq.Wine'
-abbr -g winecfg 'nohup flatpak run --command=winecfg org.winehq.Wine'
-abbr -g wineboot 'nohup flatpak run --command=wineboot org.winehq.Wine'
+abbr -g steam 'steam &>/dev/null & disown'
+abbr -g lutris 'lutris &>/dev/null & disown'
+abbr -g epicassetmanager 'epic_asset_manager &>/dev/null & disown'
+abbr -g eam 'epic_asset_manager &>/dev/null & disown'
+abbr -g torbrowser-launcher 'torbrowser-launcher &>/dev/null & disown'
+abbr -g torbrowser 'torbrowser-launcher &>/dev/null & disown'
+abbr -g spotify 'spotify-launcher &>/dev/null & disown'
+abbr -g brave 'brave --enable-features=UseOzonePlatform --ozone-platform=wayland &>/dev/null & disown'
+abbr -g bravebrowser 'brave --enable-features=UseOzonePlatform --ozone-platform=wayland &>/dev/null & disown'
 
-# KDE/QT
-abbr -g krita 'nohup flatpak run org.kde.krita & disown'
-abbr -g kleopatra 'nohup flatpak run org.kde.kleopatra & disown'
-abbr -g okteta 'nohup flatpak run org.kde.okteta & disown'
-
-abbr -g flatseal 'nohup flatpak run com.github.tchx84.Flatseal & disown'
-abbr -g libreoffice 'nohup flatpak run org.libreoffice.LibreOffice & disown'
-abbr -g office 'nohup flatpak run org.libreoffice.LibreOffice & disown'
-abbr -g obsidian 'nohup flatpak run md.obsidian.Obsidian & disown'
-abbr -g telegram 'nohup flatpak run org.telegram.desktop & disown'
-# abbr -g discord 'nohup flatpak run com.discordapp.Discord --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
-abbr -g discord 'nohup flatpak run dev.vencord.Vesktop & disown'
-abbr -g vesktop 'nohup flatpak run dev.vencord.Vesktop & disown'
-abbr -g whatsapp 'nohup flatpak run com.github.eneshecan.WhatsAppForLinux & disown'
-abbr -g qbittorrent 'nohup flatpak run org.qbittorrent.qBittorrent & disown'
-abbr -g tenacity 'nohup flatpak run org.tenacityaudio.Tenacity & disown'
-# abbr -g obs-studio 'nohup flatpak run com.obsproject.Studio & disown'
-# abbr -g obs 'nohup flatpak run com.obsproject.Studio & disown'
-abbr -g smplayer 'nohup flatpak run info.smplayer.SMPlayer & disown'
-abbr -g mpv 'nohup flatpak run io.mpv.Mpv & disown'
-abbr -g gimp 'nohup flatpak run org.gimp.GIMP & disown'
-abbr -g inkscape 'nohup flatpak run org.inkscape.Inkscape & disown'
-abbr -g blender 'nohup flatpak run org.blender.Blender & disown'
-abbr -g handbrake 'nohup flatpak run fr.handbrake.ghb & disown'
-abbr -g github-desktop 'nohup flatpak run io.github.shiftey.Desktop & disown'
-abbr -g github 'nohup flatpak run io.github.shiftey.Desktop & disown'
-abbr -g unityhub 'nohup flatpak run com.unity.UnityHub & disown'
-# abbr -g steam 'nohup flatpak run com.valvesoftware.Steam & disown'
-abbr -g steam 'nohup steam & disown'
-# abbr -g lutris 'nohup flatpak run net.lutris.Lutris & disown'
-abbr -g lutris 'nohup lutris & disown'
-# abbr -g lutris 'nohup lutris & disown'
-abbr -g epicassetmanager 'nohup epic_asset_manager & disown'
-abbr -g eam 'nohup epic_asset_manager & disown'
-# abbr -g epicassetmanager 'nohup epic_asset_manager & disown'
-# abbr -g eam 'nohup epic_asset_manager & disown'
-# abbr -g protonup-qt 'nohup flatpak run net.davidotek.pupgui2 & disown'
-# abbr -g protonup 'nohup flatpak run net.davidotek.pupgui2 & disown'
-abbr -g antimicrox 'nohup flatpak run io.github.antimicrox.antimicrox & disown'
-# abbr -g protontricks 'nohup flatpak run com.github.Matoking.protontricks & disown'
-# abbr -g torbrowser-launcher 'nohup flatpak run org.torproject.torbrowser-launcher & disown'
-# abbr -g torbrowser 'nohup flatpak run org.torproject.torbrowser-launcher & disown'
-abbr -g torbrowser-launcher 'nohup /usr/bin/torbrowser-launcher & disown'
-abbr -g torbrowser 'nohup /usr/bin/torbrowser-launcher & disown'
-abbr -g mullvadbrowser 'nohup flatpak run net.mullvad.MullvadBrowser & disown'
-abbr -g firefox 'nohup flatpak run org.mozilla.firefox & disown'
-# abbr -g spotify 'nohup flatpak run com.spotify.Client --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
-abbr -g spotify 'spotify-launcher & disown'
-abbr -g qalculate-qt 'nohup flatpak run io.github.Qalculate.qalculate-qt & disown'
-abbr -g qalculate 'nohup flatpak run io.github.Qalculate.qalculate-qt & disown'
-abbr -g gcolor 'nohup flatpak run nl.hjdskes.gcolor3 & disown'
-abbr -g bitwarden 'nohup flatpak run com.bitwarden.desktop & disown'
-abbr -g monero 'nohup flatpak run org.getmonero.Monero & disown'
-abbr -g eclipse 'nohup flatpak run org.eclipse.Java & disown'
-abbr -g stremio 'nohup flatpak run com.stremio.Stremio & disown'
-abbr -g brave 'nohup /usr/bin/brave --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
-abbr -g bravebrowser 'nohup /usr/bin/brave --enable-features=UseOzonePlatform --ozone-platform=wayland & disown'
-# abbr -g brave 'nohup flatpak run com.brave.Browser & disown'
-# abbr -g bravebrowser 'nohup flatpak run com.brave.Browser & disown'
-abbr -g thunderbird 'nohup flatpak run org.mozilla.Thunderbird & disown'
-
-abbr -g dosbox-staging 'nohup flatpak run io.github.dosbox-staging & disown'
-abbr -g dosbox 'nohup flatpak run io.github.dosbox-staging & disown'
-abbr -g lime3ds 'nohup flatpak run io.github.lime3ds.Lime3DS & disown'
-abbr -g ryujinx 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 flatpak run org.ryujinx.Ryujinx & disown'
-abbr -g yuzu 'nohup flatpak run org.yuzu_emu.yuzu & disown'
-abbr -g citra 'nohup flatpak run org.citra_emu.citra & disown'
-abbr -g cemu 'nohup flatpak run info.cemu.Cemu & disown'
-abbr -g duckstation 'nohup flatpak run org.duckstation.DuckStation & disown'
-abbr -g retroarch 'nohup flatpak run org.libretro.RetroArch & disown'
-abbr -g n64emu 'nohup flatpak run com.github.Rosalie241.RMG & disown'
-abbr -g project64 'nohup flatpak run com.github.Rosalie241.RMG & disown'
-abbr -g dolphin-emu 'nohup flatpak run org.DolphinEmu.dolphin-emu & disown'
-abbr -g dolphin-emulator 'nohup flatpak run org.DolphinEmu.dolphin-emu & disown'
-abbr -g PCSX2 'nohup flatpak run net.pcsx2.PCSX2 & disown'
-abbr -g ps2emu 'nohup flatpak run net.pcsx2.PCSX2 & disown'
-abbr -g RPCS3 'nohup flatpak run net.rpcs3.RPCS3 & disown'
-abbr -g ps3emu 'nohup flatpak run net.rpcs3.RPCS3 & disown'
-
-abbr -g heroicgameslauncher 'nohup flatpak run com.heroicgameslauncher.hgl & disown'
-abbr -g heroic 'nohup flatpak run com.heroicgameslauncher.hgl & disown'
-abbr -g gdlauncher 'nohup flatpak run io.gdevs.GDLauncher & disown'
-abbr -g playonlinux 'nohup flatpak run org.phoenicis.playonlinux & disown'
-abbr -g boxes 'nohup flatpak run org.gnome.Boxes & disown'
-abbr -g gnome-boxes 'nohup flatpak run org.gnome.Boxes & disown'
-abbr -g bottles 'nohup flatpak run com.usebottles.bottles & disown'
-abbr -g atoms 'nohup flatpak run pm.mirko.Atoms & disown'
-
-abbr -g teams 'nohup flatpak run com.github.IsmaelMartinez.teams_for_linux & disown'
-
+abbr -g obsidian 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland &>/dev/null & disown'
 abbr -g spice 'looking-glass-client -C ~/.config/looking-glass/main.ini'
 abbr -g triplewide 'xrandr --setmonitor StSurround auto HDMI-A-0,DisplayPort-0,DisplayPort-1'
 abbr -g triplenormal 'xrandr --delmonitor StSurround && xrandr --output DisplayPort-0 --mode 1920x1080 --rate 144 --output HDMI-A-0 --mode 1920x1080 --rate 50 --left-of DisplayPort-0 --output DisplayPort-1 --mode 1920x1080 --rate 50 --right-of DisplayPort-0'
 
-# abbr -g dosbox-staging 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run io.github.dosbox-staging & disown'
-# abbr -g dosbox 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run io.github.dosbox-staging & disown'
-# abbr -g lime3ds 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run io.github.lime3ds.Lime3DS & disown'
-# abbr -g ryujinx 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.ryujinx.Ryujinx & disown'
-# abbr -g yuzu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.yuzu_emu.yuzu & disown'
-# abbr -g citra 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.citra_emu.citra & disown'
-# abbr -g cemu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run info.cemu.Cemu & disown'
-# abbr -g duckstation 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.duckstation.DuckStation & disown'
-# abbr -g retroarch 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.libretro.RetroArch & disown'
-# abbr -g n64emu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run com.github.Rosalie241.RMG & disown'
-# abbr -g project64 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run com.github.Rosalie241.RMG & disown'
-# abbr -g dolphin-emu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.DolphinEmu.dolphin-emu & disown'
-# abbr -g dolphin-emulator 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.DolphinEmu.dolphin-emu & disown'
-# abbr -g PCSX2 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run net.pcsx2.PCSX2 & disown'
-# abbr -g ps2emu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run net.pcsx2.PCSX2 & disown'
-# abbr -g RPCS3 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run net.rpcs3.RPCS3 & disown'
-# abbr -g ps3emu 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run net.rpcs3.RPCS3 & disown'
-#
-# abbr -g heroicgameslauncher 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run com.heroicgameslauncher.hgl & disown'
-# abbr -g heroic 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run com.heroicgameslauncher.hgl & disown'
-# abbr -g gdlauncher 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run io.gdevs.GDLauncher & disown'
-# abbr -g wine 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.winehq.Wine & disown'
-# # abbr -g wine-gecko 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.winehq.Wine.gecko & disown'
-# # abbr -g wine-mono 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.winehq.Wine.mono & disown'
-# abbr -g playonlinux 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.phoenicis.playonlinux & disown'
-# abbr -g boxes 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.gnome.Boxes & disown'
-# abbr -g gnome-boxes 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.gnome.Boxes & disown'
-# abbr -g bottles 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run com.usebottles.bottles & disown'
+# Flatpaks
+# WINE
+# abbr -g winetricks '--command=winetricks org.winehq.Wine'
+# abbr -g winecfg '--command=winecfg org.winehq.Wine'
+# abbr -g wineboot '--command=wineboot org.winehq.Wine'
 
-# abbr -g 'nohup flatpak run  & disown'
+# abbr -g ryujinx 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 flatpak run org.ryujinx.Ryujinx &>/dev/null & disown'
+# abbr -g ryujinx 'DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0 gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run org.ryujinx.Ryujinx &>/dev/null & disown'
+# abbr -g dosbox 'gamemoderun gamescope -R --prefer-vk-device -W 1920 -H 1080 -r 144 -- flatpak run io.github.dosbox-staging &>/dev/null & disown'

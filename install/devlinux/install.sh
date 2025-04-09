@@ -69,6 +69,7 @@ PKGS=(
   'texlive-latexrecommended'
   'texlive-latexextra'
   'mariadb'
+  'glow'
 
   # Godot
   'godot-mono' # Godot Game Engine with C# support
