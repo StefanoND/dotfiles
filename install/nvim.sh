@@ -29,7 +29,6 @@ fi
 
 ln -svf "$DOTFILESPATH"/.config/tmux "$HOMEPATH"/.config/
 ln -svf "$DOTFILESPATH"/.config/nvim "$HOMEPATH"/.config/
-ln -svf "$DOTFILESPATH"/.ctags.d "$HOMEPATH"/
 
 ln -svf "$DOTFILESPATH"/.editorconfig "$HOMEPATH"/
 ln -svf "$DOTFILESPATH"/.clang-format "$HOMEPATH"/
@@ -68,6 +67,7 @@ PKGA=(
   'tmux'
   'wl-clipboard'
 
+  #
   # 'npm'
   'luarocks'
   'rustup'  # Rust programming language software
@@ -109,10 +109,7 @@ PKGA=(
   'mono-msbuild-sdkresolver'
   'libuv'
 
-  'trash-cli'
   'github-cli'
-  'inotify-tools'
-  'jq'
 )
 
 for PKG in "${PKGA[@]}"; do
@@ -145,7 +142,6 @@ paru -Syy
 # PARU
 PKGB=(
   # nvim Dependencies
-  'cmake-language-server'
   'shell-color-scripts-git'
 )
 
@@ -157,9 +153,10 @@ for PKG in "${PKGB[@]}"; do
   sync
 done
 
-# PIP
+# PARU
 PKGC=(
   # nvim Dependencies
+  'markdown'
   'pynvim'
   'cmake-language-server'
   'ue4cli'
@@ -192,8 +189,9 @@ npm i -g all-the-package-names
 
 npm i -g npm@latest
 
-npm i --package-lock-only
-sync
+# npm i --package-lock-only
+# sync
+
 npm audit fix
 sleep 1s
 
@@ -202,7 +200,7 @@ PKGD=(
   # LSP
   # 'vscode-langservers-extracted'
   'bash-language-server'
-  '@tailwindcss/language-server'
+  'tailwindcss-language-server'
   'typescript'
   'typescript-language-server'
   'yarn'
@@ -226,8 +224,6 @@ PKGE=(
   # LSP
   'csharp-ls'
   'csharpier'
-  'dotnet-ef'
-  'dotnet-outdated-tool'
 )
 
 for PKG in "${PKGE[@]}"; do
@@ -239,19 +235,18 @@ for PKG in "${PKGE[@]}"; do
   sleep 1s
 done
 
-cd "$HOMEPATH"/.tmux/plugins/tmux-thumbs
-cargo build --release
+."$HOMEPATH"/.tmux/plugins/tpm/bin/install_plugins
+sync
 
-# Install numi-cli
-curl -sSL https://s.numi.app/cli | sh
+cd "$HOMEPATH"/.config/tmux/plugins/tmux-thumbs
+cargo build --release
 
 sync
 
 tmux source "$HOMEPATH"/.config/tmux/tmux.conf
-."$HOMEPATH"/.tmux/plugins/tpm/bin/install_plugins
-
 sync
 
+printf "export PATH=\$PATH:/snap/bin:\$HOME/.local/bin:\$HOME/.cargo/bin\n" | tee -a ~/.bashrc
 printf "\nDOTNET_CLI_TELEMETRY_OPTOUT=1\n" | sudo tee -a /etc/environment
 printf "FrameworkPathOverride=/lib/mono/4.8-api\n" | sudo tee -a /etc/environment
 
