@@ -1,17 +1,16 @@
 theme = "catppuccin_mocha"
-client_id = "e69d153f1034429aa5b2efd5c9c10350"
 client_port = 8080
 login_redirect_uri = "http://127.0.0.1:8989/login"
 playback_format = "{status} {track} • {artists}\n{album}\n{metadata}"
-notify_timeout_in_secs = 0
-tracks_playback_limit = 50
+notify_timeout_in_secs = 3
+tracks_playback_limit = 200
 app_refresh_duration_in_ms = 32
 playback_refresh_duration_in_ms = 0
-page_size_in_rows = 20
+page_size_in_rows = 40
 play_icon = "▶"
 pause_icon = "▌▌"
 liked_icon = "♥"
-border_type = "Plain"
+border_type = "Rounded"
 progress_bar_type = "Rectangle"
 cover_img_length = 32
 cover_img_width = 14
@@ -39,8 +38,13 @@ album_percent = 40
 [device]
 name = "spotify-player"
 device_type = "speaker"
-volume = 70
+volume = 100
 bitrate = 320
-audio_cache = true
-normalization = true
+audio_cache = false
+normalization = false
 autoplay = false
+
+[client_id_command]
+command = "bat"
+args = "$SPOTIFY_CLIENT_ID"
+

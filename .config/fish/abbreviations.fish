@@ -143,14 +143,13 @@ abbr -g sudevi sudoenvim
 abbr -g sudevim sudoenvim
 
 # nvim Godot integration
-abbr -g gdnvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g gdvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g godotnvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g godotvim "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g nvimgodot "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g vimgodot "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g nvimgd "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
-abbr -g vimgd "/usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe ."
+abbr -g gdnvim gdvim
+abbr -g godotnvim gdvim
+abbr -g godotvim gdvim
+abbr -g nvimgodot gdvim
+abbr -g vimgodot gdvim
+abbr -g nvimgd gdvim
+abbr -g vimgd gdvim
 
 # abbr -g sudo 'sudo -v; sudo '
 

@@ -68,6 +68,10 @@ if [ -f "$HOMEPATH"/.bashrc.local ]; then
   source "$HOMEPATH"/.bashrc.local
 fi
 
+if [ -f "$HOMEPATH"/.bashspotify ]; then
+  source "$HOMEPATH"/.bashspotify
+fi
+
 # Advanced command-not-found hook
 if [ -f /usr/share/doc/find-the-command/ftc.bash ]; then
   source /usr/share/doc/find-the-command/ftc.bash

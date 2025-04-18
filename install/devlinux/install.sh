@@ -33,6 +33,7 @@ ln -svf "$rootpath"/.config/fish/abbreviations.fish "$HOMEPATH"/.abbreviations.f
 ln -svf "$rootpath"/.config/kitty "$HOMEPATH"/.config/
 ln -svf "$rootpath"/.config/spotify-player "$HOMEPATH"/.config/
 ln -svf "$rootpath"/.config/nasher "$HOMEPATH"/.config/
+ln -svf "$rootpath"/.ctags.d "$HOMEPATH"/
 
 ln -svf "$rootpath"/.config/brave-flags.conf "$HOMEPATH"/.config/
 ln -svf "$rootpath"/.config/waybar "$HOMEPATH"/.config/
@@ -397,6 +398,9 @@ ln -svf "$rootpath"/.bash_aliases "$HOMEPATH"/
 ln -svf "$rootpath"/.profile "$HOMEPATH"/
 ln -svf "$rootpath"/.gitconfig "$HOMEPATH"/
 ln -svf "$rootpath"/.editorconfig "$HOMEPATH"/
+
+ln -svf "$rootpath"/.bashspotify "$HOMEPATH"/
+ln -svf "$rootpath"/.spotify.fish "$HOMEPATH"/
 
 echo
 echo "Login to mullvad"

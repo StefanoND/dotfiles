@@ -9,7 +9,7 @@ npm audit fix && sync
 # NPM
 set -l PKGTS \
     'bash-language-server' \
-    'tailwindcss-language-server' \
+    '@tailwindcss/language-server' \
     'typescript' \
     'typescript-language-server' \
     'eslint-lsp' \

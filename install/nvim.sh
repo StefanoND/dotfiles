@@ -29,6 +29,7 @@ fi
 
 ln -svf "$DOTFILESPATH"/.config/tmux "$HOMEPATH"/.config/
 ln -svf "$DOTFILESPATH"/.config/nvim "$HOMEPATH"/.config/
+ln -svf "$DOTFILESPATH"/.ctags.d "$HOMEPATH"/
 
 ln -svf "$DOTFILESPATH"/.editorconfig "$HOMEPATH"/
 ln -svf "$DOTFILESPATH"/.clang-format "$HOMEPATH"/
@@ -67,7 +68,6 @@ PKGA=(
   'tmux'
   'wl-clipboard'
 
-  #
   # 'npm'
   'luarocks'
   'rustup'  # Rust programming language software
@@ -109,7 +109,10 @@ PKGA=(
   'mono-msbuild-sdkresolver'
   'libuv'
 
+  'trash-cli'
   'github-cli'
+  'inotify-tools'
+  'jq'
 )
 
 for PKG in "${PKGA[@]}"; do
@@ -154,7 +157,7 @@ for PKG in "${PKGB[@]}"; do
   sync
 done
 
-# PARU
+# PIP
 PKGC=(
   # nvim Dependencies
   'pynvim'
@@ -199,7 +202,7 @@ PKGD=(
   # LSP
   # 'vscode-langservers-extracted'
   'bash-language-server'
-  'tailwindcss-language-server'
+  '@tailwindcss/language-server'
   'typescript'
   'typescript-language-server'
   'yarn'
@@ -223,6 +226,8 @@ PKGE=(
   # LSP
   'csharp-ls'
   'csharpier'
+  'dotnet-ef'
+  'dotnet-outdated-tool'
 )
 
 for PKG in "${PKGE[@]}"; do
@@ -236,6 +241,9 @@ done
 
 cd "$HOMEPATH"/.tmux/plugins/tmux-thumbs
 cargo build --release
+
+# Install numi-cli
+curl -sSL https://s.numi.app/cli | sh
 
 sync
 

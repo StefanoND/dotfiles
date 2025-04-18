@@ -43,6 +43,11 @@ if test -f /usr/share/doc/find-the-command/ftc.fish
     source /usr/share/doc/find-the-command/ftc.fish
 end
 
+# spotify-player completion
+if test -f "$HOMEPATH"/.spotify.fish
+    source "$HOMEPATH"/.spotify.fish
+end
+
 #######################################################
 # SOURCING END
 #######################################################
@@ -205,6 +210,21 @@ fish_vi_key_bindings
 # FUNCTIONS START
 #######################################################
 
+function sudo
+    if functions -q -- "$argv[1]"
+        set cmdline (
+            for arg in $argv
+                printf "\"%s\" " $arg
+            end
+        )
+        set -x function_src (string join "\n" (string escape --style=var (functions "$argv[1]")))
+        set argv fish -c 'string unescape --style=var (string split "\n" $function_src) | source; '$cmdline
+        command sudo -E $argv
+    else
+        command sudo $argv
+    end
+end
+
 function ls
     eza -al --color=always --group-directories-first --icons=always --git $argv
 end
@@ -224,47 +244,68 @@ function glow
 end
 
 # Neovim
+# function nvim
+#     # set -l command ""
+#     if test -n $argv[1] && test -d $argv[1] && test "$argv[1]" != "."
+#         cd $argv[1]
+#     else if test -n $argv[1] && test -f $argv[1] && test (pwd) != (dirname $argv[1])
+#         cd $(dirname $argv[1])
+#         # set command $(basename $argv[1])
+#     end
+#     /usr/local/bin/nvim $argv
+# end
+
 function nvim
-    if test -z "$argv[1]"
-        echo "Please provide a path/file"
-        return
+    set -l command "."
+    if test -d $argv[1] && test "$argv[1]" != "."
+        set -l path (readlink -f $argv[1])
+        z "$path"
     end
-    set -l command $argv[1]
-    if test -d $argv[1] && not test $argv[1] = .
-        set command "-c cd $argv[1]" $argv[1]
-    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
-        set command "-c cd $(dirname $argv[1])" $argv[1]
+    if test -f $argv[1]
+        set -l path (readlink -f $(dirname $argv[1]))
+        z "$path"
+        set command (basename $argv[1])
     end
     /usr/local/bin/nvim $command
 end
 
 function sudonvim
-    if test -z "$argv[1]"
-        echo "Please provide a path/file"
-        return
-    end
-    set -l command $argv[1]
-    if test -d $argv[1] && not test $argv[1] = .
-        set command "-c cd $argv[1]" $argv[1]
-    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
-        set command "-c cd $(dirname $argv[1])" $argv[1]
-    end
-    sudo -E /usr/local/bin/nvim $command
+    sudo nvim $argv
 end
 
 function sudenvim
-    if test -z "$argv[1]"
-        echo "Please provide a path/file"
-        return
-    end
-    set -l command $argv[1]
-    if test -d $argv[1] && not test $argv[1] = .
-        set command "-c cd $argv[1]" $argv[1]
-    else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
-        set command "-c cd $(dirname $argv[1])" $argv[1]
-    end
-    sudo -E /usr/local/bin/nvim $command
+    sudo -E nvim $argv
 end
+
+# Godot
+# function gdvim
+#     if test -z "$argv[1]"
+#         echo "Please provide a path/file"
+#         return
+#     end
+#     set -l command $argv[1]
+#     if test -d $argv[1] && not test $argv[1] = .
+#         set command "-c cd $argv[1]" $argv[1]
+#     else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
+#         set command "-c cd $(dirname $argv[1])" $argv[1]
+#     end
+#     /usr/local/bin/nvim --listen ~/.cache/nvim/godot.pipe $command
+# end
+
+function gdvim
+    # set -l command
+    # if test -d $argv[1] && not test $argv[1] = .
+    #     cd $argv[1]
+    # else if test -f $argv[1] && not test (pwd) = (dirname $argv[1])
+    #     cd (dirname $argv[1])
+    #     set command (basename $argv[1])
+    # end
+    nvim --listen ~/.cache/nvim/godot.pipe $argv
+end
+
+# function gdvim
+#     nvim --listen ~/.cache/nvim/godot.pipe $argv
+# end
 
 # Extract
 function extract
@@ -684,22 +725,14 @@ function compile
         echo "Please provide a file"
         return
     end
-    # if not test -z "$argv[2]"
-    #     echo "Please provide a file"
-    #     return
-    # end
 
-    set -l file $argv[1]
-
-    set -l filename (string replace -r '\.[^.]*$' '' $file)
-    set -l fileExtension (string split -r '.' $file)[2..-1]
+    set -l filename (string replace -r '\.[^.]*$' '' $argv[1])
+    set -l fileExtension (string split -r '.' $argv[1])[2..-1]
 
     switch $fileExtension
         case cpp
-            set -l params "-std=c++20 -O2 -ferror-limit=0 -Wall -Wextra -Wpedantic -Wshadow-all -Wno-unused-parameter"
+            set -l params -std=c++20 -O3 -ffast-math -flto -ferror-limit=0 -Wall -Wextra -Wshadow-all -Wno-unused-parameter
             clang++ $params -o $filename $filename.$fileExtension
-            # case cpp
-            # clang++ -std=c++20 -Wall -O2 -o $filename $filename.$fileExtension
         case '*'
             printf "Language not supported.\n"
     end
@@ -711,10 +744,6 @@ function compiledebug
         echo "Please provide a file"
         return
     end
-    # if not test -z "$argv[2]"
-    #     echo "Please provide a file"
-    #     return
-    # end
 
     set -l file "$argv[1]"
 
@@ -723,10 +752,8 @@ function compiledebug
 
     switch $fileExtension
         case cpp
-            set -l params "-std=c++20 -ferror-limit=0 -Wall -Wextra -Wpedantic -Wshadow-all -Wno-unused-parameter --debug"
+            set -l params -std=c++20 -g -fno-limit-debug-info -O0 -ferror-limit=0 -Wall -Wextra -Wshadow-all -Wno-unused-parameter --debug
             clang++ $params -o $filename $filename.$fileExtension
-            # case cpp
-            # clang++ -std=c++20 -Wall --debug -o $filename $filename.$fileExtension
         case '*'
             printf "Language not supported.\n"
     end
@@ -806,7 +833,7 @@ j = json.load(sys.stdin)
 for o in j:
   file = o["file"]
   arg = o["arguments"][1]
-  o["arguments"] = ["clang++ -std=c++20 -ferror-limit=0 -Wall -Wextra -Wpedantic -Wshadow-all -Wno-unused-parameter " + file + " " + arg]
+  o["arguments"] = ["clang++ -std=c++20 -ferror-limit=0 -Wall -Wextra -Wshadow-all -Wno-unused-parameter " + file + " " + arg]
 print(json.dumps(j, indent=2))' >compile_commands.json
         # Pass through all other commands to ue4
     else
