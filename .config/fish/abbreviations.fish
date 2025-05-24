@@ -143,6 +143,7 @@ abbr -g sudevi sudoenvim
 abbr -g sudevim sudoenvim
 
 # nvim Godot integration
+abbr -g gvim gdvim
 abbr -g gdnvim gdvim
 abbr -g godotnvim gdvim
 abbr -g godotvim gdvim
@@ -247,6 +248,9 @@ abbr -g obsidian 'obsidian --enable-features=UseOzonePlatform --ozone-platform=w
 abbr -g spice 'looking-glass-client -C ~/.config/looking-glass/main.ini'
 abbr -g triplewide 'xrandr --setmonitor StSurround auto HDMI-A-0,DisplayPort-0,DisplayPort-1'
 abbr -g triplenormal 'xrandr --delmonitor StSurround && xrandr --output DisplayPort-0 --mode 1920x1080 --rate 144 --output HDMI-A-0 --mode 1920x1080 --rate 50 --left-of DisplayPort-0 --output DisplayPort-1 --mode 1920x1080 --rate 50 --right-of DisplayPort-0'
+
+abbr -g blender 'blender &>/dev/null & disown'
+abbr -g gimp 'gimp &>/dev/null & disown'
 
 # Flatpaks
 # WINE

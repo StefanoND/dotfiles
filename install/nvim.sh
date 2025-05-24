@@ -110,6 +110,7 @@ PKGA=(
   'libuv'
 
   'github-cli'
+  'jq'
 )
 
 for PKG in "${PKGA[@]}"; do
@@ -224,6 +225,8 @@ PKGE=(
   # LSP
   'csharp-ls'
   'csharpier'
+  'dotnet-outdated-tool'
+  'dotnet-ef'
 )
 
 for PKG in "${PKGE[@]}"; do

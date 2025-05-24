@@ -116,6 +116,7 @@ PKGA=(
 
   # Misc
   'fonts-inter'
+  'jq'
 
   # C Sharp
   'dotnet-sdk-9.0'
@@ -143,7 +144,6 @@ done
 # Apt - Neovim
 PKGB=(
   'ispc'
-  'rustup'
 )
 
 for PKG in "${PKGB[@]}"; do
@@ -221,15 +221,28 @@ for PKG in "${PKGD[@]}"; do
   sync
 done
 
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 rustup install stable
 
 rustup target install i686-unknown-linux-gnu
 
 rustup default stable
 
-cargo install async-cmd
+# CARGO
+PKGE=(
+  'async-cmd'
+  'shellharden'
+  'tree-sitter-cli'
+)
 
-cargo install shellharden
+for PKG in "${PKGE[@]}"; do
+  echo
+  echo "INSTALLING: ${PKG}"
+  echo
+  cargo install "$PKG"
+  sync
+done
 
 npm install --global all-the-package-names
 
@@ -242,7 +255,7 @@ npm audit fix
 sync
 
 # NPM
-PKGE=(
+PKGF=(
   # LSP
   # 'vscode-langservers-extracted'
   'bash-language-server'
@@ -253,28 +266,28 @@ PKGE=(
   '@vscode/vsce'
   'fish-lsp'
   '@fsouza/prettierd'
-  'tree-sitter-cli'
 )
 
-for PKG in "${PKGE[@]}"; do
+for PKG in "${PKGF[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
   npm i -g "$PKG"
   sync
-  sleep 1s
 done
 
 npm audit fix
 sync
 
-PKGE=(
+PKGG=(
   # LSP
   'csharp-ls'
   'csharpier'
+  'dotnet-outdated-tool'
+  'dotnet-ef'
 )
 
-for PKG in "${PKGE[@]}"; do
+for PKG in "${PKGG[@]}"; do
   echo
   echo "INSTALLING: ${PKG}"
   echo
