@@ -44,7 +44,20 @@ mkdir -p "$HOMEPATH"/.local/share/dbus-1/services
 
 cp "$rootpath"/.local/share/dbus-1/services/org.freedesktop.secrets.service "$HOMEPATH"/.local/share/dbus-1/services/
 
-sudo pacman -Rsn rar --unneeded --noconfirm
+# PACMAN
+PKGR=(
+  'rar'
+  'rust'
+  'obs-studio'
+)
+
+for PKG in "${PKGR[@]}"; do
+  echo
+  echo "UNINSTALLING: ${PKG}"
+  echo
+  sudo pacman -Rsn "$PKG" --noconfirm --unneeded
+  sync
+done
 
 # PACMAN
 PKGS=(
@@ -85,20 +98,12 @@ PKGS=(
 
   # C Sharp
   'dotnet-sdk'                #
-  'dotnet-sdk-6.0'            #
-  'dotnet-sdk-7.0'            #
   'dotnet-sdk-8.0'            #
   'aspnet-runtime'            #
-  'aspnet-runtime-6.0'        #
-  'aspnet-runtime-7.0'        #
   'aspnet-runtime-8.0'        #
   'dotnet-targeting-pack'     #
-  'dotnet-targeting-pack-6.0' #
-  'dotnet-targeting-pack-7.0' #
   'dotnet-targeting-pack-8.0' #
   'aspnet-targeting-pack'     #
-  'aspnet-targeting-pack-6.0' #
-  'aspnet-targeting-pack-7.0' #
   'aspnet-targeting-pack-8.0' #
   'mono'                      #
   'mono-msbuild'              #
@@ -106,15 +111,15 @@ PKGS=(
   'libuv'                     #
 
   # Terminal
-  'kitty'                   # Terminal Emulator with GPU Acceleration
-  'kitty-shell-integration' # Better integration with bash, zsh and find
-  'kitty-terminfo'          # Better Terminfo for Kitty
-  'tmux'                    # Terminal multiplexer
-  'wl-clipboard'            # Wayland clipboard for tmux
-  'starship'                # Fast shell prompt
-  'yazi'                    # TUI File Manager
+  'ghostty'                   # Terminal Emulator with GPU Acceleration
+  'ghostty-shell-integration' # Better integration with bash, zsh and find
+  'ghostty-terminfo'          # Better Terminfo for Kitty
+  'tmux'                      # Terminal multiplexer
+  'wl-clipboard'              # Wayland clipboard for tmux
+  'starship'                  # Fast shell prompt
+  'yazi'                      # TUI File Manager
   'atuin'
-  'fish'
+  # 'fish'
 
   # Fonts
   'inter-font'                    # Industry standard general font
@@ -122,7 +127,7 @@ PKGS=(
   'ttf-jetbrains-mono-nerd'       # Same as above for ricing
   'ttf-nerd-fonts-symbols'        #
   'ttf-nerd-fonts-symbols-common' #
-  'ttf-nerd-fonts-symbols-mon'    #
+  'ttf-nerd-fonts-symbols-mono'   #
   'powerline-fonts'               # Ricing fonts
   'noto-fonts'                    # Open-Source "universal" fonts
   'noto-fonts-extra'              # Extra variations to noto fonts such as condensed, semi-bold, etc
@@ -170,6 +175,7 @@ PKGS=(
   # Git
   'git-delta' # Colorized Git Diffs
   'ghq'       # Manage remote repo clones
+  'lazygit'
 
   # Misc
   'brave-bin'           # Browser
@@ -179,7 +185,6 @@ PKGS=(
   '7zip'                # (De)Compress from/to .7z files
   'v4l2loopback-dkms'
   'imagemagick'
-  'lazygit'
   'peco'
 
   # Keyring and Portals
@@ -244,18 +249,6 @@ systemctl --user enable --now gnome-keyring-daemon
 systemctl --user enable --now gcr-ssh-agent.socket
 
 sudo systemctl restart systemd-binfmt
-
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-sync
-
-# fish -c "fisher install jorgebucaran/nvm.fish"
-# fish -c "fisher install IlanCosman/tide@v6"
-fish -c "fisher install jethrokuan/z"
-fish -c "fisher install PatrickF1/fzf.fish"
-fish -c "fisher install jorgebucaran/nvm.fish"
-register-python-argcomplete --shell fish pipx >~/.config/fish/completions/pipx.fish
-
-sudo pacman -Rsn obs-studio --noconfirm --unneeded
 
 mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
@@ -553,8 +546,6 @@ sudo systemctl restart libvirtd
 
 sed -i "s|#USE_OVERLAYFS.*|USE_OVERLAYFS="yes"|g" "$HOMEPATH"/.config/psd/psd.conf
 systemctl --user restart psd
-
-chsh -s /usr/bin/fish
 
 echo
 printf "Must run visudo and add \"%s ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper\" at the END of the file" "$(logname)"

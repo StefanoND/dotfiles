@@ -13,7 +13,7 @@ export XDG_CURRENT_DESKTOP=hyprland
 export MOZ_ENABLE_WAYLAND=1             # only start firefox in wayland mode and no other GTK apps
 export MOZ_DBUS_REMOTE=1                # fixes firefox is already running, but is not responding
 export MOZ_WAYLAND_USE_VAAPI=1
-export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
+# export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
 
 # clutter
 #export CLUTTER_BACKEND=wayland          # this can prevent programs from starting. therefore, this should be set per app instead of globally.
@@ -28,7 +28,7 @@ export NO_AT_BRIDGE=1
 export BEMENU_BACKEND=wayland
 
 # sdl
-export SDL_VIDEODRIVER=wayland           # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
+# export SDL_VIDEODRIVER=wayland           # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
 
 # Qt
 export QT_QPA_PLATFORM=wayland
